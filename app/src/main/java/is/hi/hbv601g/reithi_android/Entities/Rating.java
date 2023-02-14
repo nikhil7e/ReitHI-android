@@ -3,91 +3,90 @@ package is.hi.hbv601g.reithi_android.Entities;
 import com.google.gson.annotations.SerializedName;
 
 public class Rating {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @SerializedName("ID")
     private long mID;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @SerializedName("user")
     private User mUser;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @SerializedName("course")
     private Course mCourse;
-    @ColumnDefault("0")
+    @SerializedName("overallScore")
     private int mOverallScore;
-    @ColumnDefault("0")
+    @SerializedName("difficulty")
     private int mDifficulty;
-    @ColumnDefault("0")
+    @SerializedName("workload")
     private int mWorkload;
-    @ColumnDefault("0")
+    @SerializedName("teachingQuality")
     private int mTeachingQuality;
     @SerializedName("courseMaterial")
     private int mCourseMaterial;
-
 
     public Rating() {
     }
 
     public Rating(User user, Course course, int overallScore, int difficulty, int workload, int teachingQuality, int courseMaterial) {
-        this.user = user;
-        this.course = course;
-        this.overallScore = overallScore;
-        this.difficulty = difficulty;
-        this.workload = workload;
-        this.teachingQuality = teachingQuality;
-        this.courseMaterial = courseMaterial;
+        this.mUser = user;
+        this.mCourse = course;
+        this.mOverallScore = overallScore;
+        this.mDifficulty = difficulty;
+        this.mWorkload = workload;
+        this.mTeachingQuality = teachingQuality;
+        this.mCourseMaterial = courseMaterial;
     }
 
     public User getUser() {
-        return user;
+        return mUser;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.mUser = user;
     }
 
     public Course getCourse() {
-        return course;
+        return mCourse;
     }
 
     public void setCourse(Course course) {
-        this.course = course;
+        this.mCourse = course;
     }
 
     public int getOverallScore() {
-        return overallScore;
+        return mOverallScore;
     }
 
     public void setOverallScore(int overallScore) {
-        this.overallScore = overallScore;
+        this.mOverallScore = overallScore;
     }
 
     public int getDifficulty() {
-        return difficulty;
+        return mDifficulty;
     }
 
     public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
+        this.mDifficulty = difficulty;
     }
 
     public int getWorkload() {
-        return workload;
+        return mWorkload;
     }
 
     public void setWorkload(int workload) {
-        this.workload = workload;
+        this.mWorkload = workload;
     }
 
     public int getTeachingQuality() {
-        return teachingQuality;
+        return mTeachingQuality;
     }
 
     public void setTeachingQuality(int teachingQuality) {
-        this.teachingQuality = teachingQuality;
+        this.mTeachingQuality = teachingQuality;
     }
 
     public int getCourseMaterial() {
-        return courseMaterial;
+        return mCourseMaterial;
     }
 
     public void setCourseMaterial(int courseMaterial) {
-        this.courseMaterial = courseMaterial;
+        this.mCourseMaterial = courseMaterial;
     }
 }
