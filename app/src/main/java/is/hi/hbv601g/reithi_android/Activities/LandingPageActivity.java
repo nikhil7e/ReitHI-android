@@ -43,6 +43,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
         mSearchButton.setOnClickListener(
                 view -> {
+                    mCourseSearchResultsText.setText("");
                     Map<String, String> params = new HashMap<>();
                     params.put("name", mSearchBar.getText().toString());
 

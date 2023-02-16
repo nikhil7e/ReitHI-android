@@ -23,8 +23,8 @@ public class NetworkManager {
     private static Context sContext;
     private static NetworkManager sInstance;
     private static RequestQueue sQueue;
-    private static final String BASE_URL = "http://10.0.2.2:8080/api";
-
+    //private static final String BASE_URL = "http://10.0.2.2:8080/api";
+    private static final String BASE_URL = "https://reithi-production.up.railway.app/api";
     private NetworkManager(Context context) {
         sContext = context;
         sQueue = getRequestQueue();
@@ -46,7 +46,6 @@ public class NetworkManager {
         return sInstance;
     }
 
-    // TODO: Nota lambda föll í stað anonymous klasa?
     public void searchCoursesPOST(final NetworkCallback<List<Course>> callback, Map<String, String> params) {
         StringRequest req = new StringRequest(Request.Method.POST, BASE_URL + "/searchcourses",
                 res -> {
