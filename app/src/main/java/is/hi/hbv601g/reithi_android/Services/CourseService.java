@@ -1,4 +1,46 @@
 package is.hi.hbv601g.reithi_android.Services;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+
+import is.hi.hbv601g.reithi_android.Entities.Course;
+import is.hi.hbv601g.reithi_android.NetworkCallback;
+import is.hi.hbv601g.reithi_android.NetworkManager;
+
 public class CourseService {
+
+    private static final String TAG = "CourseService";
+    private NetworkManager mNetworkManager;
+    private ParserService mParserService;
+
+    public CourseService(Context context) {
+        mNetworkManager = NetworkManager.getInstance(context);
+        mParserService = ParserService.getInstance();
+    }
+
+    public void searchCoursesPOST(final NetworkCallback<List<Course>> callback, Map<String, String> params, String requestURL){
+        mNetworkManager.genericPOST(
+                new NetworkCallback<String>() {
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.e(TAG, errorString);
+                        callback.onFailure(errorString);
+                    }
+
+                    @Override
+                    public void onSuccess(String json) {
+                        Type listType = new TypeToken<List<Course>>() {
+                        }.getType();
+                        List<Course> result = (List<Course>)(Object) mParserService.parse(json, listType);
+                        callback.onSuccess(result);
+                    }
+                }
+                ,params, requestURL);
+    }
 }

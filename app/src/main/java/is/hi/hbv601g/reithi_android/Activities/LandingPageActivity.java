@@ -17,6 +17,7 @@ import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.NetworkCallback;
 import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
+import is.hi.hbv601g.reithi_android.Services.CourseService;
 
 //test push Eddi
 //test push Tómas
@@ -30,12 +31,14 @@ public class LandingPageActivity extends AppCompatActivity {
     private Button mSearchButton;
     private TextView mCourseSearchResultsText;
     private List<Course> mCourseSearchResultsList;
+    private CourseService mCourseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
 
+        mCourseService = new CourseService(this);
         mNetworkManager = NetworkManager.getInstance(this);
         mSearchBar = findViewById(R.id.search_bar);
         mSearchButton = findViewById(R.id.search_button);
@@ -46,10 +49,9 @@ public class LandingPageActivity extends AppCompatActivity {
                     mCourseSearchResultsText.setText("");
                     Map<String, String> params = new HashMap<>();
                     params.put("name", mSearchBar.getText().toString());
-
                     Log.d(TAG, params.get("name"));
 
-                    mNetworkManager.searchCoursesPOST(
+                    mCourseService.searchCoursesPOST(
                             new NetworkCallback<List<Course>>() {
                                 @Override
                                 public void onFailure(String errorString) {
@@ -63,7 +65,7 @@ public class LandingPageActivity extends AppCompatActivity {
                                         mCourseSearchResultsText.setText(mCourseSearchResultsText.getText() + "\n" + r.getName());
                                     }
                                 }
-                            }, params);
+                            }, params, "/searchcourses");
                 });
 
     }
