@@ -25,6 +25,7 @@ public class NetworkManager {
     private static RequestQueue sQueue;
     //private static final String BASE_URL = "http://10.0.2.2:8080/api";
     private static final String BASE_URL = "https://reithi-production.up.railway.app/api";
+
     private NetworkManager(Context context) {
         sContext = context;
         sQueue = getRequestQueue();
@@ -46,14 +47,32 @@ public class NetworkManager {
         return sInstance;
     }
 
-    public void searchCoursesPOST(final NetworkCallback<List<Course>> callback, Map<String, String> params) {
-        StringRequest req = new StringRequest(Request.Method.POST, BASE_URL + "/searchcourses",
+//    public void searchCoursesPOST(final NetworkCallback<List<Course>> callback, Map<String, String> params) {
+//        StringRequest req = new StringRequest(Request.Method.POST, BASE_URL + "/searchcourses",
+//                res -> {
+//                    Gson gson = new Gson();
+//                    Type listType = new TypeToken<List<Course>>() {
+//                    }.getType();
+//                    List<Course> courseList = gson.fromJson(res, listType);
+//                    callback.onSuccess(courseList);
+//                },
+//                error -> {
+//                    callback.onFailure(error.toString());
+//                }
+//        ) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                return params;
+//            }
+//        };
+//
+//        sQueue.add(req);
+//    }
+
+    public void genericPOST(final NetworkCallback<String> callback, Map<String, String> params, String reqURL) {
+        StringRequest req = new StringRequest(Request.Method.POST, BASE_URL + reqURL,
                 res -> {
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<List<Course>>() {
-                    }.getType();
-                    List<Course> courseList = gson.fromJson(res, listType);
-                    callback.onSuccess(courseList);
+                    callback.onSuccess(res);
                 },
                 error -> {
                     callback.onFailure(error.toString());
@@ -64,6 +83,15 @@ public class NetworkManager {
                 return params;
             }
         };
+
+        sQueue.add(req);
+    }
+
+    public void genericGET(final NetworkCallback<String> callback, String reqURL) {
+        StringRequest req = new StringRequest(Request.Method.GET, BASE_URL + reqURL,
+                res -> callback.onSuccess(res),
+                error -> callback.onFailure(error.toString())
+        );
 
         sQueue.add(req);
     }
