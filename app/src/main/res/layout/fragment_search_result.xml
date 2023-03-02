@@ -4,13 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/search_result"
+    <LinearLayout  android:id="@+id/search_results"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/no_courses_found"
-        />
-
+        android:layout_gravity="center_horizontal">
+    </LinearLayout>
 </LinearLayout>

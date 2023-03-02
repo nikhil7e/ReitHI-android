@@ -1,6 +1,10 @@
 package is.hi.hbv601g.reithi_android.Fragments;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +16,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
+import is.hi.hbv601g.reithi_android.Activities.CourseActivity;
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
@@ -21,8 +26,9 @@ public class SearchResultFragment extends Fragment {
     private ParserService mParserService;
 
     private final String TAG = "SearchResultFragment";
-    private TextView mSearchResult;
-//    @Override
+    private LinearLayout mSearchResults;
+
+    //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        /** Inflating the layout for this fragment **/
 //        View v = inflater.inflate(R.layout.fragment_search_result, null);
@@ -34,19 +40,39 @@ public class SearchResultFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         mParserService = ParserService.getInstance();
-        mSearchResult = view.findViewById(R.id.search_result);
+        mSearchResults = view.findViewById(R.id.search_results);
         Type listType = new TypeToken<List<Course>>() {
 
         }.getType();
         String results = requireArguments().getString("searchResult");
-        // int someInt = requireArguments().getInt("some_int");
         List<Course> courseList = (List<Course>)(Object) mParserService.parse(results, listType);
-        if (courseList.size() > 0) {
-            mSearchResult.setText("");
+        Context context = getActivity();
+        if (courseList.size() == 0) {
+            TextView noCourses = new TextView(context);
+            noCourses.setText("No Courses Found!");
+            mSearchResults.addView(noCourses);
         }
+
         for (Course course : courseList) {
-            mSearchResult.append(course.getName() + "\n");
+            LinearLayout searchResultLayout = new LinearLayout(context);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            searchResultLayout.setLayoutParams(layoutParams);
+            TextView searchResultTextView = new TextView(context);
+            searchResultTextView.setText((course.getCredits()).toString() + " credits");
+            searchResultLayout.addView(searchResultTextView);
+            Button searchResultButton = new Button(context);
+            searchResultButton.setText(course.getName());
+            searchResultButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, CourseActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+            searchResultLayout.addView(searchResultButton);
+            mSearchResults.addView(searchResultLayout);
         }
+
     }
 
 }
