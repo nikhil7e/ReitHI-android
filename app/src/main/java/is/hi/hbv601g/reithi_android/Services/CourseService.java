@@ -3,7 +3,7 @@ package is.hi.hbv601g.reithi_android.Services;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.reflect.TypeToken;
+// import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -24,7 +24,7 @@ public class CourseService {
         mParserService = ParserService.getInstance();
     }
 
-    public void searchCoursesPOST(final NetworkCallback<List<Course>> callback, Map<String, String> params, String requestURL){
+    public void searchCoursesPOST(final NetworkCallback<String> callback, Map<String, String> params, String requestURL){
         mNetworkManager.genericPOST(
                 new NetworkCallback<String>() {
                     @Override
@@ -35,10 +35,7 @@ public class CourseService {
 
                     @Override
                     public void onSuccess(String json) {
-                        Type listType = new TypeToken<List<Course>>() {
-                        }.getType();
-                        List<Course> result = (List<Course>)(Object) mParserService.parse(json, listType);
-                        callback.onSuccess(result);
+                        callback.onSuccess(json);
                     }
                 }
                 ,params, requestURL);
