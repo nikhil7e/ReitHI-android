@@ -45,12 +45,29 @@ public class Course {
     @SerializedName("reviews")
     private List<Review> mReviews = new ArrayList<>();
 
+    @SerializedName("totalOverall")
+    private Double mTotalOverall;
+
+    @SerializedName("totalDifficulty")
+    private Double mTotalDifficulty;
+
+    @SerializedName("totalWorkload")
+    private Double mTotalWorkload;
+
+    @SerializedName("totalTeachingQuality")
+    private Double mTotalTeachingQuality;
+
+    @SerializedName("totalCourseMaterial")
+    private Double mTotalCourseMaterial;
+
+    @SerializedName("nrReviews")
+    private Double mTotalReviews;
+
     public Course() {
 
     }
 
-    public Course(long ID, String name, String number, String course_URL, String type, Double credits, String semester, String level, String professor_Name, Double minimumGrade, String assessment, String finalExam, String school, String faculty, String professor_Email, String professor_URL, Integer totalOverallScore, List<Review> reviews) {
-        mID = ID;
+    public Course(String name, String number, String course_URL, String type, Double credits, String semester, String level, String professor_Name, Double minimumGrade, String assessment, String finalExam, String school, String faculty, String professor_Email, String professor_URL, Integer totalOverallScore, List<Review> reviews, Double totalOverall, Double totalDifficulty, Double totalWorkload, Double totalTeachingQuality, Double totalCourseMaterial, Double totalReviews) {
         mName = name;
         mNumber = number;
         mCourse_URL = course_URL;
@@ -68,6 +85,12 @@ public class Course {
         mProfessor_URL = professor_URL;
         mTotalOverallScore = totalOverallScore;
         mReviews = reviews;
+        mTotalOverall = totalOverall;
+        mTotalDifficulty = totalDifficulty;
+        mTotalWorkload = totalWorkload;
+        mTotalTeachingQuality = totalTeachingQuality;
+        mTotalCourseMaterial = totalCourseMaterial;
+        mTotalReviews = totalReviews;
     }
 
     public String getName() {
@@ -204,5 +227,53 @@ public class Course {
 
     public void setReviews(List<Review> reviews) {
         mReviews = reviews;
+    }
+
+    public Double getTotalOverall() {
+        return mTotalOverall;
+    }
+
+    public void setTotalOverall(Double totalOverall) {
+        mTotalOverall = totalOverall;
+    }
+
+    public Double getTotalDifficulty() {
+        return mTotalDifficulty;
+    }
+
+    public void setTotalDifficulty(Double totalDifficulty) {
+        mTotalDifficulty = totalDifficulty;
+    }
+
+    public Double getTotalWorkload() {
+        return mTotalWorkload;
+    }
+
+    public void setTotalWorkload(Double totalWorkload) {
+        mTotalWorkload = totalWorkload;
+    }
+
+    public Double getTotalTeachingQuality() {
+        return mTotalTeachingQuality;
+    }
+
+    public void setTotalTeachingQuality(Double totalTeachingQuality) {
+        mTotalTeachingQuality = totalTeachingQuality;
+    }
+
+    public Double getTotalCourseMaterial() {
+        return mTotalCourseMaterial;
+    }
+
+    public void setTotalCourseMaterial(Double totalCourseMaterial) {
+        mTotalCourseMaterial = totalCourseMaterial;
+    }
+
+    public Double getTotalReviews() {
+        return mTotalReviews;
+    }
+
+    public void setTotalReviews(Double totalReviews) {
+        mTotalReviews = totalReviews;
     }
 }
