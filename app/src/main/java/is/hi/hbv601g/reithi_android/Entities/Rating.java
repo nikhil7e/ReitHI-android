@@ -21,17 +21,29 @@ public class Rating {
     @SerializedName("courseMaterial")
     private int mCourseMaterial;
 
+    @SerializedName("review")
+    private Review mReview;
+
     public Rating() {
     }
 
-    public Rating(User user, Course course, int overallScore, int difficulty, int workload, int teachingQuality, int courseMaterial) {
-        this.mUser = user;
-        this.mCourse = course;
-        this.mOverallScore = overallScore;
-        this.mDifficulty = difficulty;
-        this.mWorkload = workload;
-        this.mTeachingQuality = teachingQuality;
-        this.mCourseMaterial = courseMaterial;
+    public Rating(User user, Course course, int overallScore, int difficulty, int workload, int teachingQuality, int courseMaterial, Review review) {
+        mUser = user;
+        mCourse = course;
+        mOverallScore = overallScore;
+        mDifficulty = difficulty;
+        mWorkload = workload;
+        mTeachingQuality = teachingQuality;
+        mCourseMaterial = courseMaterial;
+        mReview = review;
+    }
+
+    public Review getReview() {
+        return mReview;
+    }
+
+    public void setReview(Review review) {
+        mReview = review;
     }
 
     public User getUser() {
