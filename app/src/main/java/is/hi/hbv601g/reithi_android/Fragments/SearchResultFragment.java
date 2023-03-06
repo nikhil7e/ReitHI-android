@@ -1,4 +1,5 @@
 package is.hi.hbv601g.reithi_android.Fragments;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -49,6 +50,7 @@ public class SearchResultFragment extends Fragment {
     public SearchResultFragment() {
         super(R.layout.fragment_search_result);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         mParserService = ParserService.getInstance();
@@ -57,7 +59,7 @@ public class SearchResultFragment extends Fragment {
 
         }.getType();
         String results = requireArguments().getString("searchResult");
-        List<Course> courseList = (List<Course>)(Object) mParserService.parse(results, listType);
+        List<Course> courseList = (List<Course>) (Object) mParserService.parse(results, listType);
         Context context = getActivity();
         if (courseList.size() == 0) {
             TextView noCourses = new TextView(context);
@@ -67,7 +69,7 @@ public class SearchResultFragment extends Fragment {
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
         shape.setCornerRadii(new float[]{20, 20, 20, 20, 20, 20, 20, 20});
-        shape.setColor(Color.rgb(60,38,204));
+        shape.setColor(Color.rgb(60, 38, 204));
 
         for (Course course : courseList) {
 
@@ -110,41 +112,46 @@ public class SearchResultFragment extends Fragment {
             verticalLayout.addView(levelTextView);
 
 
-            Double[] ratings = {course.getTotalOverall(), course.getTotalDifficulty(),course.getTotalCourseMaterial(),course.getTotalWorkload(),course.getTotalTeachingQuality()};
+            Double[] ratings = {course.getTotalOverall(), course.getTotalDifficulty(), course.getTotalCourseMaterial(), course.getTotalWorkload(), course.getTotalTeachingQuality()};
             //String[] headings = {"Overall Score", "Difficulty","Material","Workload","Teaching Quality"};
-            for (int j = 0; j<5; j++){
+            for (int j = 0; j < 5; j++) {
                 //TextView ratingTextView = new TextView(context);
                 //levelTextView.setText(headings[j]);
                 //verticalLayout.addView(ratingTextView);
 
-                double overAllRating = ratings[j]/course.getTotalReviews();
+                double overAllRating = ratings[j] / course.getTotalReviews();
                 LinearLayout ratingLayout = new LinearLayout(context);
                 LinearLayout.LayoutParams ratingParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 ratingLayout.setLayoutParams(ratingParams);
-                for (int i = 0; i <5; i++){
+                for (int i = 0; i < 5; i++) {
                     ShapeDrawable circle = new ShapeDrawable(new OvalShape());
                     circle.getPaint().setColor(Color.BLUE); // set the fill color to blue
                     View circleView = new View(context);
-                    if (overAllRating > 1){
+                    if (overAllRating > 0.75) {
                         overAllRating--;
                         circle.getPaint().setStyle(Paint.Style.FILL);
-                        circleView.setBackground(circle);
-                    }
-                    else if (overAllRating > 0){
+                        ShapeDrawable circle2 = new ShapeDrawable(new OvalShape());
+                        circle2.getPaint().setColor(Color.BLACK);
+                        circle2.getPaint().setStyle(Paint.Style.STROKE);
+                        circle2.getPaint().setStrokeWidth(10);
+                        Drawable[] layers = {circle, circle2};
+                        LayerDrawable layerDrawable = new LayerDrawable(layers);
+                        circleView.setBackground(layerDrawable);
+                    } else if (overAllRating > 0.25) {
                         overAllRating--;
                         ClipDrawable clipDrawable = new ClipDrawable(circle, Gravity.LEFT, ClipDrawable.HORIZONTAL);
                         clipDrawable.setLevel(5000);
                         ShapeDrawable circle2 = new ShapeDrawable(new OvalShape());
-                        circle2.getPaint().setColor(Color.BLUE);
+                        circle2.getPaint().setColor(Color.BLACK);
                         circle2.getPaint().setStyle(Paint.Style.STROKE);
-                        circle2.getPaint().setStrokeWidth(3);
+                        circle2.getPaint().setStrokeWidth(10);
                         Drawable[] layers = {clipDrawable, circle2};
                         LayerDrawable layerDrawable = new LayerDrawable(layers);
                         circleView.setBackground(layerDrawable);
-                    }
-                    else{
+                    } else {
+                        circle.getPaint().setColor(Color.BLACK);
                         circle.getPaint().setStyle(Paint.Style.STROKE);
-                        circle.getPaint().setStrokeWidth(3);
+                        circle.getPaint().setStrokeWidth(10);
                         circleView.setBackground(circle);
                     }
                     ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
