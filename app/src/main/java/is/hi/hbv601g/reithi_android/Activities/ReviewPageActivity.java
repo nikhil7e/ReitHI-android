@@ -41,42 +41,6 @@ public class ReviewPageActivity extends AppCompatActivity {
 
         mSubmitReviewButton = findViewById(R.id.submit_review_button);
 
-
-        mSubmitReviewButton.setOnClickListener(
-                view -> {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("name", mSearchBar.getText().toString());
-                    Log.d(TAG, params.get("name"));
-
-                    mCourseService.searchCoursesPOST(
-                            new NetworkCallback<String>() {
-                                @Override
-                                public void onFailure(String errorString) {
-                                    Log.e(TAG, errorString);
-                                }
-
-                                @Override
-                                public void onSuccess(String result) {
-                                    mCourseSearchResults = result;
-                                    androidx.fragment.app.FragmentManager fm = getSupportFragmentManager();
-                                    Fragment fragment = fm.findFragmentById(R.id.search_results_fragment_container_view);
-                                    Bundle bundle = new Bundle();
-                                    // bundle.putSerializable("searchResult", result);
-                                    bundle.putString("searchResult", result);
-                                    if (fragment == null) {
-                                        getSupportFragmentManager().beginTransaction()
-                                                .setReorderingAllowed(true)
-                                                .add(R.id.search_results_fragment_container_view, SearchResultFragment.class, bundle)
-                                                .commit();
-                                    } else {
-                                        fragment.getFragmentManager().beginTransaction().detach(fragment).commit();
-                                        fragment.setArguments(bundle);
-                                        fragment.getFragmentManager().beginTransaction().attach(fragment).commit();
-                                    }
-                                    Log.d("TAG","Fragment added");
-                                }
-                            }, params, "/searchcourses");
-                });
     }
 
     @Override
