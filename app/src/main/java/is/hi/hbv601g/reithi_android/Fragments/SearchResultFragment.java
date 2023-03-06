@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,10 @@ public class SearchResultFragment extends Fragment {
             searchResultButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    List<Object> courseList = new ArrayList<>();
+                    courseList.add(course);
                     Intent intent = new Intent(context, CourseActivity.class);
+                    intent.putExtra("course", mParserService.deParse(courseList));
                     context.startActivity(intent);
                 }
             });

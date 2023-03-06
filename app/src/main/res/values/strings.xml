@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ReitHI_android</string>
     <string name="no_courses_found">No courses found!</string>
+    <string name="review">Review</string>
 </resources>
