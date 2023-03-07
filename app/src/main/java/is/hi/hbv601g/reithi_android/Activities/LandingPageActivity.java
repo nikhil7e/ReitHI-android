@@ -98,7 +98,6 @@ public class LandingPageActivity extends AppCompatActivity {
                                 }
                             }, params, "/searchcourses");
                 });
-
     }
 
     @Override

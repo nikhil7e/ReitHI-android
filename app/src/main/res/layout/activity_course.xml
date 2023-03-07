@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout  android:id="@+id/search_results"
+    <Button
+        android:text="@string/review"
+        android:id="@+id/review_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
-    </LinearLayout>
+        android:layout_height="match_parent">
+    </Button>
+
 </LinearLayout>
