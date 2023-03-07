@@ -30,6 +30,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import is.hi.hbv601g.reithi_android.Activities.CourseActivity;
+import is.hi.hbv601g.reithi_android.Activities.ReviewPageActivity;
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
@@ -171,7 +172,7 @@ public class SearchResultFragment extends Fragment {
             searchResultLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, CourseActivity.class);
+                    Intent intent = new Intent(context, ReviewPageActivity.class);
                     context.startActivity(intent);
                 }
             });

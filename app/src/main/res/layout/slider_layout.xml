@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <!-- Slider-->
+    <SeekBar
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_centerVertical="true"
+        android:thumb="@drawable/slider_progress"
+        android:progressDrawable="@drawable/slider_progress"
+        android:max="4"
+        android:progress="0"
+        android:stepSize="1"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Dots -->
+    <LinearLayout
+        android:id="@+id/dots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:padding="8dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="0dp"
+        android:clickable="false"
+        android:focusable="false">
+
+        <ImageView
+            android:id="@+id/dot_1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/slider_dot_selected"
+            android:clickable="false"
+            android:focusable="false"/>
+
+        <ImageView
+            android:id="@+id/dot_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/slider_dot_empty"
+            android:clickable="false"
+            android:focusable="false"/>
+
+        <ImageView
+            android:id="@+id/dot_3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/slider_dot_empty"
+            android:clickable="false"
+            android:focusable="false"/>
+
+        <ImageView
+            android:id="@+id/dot_4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/slider_dot_empty"
+            android:clickable="false"
+            android:focusable="false"/>
+
+        <ImageView
+            android:id="@+id/dot_5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/slider_dot_empty"
+            android:clickable="false"
+            android:focusable="false"/>
+
+    </LinearLayout>
+
+</FrameLayout>
