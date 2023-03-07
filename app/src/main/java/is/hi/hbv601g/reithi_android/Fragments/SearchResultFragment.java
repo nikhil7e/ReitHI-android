@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import is.hi.hbv601g.reithi_android.Activities.CourseActivity;
@@ -172,7 +173,10 @@ public class SearchResultFragment extends Fragment {
             searchResultLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ReviewPageActivity.class);
+                    List<Object> courseList = new ArrayList<>();
+                    courseList.add(course);
+                    Intent intent = new Intent(context, CourseActivity.class);
+                    intent.putExtra("course", mParserService.deParse(courseList));
                     context.startActivity(intent);
                 }
             });
