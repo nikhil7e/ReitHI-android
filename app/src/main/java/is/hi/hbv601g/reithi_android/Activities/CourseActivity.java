@@ -32,32 +32,27 @@ public class CourseActivity extends AppCompatActivity {
 
     private NetworkManager mNetworkManager;
 
-    private Button mSearchButton;
+    private Button mReviewButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-        mSearchButton = findViewById(R.id.review_button);
         setContentView(R.layout.activity_course);
 
         mParserService = ParserService.getInstance();
         String course = getIntent().getExtras().getString("course");
         Log.d(TAG, course);
-    }
-    // TODO : Setja inn event listiner fyrir review
-//    searchResultButton.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            List<Object> courseList = new ArrayList<>();
-//            courseList.add(course);
-//            Intent intent = new Intent(context, CourseActivity.class);
-//            intent.putExtra("course", mParserService.deParse(courseList));
-//            context.startActivity(intent);
-//        }
-//    });
 
+        // Get the extra details from intent
+        String courseString = getIntent().getStringExtra("course");
+
+        mReviewButton = findViewById(R.id.review_button);
+        mReviewButton.setOnClickListener(v -> {
+            Intent intent = new Intent(CourseActivity.this, ReviewPageActivity.class);
+            intent.putExtra("course", courseString);
+            startActivity(intent);
+        });
+    }
 //    @Override
 //    public void onCreate( Bundle savedInstanceState) {
 //        mParserService = ParserService.getInstance();
