@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import is.hi.hbv601g.reithi_android.Entities.Course;
+import is.hi.hbv601g.reithi_android.Entities.Rating;
 import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
@@ -32,32 +33,57 @@ public class CourseActivity extends AppCompatActivity {
 
     private NetworkManager mNetworkManager;
 
-    private Button mSearchButton;
+    private Button mReviewButton;
+    private Button mReadReviewsButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-        mSearchButton = findViewById(R.id.review_button);
         setContentView(R.layout.activity_course);
 
         mParserService = ParserService.getInstance();
-        String course = getIntent().getExtras().getString("course");
-        Log.d(TAG, course);
-    }
-    // TODO : Setja inn event listiner fyrir review
-//    searchResultButton.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            List<Object> courseList = new ArrayList<>();
-//            courseList.add(course);
-//            Intent intent = new Intent(context, CourseActivity.class);
-//            intent.putExtra("course", mParserService.deParse(courseList));
-//            context.startActivity(intent);
-//        }
-//    });
+        String courseString = getIntent().getExtras().getString("course");
+        Log.d(TAG, courseString);
 
+
+        Type courseListType = new TypeToken<List<Course>>(){}.getType();
+        List<Course> courses = (List<Course>) (Object) mParserService.parse(courseString, courseListType);
+        Course course = courses.get(0);
+        TextView mCourseNameTitle = findViewById(R.id.courseName);
+        mCourseNameTitle.setText(course.getName());
+
+
+        Double[] ratings = {course.getTotalOverall(), course.getTotalDifficulty(), course.getTotalCourseMaterial(), course.getTotalWorkload(), course.getTotalTeachingQuality()};
+        String[] headings = {"Overall Score", "Difficulty","Material","Workload","Teaching Quality"};
+        LinearLayout ratingLayout = findViewById(R.id.scores);
+        for (int i = 0; i<ratings.length; i++){
+            double rating = ratings[i] / course.getTotalReviews();
+            TextView score = new TextView(this);
+            score.setText(headings[i] +": " + rating);
+            ratingLayout.addView(score);
+        }
+
+
+        mReviewButton = findViewById(R.id.review_button);
+        mReviewButton.setOnClickListener(v -> {
+            Intent intent = new Intent(CourseActivity.this, ReviewPageActivity.class);
+            intent.putExtra("course", courseString);
+            startActivity(intent);
+        });
+
+        mReadReviewsButton = findViewById(R.id.read_reviews_button);
+        mReadReviewsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(CourseActivity.this, ReadReviewsActivity.class);
+            intent.putExtra("course", courseString);
+            startActivity(intent);
+        });
+
+
+
+
+
+
+    }
 //    @Override
 //    public void onCreate( Bundle savedInstanceState) {
 //        mParserService = ParserService.getInstance();
