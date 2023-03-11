@@ -3,4 +3,9 @@
     <string name="no_courses_found">No courses found!</string>
     <string name="review">Review</string>
     <string name="go_back">Go Back</string>
+    <string name="undergraduate_classes">Undergraduate Classes</string>
+    <string name="graduate_classes">Graduate Classes</string>
+    <string name="login_and_account">Login and Account</string>
+    <string name="home">Home</string>
+    <string name="search_button">Search button</string>
 </resources>

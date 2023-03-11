@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Activities.LandingPageActivity">
+
+
+
+    <TextView
+        android:id="@+id/username_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UserName"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+    <TextView
+        android:id="@+id/enrolled_faculty_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enrolled Faculty/School"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/faculty_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No faculty/school selected"  />
+
+        <ImageButton
+            android:id="@+id/edit_faculty_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/edit_icon"
+            android:scaleType="fitCenter"
+            android:contentDescription="Edit Enrolled Faculty/School"
+            android:onClick="onEditFacultyButtonClick"
+            android:background="@null"/>
+
+    </LinearLayout>
+
+    <!-- Spinner for selecting enrolled faculty/school -->
+    <Spinner
+        android:id="@+id/faculty_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:entries="@array/faculty_list" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+             <androidx.fragment.app.FragmentContainerView
+                 android:id="@+id/search_results_fragment_container_view"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 tools:layout="@layout/fragment_search_result"/>
+
+         </ScrollView>
+    <TextView
+        android:id="@+id/reviews_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your reviews:"
+        />
+
+
+        <FrameLayout
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+            android:layout_weight="1"
+             android:layout_gravity="bottom"
+             app:layout_anchorGravity="bottom">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/bottomBar_fragment_container_view"
+                tools:layout="@layout/fragment_navigation_bar"
+                android:layout_gravity="bottom"
+                app:layout_anchorGravity="bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </FrameLayout>
+
+
+
+
+</LinearLayout>

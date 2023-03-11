@@ -37,6 +37,18 @@
         <activity
             android:name=".Activities.ReadReviewsActivity">
         </activity>
+        <activity
+            android:name=".Activities.LoginActivity">
+        </activity>
+        <activity
+            android:name=".Activities.SignupActivity">
+        </activity>
+        <activity
+            android:name=".Activities.FilterActivity">
+        </activity>
+        <activity
+            android:name=".Activities.AccountActivity">
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

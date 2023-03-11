@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="rating_filter_default">
+        <item>0.0</item>
+        <item>5.0</item>
+    </array>
+    <array name="credit_filter_default">
+        <item>0.0</item>
+        <item>30.0</item>
+    </array>
+    <array name="faculty_list">
+        <item>School of Science</item>
+        <item>School of Literature</item>
+        <item>School of Economics</item>
+    </array>
+</resources>
