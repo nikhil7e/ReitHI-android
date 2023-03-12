@@ -22,7 +22,7 @@ import is.hi.hbv601g.reithi_android.Services.ParserService;
 
 public class ReadReviewsActivity extends AppCompatActivity {
 
-    private static final String TAG = "coursePageActivity";
+    private static final String TAG = "ReadReviewsActivity";
 
     private ParserService mParserService;
 

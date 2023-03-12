@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    tools:context=".Activities.FilterActivity">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/graduate_classes" />
+                <Switch
+                    android:id="@+id/graduateSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginStart="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/undergraduate_classes" />
+                <Switch
+                    android:id="@+id/undergraduate_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!-- Filter by credits -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter by credits:"
+            android:padding="8dp"/>
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/credits_range_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="30"
+            android:stepSize="1"
+            app:values="@array/credit_filter_default"/>
+
+        <!-- Filter by overall score -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter by overall score:"
+            android:padding="8dp"/>
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/overall_score_range_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="5"
+            android:stepSize="1"
+            app:values="@array/rating_filter_default"/>
+
+        <!-- Filter by difficulty -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter by difficulty:"
+            android:padding="8dp"/>
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/difficulty_range_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="5"
+            android:stepSize="1"
+            app:values="@array/rating_filter_default"/>
+
+        <!-- Filter by workload -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter by workload:"
+            android:padding="8dp"/>
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/workload_range_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="5"
+            android:stepSize="1"
+            app:values="@array/rating_filter_default"/>
+        <!-- Filter by teaching quality -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter by teaching quality:"
+            android:padding="8dp"/>
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/teaching_quality_range_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="5"
+            android:stepSize="1"
+            app:values="@array/rating_filter_default"
+            />
+
+        <!-- Filter by course material -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter by course material:"
+            android:padding="8dp"/>
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/course_material_range_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="5"
+            android:stepSize="1"
+            app:values="@array/rating_filter_default"  />
+
+    <Button
+        android:id="@+id/applyFilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply" />
+
+
+</LinearLayout>
