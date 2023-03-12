@@ -51,7 +51,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
         Log.d(TAG, "num reviews "+reviews.size()); //0 for some reason
         for (Review review:reviews) {
             TextView textView = new TextView(this);
-            textView.setText(review.getComment().getText());
+            textView.setText(review.getComment());
             allReviews.addView(textView);
         }
 

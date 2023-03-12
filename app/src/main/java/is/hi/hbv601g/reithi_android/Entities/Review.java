@@ -1,4 +1,5 @@
 package is.hi.hbv601g.reithi_android.Entities;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -11,12 +12,8 @@ public class Review {
     private long mID;
     @SerializedName("user")
     private User mUser;
-    @SerializedName("comment")
-    private Comment mComment;
     @SerializedName("course")
     private Course mCourse;
-    @SerializedName("rating")
-    private Rating mRating;
 
     @SerializedName("upvoters")
     private List<User> mUpvoters;
@@ -24,16 +21,33 @@ public class Review {
     @SerializedName("downvoters")
     private List<User> mDownvoters;
 
+    @SerializedName("overallScore")
+    private int mOverallScore;
+    @SerializedName("difficulty")
+    private int mDifficulty;
+    @SerializedName("workload")
+    private int mWorkload;
+    @SerializedName("teachingQuality")
+    private int mTeachingQuality;
+    @SerializedName("courseMaterial")
+    private int mCourseMaterial;
+    @SerializedName("comment")
+    private String mComment;
+
     public Review() {
     }
 
-    public Review(User user, Rating rating, Comment comment, Course course) {
-        mUser = user;
-        mRating = rating;
-        mComment = comment;
-        mCourse = course;
+    public Review(User user, Course course, int overallScore, int difficulty, int workload, int teachingQuality, int courseMaterial, String comment) {
         mUpvoters = new ArrayList<>();
         mDownvoters = new ArrayList<>();
+        mUser = user;
+        mCourse = course;
+        mOverallScore = overallScore;
+        mDifficulty = difficulty;
+        mWorkload = workload;
+        mTeachingQuality = teachingQuality;
+        mCourseMaterial = courseMaterial;
+        mComment = comment;
     }
 
     public long getID() {
@@ -48,13 +62,6 @@ public class Review {
         mUser = user;
     }
 
-    public Comment getComment() {
-        return mComment;
-    }
-
-    public void setComment(Comment comment) {
-        mComment = comment;
-    }
 
     public Course getCourse() {
         return mCourse;
@@ -64,13 +71,6 @@ public class Review {
         mCourse = course;
     }
 
-    public Rating getRating() {
-        return mRating;
-    }
-
-    public void setRating(Rating rating) {
-        mRating = rating;
-    }
 
     public int getUpvotes() {
         return mUpvoters.size() - mDownvoters.size();
@@ -98,5 +98,53 @@ public class Review {
 
     public void removeDownvote(User currentUser) {
         mDownvoters.remove(currentUser);
+    }
+
+    public int getOverallScore() {
+        return mOverallScore;
+    }
+
+    public void setOverallScore(int overallScore) {
+        mOverallScore = overallScore;
+    }
+
+    public int getDifficulty() {
+        return mDifficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        mDifficulty = difficulty;
+    }
+
+    public int getWorkload() {
+        return mWorkload;
+    }
+
+    public void setWorkload(int workload) {
+        mWorkload = workload;
+    }
+
+    public int getTeachingQuality() {
+        return mTeachingQuality;
+    }
+
+    public void setTeachingQuality(int teachingQuality) {
+        mTeachingQuality = teachingQuality;
+    }
+
+    public int getCourseMaterial() {
+        return mCourseMaterial;
+    }
+
+    public void setCourseMaterial(int courseMaterial) {
+        mCourseMaterial = courseMaterial;
+    }
+
+    public String getComment() {
+        return mComment;
+    }
+
+    public void setComment(String comment) {
+        mComment = comment;
     }
 }

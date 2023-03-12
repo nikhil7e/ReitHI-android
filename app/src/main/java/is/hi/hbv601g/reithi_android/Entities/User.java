@@ -11,8 +11,6 @@ public class User {
     private String mUserName;
     @SerializedName("password")
     private String mPassword;
-    @SerializedName("ratings")
-    private List<Rating> mRatings = new ArrayList<>();
     @SerializedName("reviews")
     private List<Review> mReviews = new ArrayList<>();
 
@@ -39,14 +37,6 @@ public class User {
 
     public void setPassword(String password) {
         mPassword = password;
-    }
-
-    public List<Rating> getRatings() {
-        return mRatings;
-    }
-
-    public void setRatings(List<Rating> ratings) {
-        mRatings = ratings;
     }
 
     public List<Review> getReviews() {
