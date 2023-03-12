@@ -32,8 +32,18 @@ public class ParserService {
         return gson.fromJson(json, type);
     }
 
+    public Object parseObject(String json, Type type) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, type);
+    }
+
     public String deParse(List<Object> objects) {
         Gson gson = new Gson();
         return gson.toJson(objects);
+    }
+
+    public String deParseObject(Object object) {
+        Gson gson = new Gson();
+        return gson.toJson(object);
     }
 }

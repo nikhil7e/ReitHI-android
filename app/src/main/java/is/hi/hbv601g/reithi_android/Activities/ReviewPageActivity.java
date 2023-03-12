@@ -17,11 +17,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.User;
 import is.hi.hbv601g.reithi_android.Fragments.SearchResultFragment;
 import is.hi.hbv601g.reithi_android.NetworkCallback;
@@ -30,6 +34,7 @@ import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.CourseService;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
 import is.hi.hbv601g.reithi_android.Services.ReviewService;
+import is.hi.hbv601g.reithi_android.Services.UserService;
 
 
 public class ReviewPageActivity extends AppCompatActivity {
@@ -39,9 +44,12 @@ public class ReviewPageActivity extends AppCompatActivity {
     private ReviewService mReviewService;
     private Button mSubmitReviewButton;
     private CourseService mCourseService;
+
+    private UserService mUserService;
     private int[] mSliderValues;
     private ParserService mParserService;
     private EditText mCommentField;
+    private String mUser;
 
 
     @Override
@@ -52,6 +60,7 @@ public class ReviewPageActivity extends AppCompatActivity {
         mNetworkManager = NetworkManager.getInstance(this);
         mCourseService = new CourseService(this);
         mReviewService = new ReviewService(this);
+        mUserService = new UserService(this);
         mParserService = ParserService.getInstance();
 
         mSubmitReviewButton = findViewById(R.id.submit_review_button);
@@ -67,9 +76,6 @@ public class ReviewPageActivity extends AppCompatActivity {
         mSliderValues = new int[]{1, 1, 1, 1, 1};
 
         mSubmitReviewButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(CourseActivity.this, ReviewPageActivity.class);
-//            intent.putExtra("course", courseString);
-//            startActivity(intent);
             addReview();
         });
 
@@ -174,16 +180,9 @@ public class ReviewPageActivity extends AppCompatActivity {
         params.put("courseMaterial", String.valueOf(mSliderValues[4]));
 
         params.put("comment", mCommentField.getText().toString());
-
-        User u = new User("x", "x");
-        List<Object> ul = new ArrayList<>();
-        ul.add(u);
-        params.put("user", mParserService.deParse(ul));
-
-        params.put("selectedCourse", getIntent().getExtras().getString("course"));
-
-
-        mReviewService.addReviewPOST(
+        Map<String, String> userParams = new HashMap<>();
+        userParams.put("username", "tes");
+        mUserService.genericUserPOST(
                 new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {
@@ -192,23 +191,34 @@ public class ReviewPageActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(String result) {
-                        androidx.fragment.app.FragmentManager fm = getSupportFragmentManager();
-                        Fragment fragment = fm.findFragmentById(R.id.search_results_fragment_container_view);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("searchResult", result);
-                        if (fragment == null) {
-                            getSupportFragmentManager().beginTransaction()
-                                    .setReorderingAllowed(true)
-                                    .add(R.id.search_results_fragment_container_view, SearchResultFragment.class, bundle)
-                                    .commit();
-                        } else {
-                            fragment.getFragmentManager().beginTransaction().detach(fragment).commit();
-                            fragment.setArguments(bundle);
-                            fragment.getFragmentManager().beginTransaction().attach(fragment).commit();
-                        }
-                        Log.d("TAG", "Fragment added");
+
+                        //mUser = (User) (Object) mParserService.parseObject(result, User.class);
+                        mUser = result;
+                        Log.d("TAG", mUser);
+                        params.put("user", mUser);
+
+                        params.put("selectedCourse", getIntent().getExtras().getString("course"));
+                        mReviewService.addReviewPOST(
+                                new NetworkCallback<String>() {
+                                    @Override
+                                    public void onFailure(String errorString) {
+                                        Log.e(TAG, errorString);
+                                    }
+
+                                    @Override
+                                    public void onSuccess(String result) {
+                                        Log.d("TAG", "Fragment added");
+                                    }
+                                }, params, "/addreview");
                     }
-                }, params, "/addreview");
+                }, userParams, "/finduser");
+        /*
+        List<Object> ul = new ArrayList<>();
+        ul.add(mUser);*/
+
+
+
+
     }
 
 }
