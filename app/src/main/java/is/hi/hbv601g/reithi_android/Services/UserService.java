@@ -3,6 +3,8 @@ package is.hi.hbv601g.reithi_android.Services;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 
 import is.hi.hbv601g.reithi_android.NetworkCallback;
@@ -19,7 +21,8 @@ public class UserService {
         mParserService = ParserService.getInstance();
     }
 
-    public void genericUserPOST(final NetworkCallback<String> callback, Map<String, String> params, String requestURL){
+    public void genericUserPOST(final NetworkCallback<String> callback, JSONObject
+            params, String requestURL) {
         mNetworkManager.genericPOST(
                 new NetworkCallback<String>() {
                     @Override
@@ -33,9 +36,7 @@ public class UserService {
                         callback.onSuccess(json);
                     }
                 }
-                ,params, requestURL);
+                , params, requestURL);
     }
-
-
 
 }

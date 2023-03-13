@@ -173,10 +173,10 @@ public class SearchResultFragment extends Fragment {
             searchResultLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    List<Object> courseList = new ArrayList<>();
-                    courseList.add(course);
+//                    List<Object> courseList = new ArrayList<>();
+//                    courseList.add(course);
                     Intent intent = new Intent(context, CourseActivity.class);
-                    intent.putExtra("course", mParserService.deParse(courseList));
+                    intent.putExtra("course", mParserService.deParseObject(course));
                     context.startActivity(intent);
                 }
             });

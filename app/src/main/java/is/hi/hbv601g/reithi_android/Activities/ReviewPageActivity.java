@@ -19,6 +19,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -171,19 +174,42 @@ public class ReviewPageActivity extends AppCompatActivity {
     }
 
     private void addReview() {
-        Map<String, String> params = new HashMap<>();
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("overallScore", mSliderValues[0]);
+            jsonBody.put("difficulty", mSliderValues[1]);
+            jsonBody.put("workload", mSliderValues[2]);
+            jsonBody.put("teachingQuality", mSliderValues[3]);
+            jsonBody.put("courseMaterial", mSliderValues[4]);
+            jsonBody.put("comment", mCommentField.getText().toString());
+            jsonBody.put("selectedCourse", getIntent().getExtras().getString("course"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        params.put("overallScore", String.valueOf(mSliderValues[0]));
-        params.put("difficulty", String.valueOf(mSliderValues[1]));
-        params.put("workload", String.valueOf(mSliderValues[2]));
-        params.put("teachingQuality", String.valueOf(mSliderValues[3]));
-        params.put("courseMaterial", String.valueOf(mSliderValues[4]));
+        JSONObject userBody = new JSONObject();
+        try {
+            userBody.put("username", "tes");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        params.put("comment", mCommentField.getText().toString());
-        Map<String, String> userParams = new HashMap<>();
-        userParams.put("username", "tes");
-        mUserService.genericUserPOST(
-                new NetworkCallback<String>() {
+        mUserService.genericUserPOST(new NetworkCallback<String>() {
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, errorString);
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                mUser = result;
+                try {
+                    jsonBody.put("user", mUser);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                mReviewService.addReviewPOST(new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {
                         Log.e(TAG, errorString);
@@ -191,34 +217,12 @@ public class ReviewPageActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(String result) {
-
-                        //mUser = (User) (Object) mParserService.parseObject(result, User.class);
-                        mUser = result;
-                        Log.d("TAG", mUser);
-                        params.put("user", mUser);
-
-                        params.put("selectedCourse", getIntent().getExtras().getString("course"));
-                        mReviewService.addReviewPOST(
-                                new NetworkCallback<String>() {
-                                    @Override
-                                    public void onFailure(String errorString) {
-                                        Log.e(TAG, errorString);
-                                    }
-
-                                    @Override
-                                    public void onSuccess(String result) {
-                                        Log.d("TAG", "Fragment added");
-                                    }
-                                }, params, "/addreview");
+                        Log.d(TAG, "Review added");
                     }
-                }, userParams, "/finduser");
-        /*
-        List<Object> ul = new ArrayList<>();
-        ul.add(mUser);*/
-
-
-
-
+                }, jsonBody, "/addreview");
+            }
+        }, userBody, "/finduser");
     }
+
 
 }
