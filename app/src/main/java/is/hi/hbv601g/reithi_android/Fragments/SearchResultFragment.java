@@ -157,9 +157,7 @@ public class SearchResultFragment extends Fragment {
                         overAllRating--;
                         ClipDrawable clipDrawable = new ClipDrawable(full, Gravity.LEFT, ClipDrawable.HORIZONTAL);
                         clipDrawable.setLevel(5000);
-                        ClipDrawable clipDrawable2 = new ClipDrawable(empty, Gravity.RIGHT, ClipDrawable.HORIZONTAL);
-                        clipDrawable.setLevel(5000);
-                        Drawable[] layers = {clipDrawable, clipDrawable2};
+                        Drawable[] layers = {empty, clipDrawable};
                         LayerDrawable layerDrawable = new LayerDrawable(layers);
                         circleView.setBackground(layerDrawable);
                     } else {
