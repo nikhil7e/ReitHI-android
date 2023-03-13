@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    @SerializedName("ID")
+    @SerializedName("id")
     private long mID;
     @SerializedName("userName")
     private String mUserName;
@@ -18,9 +18,18 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String password) {
+    public User(long ID, String userName, String password) {
+        mID = ID;
         mUserName = userName;
         mPassword = password;
+    }
+
+    public long getID() {
+        return mID;
+    }
+
+    public void setID(long ID) {
+        mID = ID;
     }
 
     public String getUserName() {

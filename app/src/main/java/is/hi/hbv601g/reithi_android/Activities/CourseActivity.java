@@ -41,9 +41,10 @@ public class CourseActivity extends AppCompatActivity {
         Log.d(TAG, courseString);
 
 
-        Type courseListType = new TypeToken<List<Course>>(){}.getType();
-        List<Course> courses = (List<Course>) (Object) mParserService.parse(courseString, courseListType);
-        Course course = courses.get(0);
+//        Type courseListType = new TypeToken<List<Course>>(){}.getType();
+//        List<Course> courses = (List<Course>) (Object) mParserService.parse(courseString, courseListType);
+//        Course course = courses.get(0);
+        Course course = (Course) mParserService.parseObject(courseString, Course.class);
         TextView mCourseNameTitle = findViewById(R.id.courseName);
         mCourseNameTitle.setText(course.getName());
 

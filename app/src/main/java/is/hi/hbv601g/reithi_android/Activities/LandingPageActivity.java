@@ -27,6 +27,9 @@ import is.hi.hbv601g.reithi_android.Services.CourseService;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 //test push Eddi
 //test push Tómas
 
@@ -121,9 +124,12 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
     private void performSearch() {
-        Map<String, String> params = new HashMap<>();
-        params.put("name", mSearchBar.getText().toString());
-        Log.d(TAG, params.get("name"));
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("name", mSearchBar.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         mCourseService.searchCoursesPOST(
                 new NetworkCallback<String>() {
@@ -151,6 +157,13 @@ public class LandingPageActivity extends AppCompatActivity {
                         }
                         Log.d("TAG","Fragment added");
                     }
-                }, params, "/searchcourses");
+                }, jsonBody, "/searchcourses");
+    }
+
+
+    private Map<String, String> getHeaders() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json; charset=utf-8");
+        return headers;
     }
 }

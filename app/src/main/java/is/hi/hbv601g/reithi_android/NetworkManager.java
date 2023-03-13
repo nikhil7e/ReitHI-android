@@ -7,12 +7,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,23 +73,25 @@ public class NetworkManager {
 //        sQueue.add(req);
 //    }
 
-    public void genericPOST(final NetworkCallback<String> callback, Map<String, String> params, String reqURL) {
+    public void genericPOST(final NetworkCallback<String> callback, JSONObject jsonBody, String reqURL) {
         StringRequest req = new StringRequest(Request.Method.POST, BASE_URL + reqURL,
-                res -> {
-                    callback.onSuccess(res);
-                },
-                error -> {
-                    callback.onFailure(error.toString());
-                }
+                response -> callback.onSuccess(response),
+                error -> callback.onFailure(error.toString())
         ) {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return params;
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return jsonBody.toString().getBytes();
             }
         };
 
         sQueue.add(req);
     }
+
 
     public void genericGET(final NetworkCallback<String> callback, String reqURL) {
         StringRequest req = new StringRequest(Request.Method.GET, BASE_URL + reqURL,

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Course {
 
-    @SerializedName("ID")
+    @SerializedName("id")
     private long mID;
     @SerializedName("name")
     private String mName;
@@ -67,7 +67,8 @@ public class Course {
 
     }
 
-    public Course(String name, String number, String course_URL, String type, Double credits, String semester, String level, String professor_Name, Double minimumGrade, String assessment, String finalExam, String school, String faculty, String professor_Email, String professor_URL, Integer totalOverallScore, List<Review> reviews, Double totalOverall, Double totalDifficulty, Double totalWorkload, Double totalTeachingQuality, Double totalCourseMaterial, Double totalReviews) {
+    public Course(long ID, String name, String number, String course_URL, String type, Double credits, String semester, String level, String professor_Name, Double minimumGrade, String assessment, String finalExam, String school, String faculty, String professor_Email, String professor_URL, Integer totalOverallScore, List<Review> reviews, Double totalOverall, Double totalDifficulty, Double totalWorkload, Double totalTeachingQuality, Double totalCourseMaterial, Double totalReviews) {
+        mID = ID;
         mName = name;
         mNumber = number;
         mCourse_URL = course_URL;
@@ -275,5 +276,13 @@ public class Course {
 
     public void setTotalReviews(Double totalReviews) {
         mTotalReviews = totalReviews;
+    }
+
+    public long getID() {
+        return mID;
+    }
+
+    public void setID(long ID) {
+        mID = ID;
     }
 }

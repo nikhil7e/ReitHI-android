@@ -19,6 +19,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,8 +52,9 @@ public class ReviewPageActivity extends AppCompatActivity {
     private int[] mSliderValues;
     private ParserService mParserService;
     private EditText mCommentField;
-    private User mUser;
+    private String mUser;
     private List<SeekBar> mSeekBars;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class ReviewPageActivity extends AppCompatActivity {
 
         mSubmitReviewButton = findViewById(R.id.submit_review_button);
         mCommentField = findViewById(R.id.comment);
+
         mSeekBars = new ArrayList<>();
         FrameLayout[] sliders = {
                 findViewById(R.id.slider_1),
@@ -121,12 +126,17 @@ public class ReviewPageActivity extends AppCompatActivity {
                 public void onStopTrackingTouch(SeekBar seekBar) {
                     // Do something when the user stops touching the seek bar
                 }
-
             });
 
         }
 
 
+    }
+
+    private void getValuesfromSliders(){
+        for (int i = 0; i<mSeekBars.size(); i++){
+            mSliderValues[i] = mSeekBars.get(i).getProgress()+1;
+        }
     }
 
     @Override
@@ -146,27 +156,44 @@ public class ReviewPageActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void getValuesfromSliders(){
-        for (int i = 0; i<mSeekBars.size(); i++){
-            mSliderValues[i] = mSeekBars.get(i).getProgress()+1;
-            Log.d(TAG, "Slider " + i + " value er " + mSliderValues[i] );
-        }
-    }
-
     private void addReview() {
-        Map<String, String> params = new HashMap<>();
         getValuesfromSliders();
-        params.put("overallScore", String.valueOf(mSliderValues[0]));
-        params.put("difficulty", String.valueOf(mSliderValues[1]));
-        params.put("workload", String.valueOf(mSliderValues[2]));
-        params.put("teachingQuality", String.valueOf(mSliderValues[3]));
-        params.put("courseMaterial", String.valueOf(mSliderValues[4]));
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("overallScore", mSliderValues[0]);
+            jsonBody.put("difficulty", mSliderValues[1]);
+            jsonBody.put("workload", mSliderValues[2]);
+            jsonBody.put("teachingQuality", mSliderValues[3]);
+            jsonBody.put("courseMaterial", mSliderValues[4]);
+            jsonBody.put("comment", mCommentField.getText().toString());
+            jsonBody.put("selectedCourse", getIntent().getExtras().getString("course"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        params.put("comment", mCommentField.getText().toString());
-        Map<String, String> userParams = new HashMap<>();
-        userParams.put("username", "tes");
-        mUserService.genericUserPOST(
-                new NetworkCallback<String>() {
+        JSONObject userBody = new JSONObject();
+        try {
+            userBody.put("username", "tes");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mUserService.genericUserPOST(new NetworkCallback<String>() {
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, errorString);
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                mUser = result;
+                try {
+                    jsonBody.put("user", mUser);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                mReviewService.addReviewPOST(new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {
                         Log.e(TAG, errorString);
@@ -174,34 +201,12 @@ public class ReviewPageActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(String result) {
-
-                        mUser = (User) (Object) mParserService.parseObject(result, User.class);
-                        String mUserString = mParserService.deParseObject(mUser);
-                        Log.d("TAG", mUserString);
-                        params.put("user", mUserString);
-
-                        params.put("selectedCourse", getIntent().getExtras().getString("course"));
-                        mReviewService.addReviewPOST(
-                                new NetworkCallback<String>() {
-                                    @Override
-                                    public void onFailure(String errorString) {
-                                        Log.e(TAG, errorString);
-                                    }
-
-                                    @Override
-                                    public void onSuccess(String result) {
-                                        Log.d("TAG", "Fragment added");
-                                    }
-                                }, params, "/addreview");
+                        Log.d(TAG, "Review added");
                     }
-                }, userParams, "/finduser");
-        /*
-        List<Object> ul = new ArrayList<>();
-        ul.add(mUser);*/
-
-
-
-
+                }, jsonBody, "/addreview");
+            }
+        }, userBody, "/finduser");
     }
+
 
 }

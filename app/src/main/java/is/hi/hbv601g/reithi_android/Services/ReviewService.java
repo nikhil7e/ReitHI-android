@@ -5,6 +5,8 @@ import android.util.Log;
 
 // import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,8 @@ public class ReviewService {
         mParserService = ParserService.getInstance();
     }
 
-    public void addReviewPOST(final NetworkCallback<String> callback, Map<String, String> params, String requestURL){
+    public void addReviewPOST(final NetworkCallback<String> callback, JSONObject
+            params, String requestURL) {
         mNetworkManager.genericPOST(
                 new NetworkCallback<String>() {
                     @Override
@@ -38,7 +41,7 @@ public class ReviewService {
                         callback.onSuccess(json);
                     }
                 }
-                ,params, requestURL);
+                , params, requestURL);
     }
 }
 
