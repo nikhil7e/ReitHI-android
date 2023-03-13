@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.ClipDrawable;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -107,19 +109,37 @@ public class SearchResultFragment extends Fragment {
                 creditsTextView.setText((credits).toString() + " credits");
                 verticalLayout.addView(creditsTextView);
             }
-            //needs guard for empty input
+            //still needs guard for empty input
             String level = course.getLevel();
             TextView levelTextView = new TextView(context);
             levelTextView.setText(level);
             verticalLayout.addView(levelTextView);
 
+            //create LinearLayout to display content horizontally
+            LinearLayout horizontalLayout = new LinearLayout(context);
+            LinearLayout.LayoutParams horizontalParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            horizontalLayout.setLayoutParams(horizontalParams);
+            horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+            //create LinearLayout to display text next to ratings
+            LinearLayout textLayout = new LinearLayout(context);
+            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            textLayout.setLayoutParams(textParams);
+            textLayout.setOrientation(LinearLayout.VERTICAL);
+
+
+            //create LinearLayout for all ratings
+            LinearLayout allRatingsLayout = new LinearLayout(context);
+            LinearLayout.LayoutParams allRatingsLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            allRatingsLayout.setLayoutParams(allRatingsLayoutParams);
+            allRatingsLayout.setOrientation(LinearLayout.VERTICAL);
 
             Double[] ratings = {course.getTotalOverall(), course.getTotalDifficulty(), course.getTotalCourseMaterial(), course.getTotalWorkload(), course.getTotalTeachingQuality()};
-            //String[] headings = {"Overall Score", "Difficulty","Material","Workload","Teaching Quality"};
+            String[] headings = {"Overall Score", "Difficulty","Material","Workload","Teaching Quality"};
             for (int j = 0; j < 5; j++) {
-                //TextView ratingTextView = new TextView(context);
-                //levelTextView.setText(headings[j]);
-                //verticalLayout.addView(ratingTextView);
+                TextView ratingTextView = new TextView(context);
+                ratingTextView.setText(headings[j]);
+                textLayout.addView(ratingTextView);
 
                 double overAllRating = ratings[j] / course.getTotalReviews();
                 LinearLayout ratingLayout = new LinearLayout(context);
@@ -127,47 +147,43 @@ public class SearchResultFragment extends Fragment {
                 ratingLayout.setLayoutParams(ratingParams);
                 for (int i = 0; i < 5; i++) {
                     ShapeDrawable circle = new ShapeDrawable(new OvalShape());
-                    circle.getPaint().setColor(Color.BLUE); // set the fill color to blue
-                    View circleView = new View(context);
+                    Drawable full = getResources().getDrawable(R.drawable.ratingdot_full);
+                    Drawable empty = getResources().getDrawable(R.drawable.ratingdot_empty);
+                    ImageView circleView = new ImageView(context);
                     if (overAllRating > 0.75) {
                         overAllRating--;
-                        circle.getPaint().setStyle(Paint.Style.FILL);
-                        ShapeDrawable circle2 = new ShapeDrawable(new OvalShape());
-                        circle2.getPaint().setColor(Color.BLACK);
-                        circle2.getPaint().setStyle(Paint.Style.STROKE);
-                        circle2.getPaint().setStrokeWidth(10);
-                        Drawable[] layers = {circle, circle2};
-                        LayerDrawable layerDrawable = new LayerDrawable(layers);
-                        circleView.setBackground(layerDrawable);
+                        circleView.setBackground(full);
                     } else if (overAllRating > 0.25) {
                         overAllRating--;
-                        ClipDrawable clipDrawable = new ClipDrawable(circle, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+                        ClipDrawable clipDrawable = new ClipDrawable(full, Gravity.LEFT, ClipDrawable.HORIZONTAL);
                         clipDrawable.setLevel(5000);
-                        ShapeDrawable circle2 = new ShapeDrawable(new OvalShape());
-                        circle2.getPaint().setColor(Color.BLACK);
-                        circle2.getPaint().setStyle(Paint.Style.STROKE);
-                        circle2.getPaint().setStrokeWidth(10);
-                        Drawable[] layers = {clipDrawable, circle2};
+                        ClipDrawable clipDrawable2 = new ClipDrawable(empty, Gravity.RIGHT, ClipDrawable.HORIZONTAL);
+                        clipDrawable.setLevel(5000);
+                        Drawable[] layers = {clipDrawable, clipDrawable2};
                         LayerDrawable layerDrawable = new LayerDrawable(layers);
                         circleView.setBackground(layerDrawable);
                     } else {
-                        circle.getPaint().setColor(Color.BLACK);
-                        circle.getPaint().setStyle(Paint.Style.STROKE);
-                        circle.getPaint().setStrokeWidth(10);
-                        circleView.setBackground(circle);
+                        circleView.setBackground(empty);
                     }
-                    ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
+                    ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(
+                            50,
+                            50//ViewGroup.LayoutParams.WRAP_CONTENT
                     );
-                    params.width = 50;
-                    params.height = 50;
+                  /*  params.setMargins(1,1,1,1);*/
+
+                    circleView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    circleView.setPadding(3,3,3,3);
                     circleView.setLayoutParams(params);
+
                     ratingLayout.addView(circleView);
                 }
-                verticalLayout.addView(ratingLayout);
+                allRatingsLayout.addView(ratingLayout);
+
             }
 
+            horizontalLayout.addView(textLayout);
+            horizontalLayout.addView(allRatingsLayout);
+            verticalLayout.addView(horizontalLayout);
             searchResultLayout.addView(verticalLayout);
             //creating a onclick listener for the search result
             searchResultLayout.setOnClickListener(new View.OnClickListener() {

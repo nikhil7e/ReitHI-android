@@ -49,8 +49,8 @@ public class ReviewPageActivity extends AppCompatActivity {
     private int[] mSliderValues;
     private ParserService mParserService;
     private EditText mCommentField;
-    private String mUser;
-
+    private User mUser;
+    private List<SeekBar> mSeekBars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class ReviewPageActivity extends AppCompatActivity {
 
         mSubmitReviewButton = findViewById(R.id.submit_review_button);
         mCommentField = findViewById(R.id.comment);
-
+        mSeekBars = new ArrayList<>();
         FrameLayout[] sliders = {
                 findViewById(R.id.slider_1),
                 findViewById(R.id.slider_2),
@@ -82,58 +82,33 @@ public class ReviewPageActivity extends AppCompatActivity {
         for (FrameLayout progress : sliders) {
             SeekBar slider = progress.findViewById(R.id.slider);
             LinearLayout dots = progress.findViewById(R.id.dots);
+            mSeekBars.add(slider);
             slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                     Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
                     // Haptic feedback
                     if (vibrator.hasVibrator()) {
-
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             // For API 26+
-                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
                         } else {
                             // For API below 26
-                            vibrator.vibrate(500);
+                            vibrator.vibrate(50);
                         }
                     }
-                    int currentValue = seekBar.getProgress();
-
-                    switch (progress) {
-                        case 0: {
-                            mSliderValues[0] = currentValue;
-                        }
-                        case 1: {
-                            mSliderValues[1] = currentValue;
-                        }
-                        case 2: {
-                            mSliderValues[2] = currentValue;
-                        }
-                        case 3: {
-                            mSliderValues[3] = currentValue;
-                        }
-                        case 4: {
-                            mSliderValues[4] = currentValue;
-                        }
-                    }
-
-                    for (int x : mSliderValues) {
-                        Log.d(TAG, "Slidervalues eru " + x);
-                    }
-
                     //iterates through slider dots and colors them accordingly
                     for (int i = 1; i <= 5; i++) {
                         String name = "dot_" + i;
                         int id = getResources().getIdentifier(name, "id", getPackageName());
                         ImageView dotView = dots.findViewById(id);
-                        if (currentValue >= 0) {
+                        if (progress >= 0) {
                             dotView.setImageResource(R.drawable.slider_dot_selected);
                         } else {
                             dotView.setImageResource(R.drawable.slider_dot_empty);
                         }
-                        currentValue--;
+                        progress--;
                     }
                 }
 
@@ -146,6 +121,7 @@ public class ReviewPageActivity extends AppCompatActivity {
                 public void onStopTrackingTouch(SeekBar seekBar) {
                     // Do something when the user stops touching the seek bar
                 }
+
             });
 
         }
@@ -170,9 +146,16 @@ public class ReviewPageActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    private void getValuesfromSliders(){
+        for (int i = 0; i<mSeekBars.size(); i++){
+            mSliderValues[i] = mSeekBars.get(i).getProgress()+1;
+            Log.d(TAG, "Slider " + i + " value er " + mSliderValues[i] );
+        }
+    }
+
     private void addReview() {
         Map<String, String> params = new HashMap<>();
-
+        getValuesfromSliders();
         params.put("overallScore", String.valueOf(mSliderValues[0]));
         params.put("difficulty", String.valueOf(mSliderValues[1]));
         params.put("workload", String.valueOf(mSliderValues[2]));
@@ -192,10 +175,10 @@ public class ReviewPageActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String result) {
 
-                        //mUser = (User) (Object) mParserService.parseObject(result, User.class);
-                        mUser = result;
-                        Log.d("TAG", mUser);
-                        params.put("user", mUser);
+                        mUser = (User) (Object) mParserService.parseObject(result, User.class);
+                        String mUserString = mParserService.deParseObject(mUser);
+                        Log.d("TAG", mUserString);
+                        params.put("user", mUserString);
 
                         params.put("selectedCourse", getIntent().getExtras().getString("course"));
                         mReviewService.addReviewPOST(
