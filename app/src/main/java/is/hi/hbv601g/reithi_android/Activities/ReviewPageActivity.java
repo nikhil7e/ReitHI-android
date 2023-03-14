@@ -16,6 +16,7 @@ import android.widget.SeekBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -30,6 +31,7 @@ import java.util.Map;
 
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.User;
+import is.hi.hbv601g.reithi_android.Fragments.BottomBarFragment;
 import is.hi.hbv601g.reithi_android.Fragments.SearchResultFragment;
 import is.hi.hbv601g.reithi_android.NetworkCallback;
 import is.hi.hbv601g.reithi_android.NetworkManager;
@@ -69,6 +71,12 @@ public class ReviewPageActivity extends AppCompatActivity {
 
         mSubmitReviewButton = findViewById(R.id.submit_review_button);
         mCommentField = findViewById(R.id.comment);
+
+        // Add the BottomAppBarFragment to the layout
+        BottomBarFragment bottomAppBarFragment = new BottomBarFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
+        transaction.commit();
 
         mSeekBars = new ArrayList<>();
         FrameLayout[] sliders = {

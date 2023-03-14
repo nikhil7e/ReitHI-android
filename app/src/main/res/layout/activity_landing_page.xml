@@ -51,7 +51,8 @@
     -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
              <androidx.fragment.app.FragmentContainerView
                  android:id="@+id/search_results_fragment_container_view"
@@ -61,12 +62,13 @@
 
          </ScrollView>
 
-        <FrameLayout
-             android:layout_width="match_parent"
-             android:layout_height="0dp"
-            android:layout_weight="1"
-             android:layout_gravity="bottom"
-             app:layout_anchorGravity="bottom">
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+         >
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/bottomBar_fragment_container_view"
@@ -76,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-        </FrameLayout>
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
 

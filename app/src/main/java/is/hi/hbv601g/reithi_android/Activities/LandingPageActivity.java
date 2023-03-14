@@ -56,12 +56,6 @@ public class LandingPageActivity extends AppCompatActivity {
         mSearchBar = findViewById(R.id.search_bar);
         mSearchButton = findViewById(R.id.search_button);
 
-        /*mFilterButton = findViewById(R.id.filter_button);
-        mFilterButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LandingPageActivity.this, FilterActivity.class);
-            startActivity(intent);
-        });*/
-
         // Add the BottomAppBarFragment to the layout
         BottomBarFragment bottomAppBarFragment = new BottomBarFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -73,20 +67,6 @@ public class LandingPageActivity extends AppCompatActivity {
         transaction2.add(R.id.navigation_drawer, filterFragment);
         transaction2.commit();
 
-//        mSearchButton.setOnClickListener(
-//                view -> {
-//                    if (savedInstanceState == null) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putInt("some_int", 0);
-//
-//                        getSupportFragmentManager().beginTransaction()
-//                                .setReorderingAllowed(true)
-//                                .add(R.id.search_results_fragment_container_view, SearchResultFragment.class, bundle)
-//                                .commit();
-//                    }
-//                    Log.d("TAG","Fragment added");
-//                }
-//        );
 
         mSearchButton.setOnClickListener(
                 view -> {

@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.reflect.TypeToken;
@@ -146,9 +147,8 @@ public class SearchResultFragment extends Fragment {
                 LinearLayout.LayoutParams ratingParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 ratingLayout.setLayoutParams(ratingParams);
                 for (int i = 0; i < 5; i++) {
-                    ShapeDrawable circle = new ShapeDrawable(new OvalShape());
-                    Drawable full = getResources().getDrawable(R.drawable.ratingdot_full);
-                    Drawable empty = getResources().getDrawable(R.drawable.ratingdot_empty);
+                    Drawable full = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_full, context.getTheme());
+                    Drawable empty = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_empty, context.getTheme());
                     ImageView circleView = new ImageView(context);
                     if (overAllRating > 0.75) {
                         overAllRating--;
@@ -167,7 +167,7 @@ public class SearchResultFragment extends Fragment {
                             50,
                             50//ViewGroup.LayoutParams.WRAP_CONTENT
                     );
-                  /*  params.setMargins(1,1,1,1);*/
+                    params.setMargins(4,0,4,0);
 
                     circleView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     circleView.setPadding(3,3,3,3);

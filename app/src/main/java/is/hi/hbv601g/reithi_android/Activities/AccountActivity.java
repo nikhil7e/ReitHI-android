@@ -9,9 +9,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.FragmentTransaction;
 
+import is.hi.hbv601g.reithi_android.Fragments.BottomBarFragment;
 import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
@@ -30,11 +34,26 @@ public class AccountActivity extends AppCompatActivity {
     private ImageButton mEditFacultyButton;
     private Spinner mFacultySpinner;
 
+    private boolean isDarkMode = false;
+    private ToggleButton mToggleDayNight;
+    private TextView mToggleDayNightText;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+/*        if (isDarkMode) {
+            setTheme(R.style.Theme_ReitHI_dark);
+
+        } else {
+            setTheme(R.style.Theme_ReitHI_android);
+        }*/
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your_account);
+
+
+
 
         mParserService = ParserService.getInstance();
 
@@ -43,10 +62,28 @@ public class AccountActivity extends AppCompatActivity {
         mFacultyTextView = findViewById(R.id.faculty_text_view);
         mEditFacultyButton = findViewById(R.id.edit_faculty_button);
         mFacultySpinner = findViewById(R.id.faculty_spinner);
+        mToggleDayNight = findViewById(R.id.toggle_daynight);
+        mToggleDayNightText = findViewById(R.id.toggle_daynight_text);
+        mToggleDayNight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*toggleDarkMode();*/
+                if (mToggleDayNight.isChecked()) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    //mToggleDayNightText.setText("Switch to day mode");
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    //mToggleDayNightText.setText("Switch to night mode");
+                }
+                recreate();
+            }
+        });
 
-        // Set the text for the username and faculty TextViews
-        //mUsernameTextView.setText("John Doe");
-        //mFacultyTextView.setText("Engineering");
+        // Add the BottomAppBarFragment to the layout
+        BottomBarFragment bottomAppBarFragment = new BottomBarFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
+        transaction.commit();
 
         // Set up the spinner with the faculty list
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -80,6 +117,11 @@ public class AccountActivity extends AppCompatActivity {
         } else {
             mFacultySpinner.setVisibility(View.GONE);
         }
+    }
+
+    public void toggleDarkMode() {
+        isDarkMode = !isDarkMode;
+        recreate(); // Recreate the activity to apply the new theme
     }
 
 }

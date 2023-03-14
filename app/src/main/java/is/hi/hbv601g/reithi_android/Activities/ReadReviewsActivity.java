@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.Review;
+import is.hi.hbv601g.reithi_android.Fragments.BottomBarFragment;
 import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
@@ -54,6 +56,12 @@ public class ReadReviewsActivity extends AppCompatActivity {
             textView.setText(review.getComment());
             allReviews.addView(textView);
         }
+
+        // Add the BottomAppBarFragment to the layout
+        BottomBarFragment bottomAppBarFragment = new BottomBarFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
+        transaction.commit();
 
     }
 

@@ -44,9 +44,6 @@
             android:name=".Activities.SignupActivity">
         </activity>
         <activity
-            android:name=".Activities.FilterActivity">
-        </activity>
-        <activity
             android:name=".Activities.AccountActivity">
         </activity>
     </application>

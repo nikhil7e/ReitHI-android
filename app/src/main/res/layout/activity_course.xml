@@ -2,44 +2,74 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center">
-    <TextView
-        android:id="@+id/courseName"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Course Name"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center">
 
-    <LinearLayout  android:id="@+id/scores"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="vertical">
         <TextView
+            android:id="@+id/courseName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scores"
+            android:text="Course Name"
             android:textAlignment="center"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <LinearLayout  android:id="@+id/scores"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Scores"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Button
+            android:text="@string/review"
+            android:id="@+id/review_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+        </Button>
+
+        <Button
+            android:text="Read Reviews"
+            android:id="@+id/read_reviews_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+        </Button>
     </LinearLayout>
 
-    <Button
-        android:text="@string/review"
-        android:id="@+id/review_button"
-        android:layout_width="100dp"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0">
-    </Button>
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        >
 
-    <Button
-        android:text="Read Reviews"
-        android:id="@+id/read_reviews_button"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0">
-    </Button>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/bottomBar_fragment_container_view"
+            tools:layout="@layout/fragment_navigation_bar"
+            android:layout_gravity="bottom"
+            app:layout_anchorGravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 
 </LinearLayout>
