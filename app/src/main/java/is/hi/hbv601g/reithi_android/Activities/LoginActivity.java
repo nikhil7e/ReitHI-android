@@ -104,10 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                 User user = (User) (Object) mParserService.parseObject(result, User.class);
                 Log.d(TAG, "input password: '" + mPasswordInput.getText() + "' correct password: '" + user.getPassword() + "'");
                 if (user.getPassword().equals(mPasswordInput.getText().toString())){
-
                     Log.d(TAG, "result er " + result);
-
-
                     String userJson = mParserService.deParseObject(user);
                     JSONObject requestBody = new JSONObject();
                     try {
@@ -116,8 +113,12 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(String errorString) {
                                 Log.e(TAG, errorString);
+                                String userString = mSharedPreferences.getString("loggedInUser", "");
+                                Log.d(TAG, userString);
+                                if (userString.equals("")){
+                                    Toast.makeText(LoginActivity.this, "Username or password wrong", Toast.LENGTH_SHORT).show();
+                                }
                             }
-
                             @Override
                             public void onSuccess(String userString) {
                                 Log.d(TAG, "Login Successful with user " + userString);
@@ -138,11 +139,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         }, userBody, "/finduser");
-        String userString = mSharedPreferences.getString("loggedInUser", "");
-        Log.d(TAG, userString);
-        if (userString.equals("")){
-            Toast.makeText(LoginActivity.this, "Username or password wrong", Toast.LENGTH_SHORT).show();
-        }
     }
 
 }
