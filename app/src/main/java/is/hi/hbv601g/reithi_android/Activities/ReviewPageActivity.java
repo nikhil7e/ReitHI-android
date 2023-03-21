@@ -1,6 +1,7 @@
 package is.hi.hbv601g.reithi_android.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -210,6 +212,14 @@ public class ReviewPageActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String result) {
                         Log.d(TAG, "Review added");
+
+                        // Show popup message
+                        Toast.makeText(ReviewPageActivity.this, "Review successfully added", Toast.LENGTH_SHORT).show();
+                        finish();
+                        // Refresh previous view
+                        /*Intent intent = new Intent(ReviewPageActivity.this, CourseActivity.class);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clear the activity stack
+                        ReviewPageActivity.this.startActivity(intent);*/
                     }
                 }, jsonBody, "/addreview");
             }

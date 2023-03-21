@@ -60,9 +60,7 @@ public class SearchResultFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         mParserService = ParserService.getInstance();
         mSearchResults = view.findViewById(R.id.search_results);
-        Type listType = new TypeToken<List<Course>>() {
-
-        }.getType();
+        Type listType = new TypeToken<List<Course>>() {}.getType();
         String results = requireArguments().getString("searchResult");
         List<Course> courseList = (List<Course>) (Object) mParserService.parse(results, listType);
         Context context = getActivity();
