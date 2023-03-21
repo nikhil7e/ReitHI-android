@@ -2,6 +2,7 @@ package is.hi.hbv601g.reithi_android.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -181,49 +182,34 @@ public class ReviewPageActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        JSONObject userBody = new JSONObject();
-        try {
-            userBody.put("username", "tes");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        mUserService.genericUserPOST(new NetworkCallback<String>() {
-            @Override
-            public void onFailure(String errorString) {
-                Log.e(TAG, errorString);
+        SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
+        String userString = sharedPreferences.getString("loggedInUser", "");
+        Log.d(TAG, userString);
+        if (userString != ""){
+            User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
+            try {
+                jsonBody.put("user", userString);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-            @Override
-            public void onSuccess(String result) {
-                mUser = result;
-                try {
-                    jsonBody.put("user", mUser);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            mReviewService.addReviewPOST(new NetworkCallback<String>() {
+                @Override
+                public void onFailure(String errorString) {
+                    Log.e(TAG, errorString);
                 }
 
-                mReviewService.addReviewPOST(new NetworkCallback<String>() {
-                    @Override
-                    public void onFailure(String errorString) {
-                        Log.e(TAG, errorString);
-                    }
+                @Override
+                public void onSuccess(String result) {
+                    Log.d(TAG, "Review added");
 
-                    @Override
-                    public void onSuccess(String result) {
-                        Log.d(TAG, "Review added");
+                    // Show popup message
+                    Toast.makeText(ReviewPageActivity.this, "Review successfully added", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }, jsonBody, "/addreview");
 
-                        // Show popup message
-                        Toast.makeText(ReviewPageActivity.this, "Review successfully added", Toast.LENGTH_SHORT).show();
-                        finish();
-                        // Refresh previous view
-                        /*Intent intent = new Intent(ReviewPageActivity.this, CourseActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clear the activity stack
-                        ReviewPageActivity.this.startActivity(intent);*/
-                    }
-                }, jsonBody, "/addreview");
-            }
-        }, userBody, "/finduser");
+        }
     }
 
 

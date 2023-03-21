@@ -1,12 +1,14 @@
 package is.hi.hbv601g.reithi_android.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -48,9 +50,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUserNameInput;
     private EditText mPasswordInput;
 
+    private SharedPreferences mSharedPreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
 
         mParserService = ParserService.getInstance();
@@ -74,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
         transaction.commit();
         mUserNameInput = findViewById(R.id.userName_input);
         mPasswordInput = findViewById(R.id.password_input);
-
+        mSharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
     }
 
     private void loginUser(){
@@ -114,8 +119,13 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onSuccess(String result2) {
-                                Log.d(TAG, "Login Successful with user " + result2);
+                            public void onSuccess(String userString) {
+                                Log.d(TAG, "Login Successful with user " + userString);
+                                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                                editor.putString("loggedInUser", userString);
+                                editor.apply();
+                                Toast.makeText(LoginActivity.this, "Successfully logged in as " + user.getUserName(), Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         }, requestBody, "/login");
                     }catch (JSONException e){
@@ -124,9 +134,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else{
                     Log.d(TAG, "Password wrong");
+                    Toast.makeText(LoginActivity.this, "Username or password wrong", Toast.LENGTH_SHORT).show();
                 }
             }
         }, userBody, "/finduser");
+        String userString = mSharedPreferences.getString("loggedInUser", "");
+        Log.d(TAG, userString);
+        if (userString.equals("")){
+            Toast.makeText(LoginActivity.this, "Username or password wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

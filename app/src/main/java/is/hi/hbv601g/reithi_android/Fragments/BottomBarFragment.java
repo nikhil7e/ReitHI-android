@@ -1,7 +1,10 @@
 package is.hi.hbv601g.reithi_android.Fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ClipDrawable;
@@ -30,6 +33,7 @@ import java.util.List;
 
 import is.hi.hbv601g.reithi_android.Activities.AccountActivity;
 import is.hi.hbv601g.reithi_android.Activities.CourseActivity;
+import is.hi.hbv601g.reithi_android.Activities.LandingPageActivity;
 import is.hi.hbv601g.reithi_android.Activities.LoginActivity;
 import is.hi.hbv601g.reithi_android.Activities.ReadReviewsActivity;
 import is.hi.hbv601g.reithi_android.Entities.Course;
@@ -58,13 +62,22 @@ public class BottomBarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         mLoginAndAccountButton = view.findViewById(R.id.userButton);
         mLoginAndAccountButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MySession", MODE_PRIVATE);
+            String userString = sharedPreferences.getString("loggedInUser", "");
+
+            if (userString != ""){
+                Intent intent = new Intent(getActivity(), AccountActivity.class);
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+
         });
 
         mHomeButton = view.findViewById(R.id.homeButton);
         mHomeButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), AccountActivity.class);
+            Intent intent = new Intent(getActivity(), LandingPageActivity.class);
             startActivity(intent);
         });
 

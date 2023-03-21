@@ -1,7 +1,9 @@
 package is.hi.hbv601g.reithi_android.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +17,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+import is.hi.hbv601g.reithi_android.Entities.Course;
+import is.hi.hbv601g.reithi_android.Entities.User;
 import is.hi.hbv601g.reithi_android.Fragments.BottomBarFragment;
+import is.hi.hbv601g.reithi_android.NetworkCallback;
 import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
@@ -28,7 +41,7 @@ public class AccountActivity extends AppCompatActivity {
 
     private NetworkManager mNetworkManager;
 
-    private Button mSignupButton;
+    private Button mLogoutButton;
     private TextView mUsernameTextView;
     private TextView mFacultyTextView;
     private ImageButton mEditFacultyButton;
@@ -64,20 +77,31 @@ public class AccountActivity extends AppCompatActivity {
         mFacultySpinner = findViewById(R.id.faculty_spinner);
         mToggleDayNight = findViewById(R.id.toggle_daynight);
         mToggleDayNightText = findViewById(R.id.toggle_daynight_text);
-        mToggleDayNight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*toggleDarkMode();*/
-                if (mToggleDayNight.isChecked()) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    //mToggleDayNightText.setText("Switch to day mode");
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    //mToggleDayNightText.setText("Switch to night mode");
-                }
-                recreate();
+        mLogoutButton = findViewById(R.id.logout_button);
+        mToggleDayNight.setOnClickListener(v -> {
+
+            if (mToggleDayNight.isChecked()) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                //mToggleDayNightText.setText("Switch to day mode");
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                //mToggleDayNightText.setText("Switch to night mode");
             }
+            recreate();
+
         });
+
+        mLogoutButton.setOnClickListener(v -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("loggedInUser", "");
+            editor.apply();
+            finish();
+            Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
+
+
 
         // Add the BottomAppBarFragment to the layout
         BottomBarFragment bottomAppBarFragment = new BottomBarFragment();
@@ -119,9 +143,25 @@ public class AccountActivity extends AppCompatActivity {
         }
     }
 
+    protected void onResume() {
+        super.onResume();
+        fillAccountInfo();
+    }
+
     public void toggleDarkMode() {
         isDarkMode = !isDarkMode;
         recreate(); // Recreate the activity to apply the new theme
+    }
+
+    private void fillAccountInfo(){
+        SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
+        String userString = sharedPreferences.getString("loggedInUser", "");
+        Log.d(TAG, userString);
+        if (userString != ""){
+            User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
+            mUsernameTextView.setText(loggedInUser.getUserName());
+        }
+
     }
 
 }

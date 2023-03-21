@@ -18,98 +18,103 @@
         android:gravity="center">
 
 
-    <TextView
-        android:id="@+id/username_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UserName"
-        android:textColor="?attr/colorOnSecondary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"/>
-    <TextView
-        android:id="@+id/enrolled_faculty_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enrolled Faculty/School"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
         <TextView
-            android:id="@+id/faculty_text_view"
+            android:id="@+id/username_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No faculty/school selected"  />
+            android:text="UserName"
+            android:textColor="?attr/colorOnSecondary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log Out"/>
+        <TextView
+            android:id="@+id/enrolled_faculty_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enrolled Faculty/School"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/edit_faculty_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/edit_icon"
-            android:scaleType="fitCenter"
-            android:contentDescription="Edit Enrolled Faculty/School"
-            android:onClick="onEditFacultyButtonClick"
-            android:background="@null"/>
+            <TextView
+                android:id="@+id/faculty_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No faculty/school selected"  />
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/edit_faculty_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/edit_icon"
+                android:scaleType="fitCenter"
+                android:contentDescription="Edit Enrolled Faculty/School"
+                android:onClick="onEditFacultyButtonClick"
+                android:background="@null"/>
 
-    <!-- Spinner for selecting enrolled faculty/school -->
-    <Spinner
-        android:id="@+id/faculty_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:entries="@array/faculty_list" />
+        </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <!-- Spinner for selecting enrolled faculty/school -->
+        <Spinner
+            android:id="@+id/faculty_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:entries="@array/faculty_list" />
 
-             <androidx.fragment.app.FragmentContainerView
-                 android:id="@+id/search_results_fragment_container_view"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 tools:layout="@layout/fragment_search_result"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-         </ScrollView>
+                 <androidx.fragment.app.FragmentContainerView
+                     android:id="@+id/search_results_fragment_container_view"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     tools:layout="@layout/fragment_search_result"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+             </ScrollView>
 
-    <TextView
-        android:id="@+id/toggle_daynight_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toggle_button"
-        android:layout_centerHorizontal="true"
-        android:text="Switch to night mode"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
 
-    <ToggleButton
-        android:id="@+id/toggle_daynight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textOff="Day"
-        android:textOn="Night"
-        android:checked="false"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/toggle_daynight_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toggle_button"
+            android:layout_centerHorizontal="true"
+            android:text="Switch to night mode"/>
 
-    </LinearLayout>
+        <ToggleButton
+            android:id="@+id/toggle_daynight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="Day"
+            android:textOn="Night"
+            android:checked="false"
+            android:layout_marginTop="16dp"
+            android:layout_centerHorizontal="true"/>
 
-    <TextView
-        android:id="@+id/reviews_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Your reviews:"
-        />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/reviews_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your reviews:"
+            />
 
 
     </LinearLayout>
