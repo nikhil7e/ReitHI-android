@@ -34,15 +34,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
 dependencies {
-
-/*    implementation 'org.springframework.data:spring-data-jpa:2.6.1'*/
-/*    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'*/
+    // implementation "org.springframework.boot:spring-boot-starter-web:1.5.3.RELEASE"
+    // implementation 'org.springframework.data:spring-data-jpa:3.0.0'
+    // implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

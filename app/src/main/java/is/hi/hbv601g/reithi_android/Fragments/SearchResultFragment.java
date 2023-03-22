@@ -16,6 +16,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +27,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
+
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -38,6 +39,7 @@ import java.util.List;
 import is.hi.hbv601g.reithi_android.Activities.CourseActivity;
 import is.hi.hbv601g.reithi_android.Activities.ReviewPageActivity;
 import is.hi.hbv601g.reithi_android.Entities.Course;
+import is.hi.hbv601g.reithi_android.Entities.Page;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
 
@@ -64,7 +66,7 @@ public class SearchResultFragment extends Fragment {
         mSearchResults = view.findViewById(R.id.search_results);
         Type listType = new TypeToken<Page<Course>>() {}.getType();
         String results = requireArguments().getString("searchResult");
-        Page<Course> courseList = (Page<Course>) (Object) mParserService.parse(results, listType);
+        Page<Course> courseList = (Page<Course>) (Object) mParserService.parseObject(results, listType);
 
         Context context = getActivity();
         if (courseList.getTotalElements() == 0) {

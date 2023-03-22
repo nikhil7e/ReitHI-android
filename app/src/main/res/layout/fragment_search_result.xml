@@ -10,4 +10,21 @@
         android:orientation="vertical"
         android:layout_gravity="center_horizontal">
     </LinearLayout>
+
+    <LinearLayout android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+
+        <Button android:id="@+id/prevButton"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:text="Prev" />
+
+        <Button android:id="@+id/nextButton"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:text="Next" />
+
+    </LinearLayout>
 </LinearLayout>
