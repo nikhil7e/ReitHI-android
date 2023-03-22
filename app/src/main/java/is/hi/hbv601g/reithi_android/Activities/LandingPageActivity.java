@@ -104,14 +104,14 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
     private void performSearch() {
-        JSONObject jsonBody = new JSONObject();
+      /*  JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("name", mSearchBar.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        mCourseService.searchCoursesPOST(
+*/
+        mCourseService.searchCoursesGET(
                 new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {
@@ -137,7 +137,7 @@ public class LandingPageActivity extends AppCompatActivity {
                         }
                         Log.d("TAG","Fragment added");
                     }
-                }, jsonBody, "/searchcourses");
+                }, "/searchcourses/?name="+mSearchBar.getText().toString());
     }
 
 

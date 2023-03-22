@@ -87,13 +87,8 @@ public class CourseActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        JSONObject jsonBody = new JSONObject();
-        try {
-            jsonBody.put("name", mCourse.getName());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        mCourseService.searchCoursesPOST(new NetworkCallback<String>() {
+
+        mCourseService.searchCoursesGET(new NetworkCallback<String>() {
             @Override
             public void onFailure(String errorString) {
                 // Handle the error
@@ -107,7 +102,7 @@ public class CourseActivity extends AppCompatActivity {
                 Log.d(TAG, json);
                 loadData();
             }
-        }, jsonBody, "/searchcourses");
+        }, "/searchcourses"+mCourse.getName());
     }
 
     private void loadData(){

@@ -26,6 +26,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -60,11 +62,12 @@ public class SearchResultFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         mParserService = ParserService.getInstance();
         mSearchResults = view.findViewById(R.id.search_results);
-        Type listType = new TypeToken<List<Course>>() {}.getType();
+        Type listType = new TypeToken<Page<Course>>() {}.getType();
         String results = requireArguments().getString("searchResult");
-        List<Course> courseList = (List<Course>) (Object) mParserService.parse(results, listType);
+        Page<Course> courseList = (Page<Course>) (Object) mParserService.parse(results, listType);
+
         Context context = getActivity();
-        if (courseList.size() == 0) {
+        if (courseList.getTotalElements() == 0) {
             TextView noCourses = new TextView(context);
             noCourses.setText("No Courses Found!");
             mSearchResults.addView(noCourses);
@@ -74,7 +77,7 @@ public class SearchResultFragment extends Fragment {
         shape.setCornerRadii(new float[]{20, 20, 20, 20, 20, 20, 20, 20});
         shape.setColor(Color.rgb(60, 38, 204));
 
-        for (Course course : courseList) {
+        for (Course course : courseList.getContent()) {
 
             //creating a container for one search result
             LinearLayout searchResultLayout = new LinearLayout(context);

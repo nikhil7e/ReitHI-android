@@ -87,6 +87,7 @@ public class FilterFragment extends Fragment {
                 }
             }
             Log.d(TAG, filter.toString());
+
         });
     }
 

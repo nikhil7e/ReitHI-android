@@ -17,6 +17,7 @@ import java.util.List;
 
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.Review;
+import is.hi.hbv601g.reithi_android.Entities.User;
 import is.hi.hbv601g.reithi_android.Fragments.BottomBarFragment;
 import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
@@ -40,9 +41,9 @@ public class ReadReviewsActivity extends AppCompatActivity {
         Log.d(TAG, courseString);
 
         LinearLayout allReviews = findViewById(R.id.all_Reviews);
-        Type courseListType = new TypeToken<List<Course>>(){}.getType();
-        List<Course> courses = (List<Course>) (Object) mParserService.parse(courseString, courseListType);
-        Course course = courses.get(0);
+
+        Course course = (Course) mParserService.parseObject(courseString, Course.class);
+
 
         TextView mCourseNameTitle = findViewById(R.id.reviewCourseName);
         mCourseNameTitle.setText(course.getName());
@@ -52,9 +53,17 @@ public class ReadReviewsActivity extends AppCompatActivity {
         Log.d(TAG, "num reviews total "+course.getTotalReviews()); //rétt tala
         Log.d(TAG, "num reviews "+reviews.size()); //0 for some reason
         for (Review review:reviews) {
-            TextView textView = new TextView(this);
-            textView.setText(review.getComment());
-            allReviews.addView(textView);
+            LinearLayout ln = new LinearLayout(this);
+            //TextView user = new TextView(this);
+            //user.setText(review.getUser().getUserName());
+
+            TextView comment = new TextView(this);
+            comment.setText(review.getComment());
+
+
+            //ln.addView(user);
+            ln.addView(comment);
+            allReviews.addView(ln);
         }
 
         // Add the BottomAppBarFragment to the layout
