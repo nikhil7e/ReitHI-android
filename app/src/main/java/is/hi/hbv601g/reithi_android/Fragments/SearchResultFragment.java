@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import com.google.gson.Gson;
@@ -40,7 +42,9 @@ import is.hi.hbv601g.reithi_android.Activities.CourseActivity;
 import is.hi.hbv601g.reithi_android.Activities.ReviewPageActivity;
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.Page;
+import is.hi.hbv601g.reithi_android.NetworkCallback;
 import is.hi.hbv601g.reithi_android.R;
+import is.hi.hbv601g.reithi_android.Services.CourseService;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
 
 public class SearchResultFragment extends Fragment {
@@ -49,6 +53,19 @@ public class SearchResultFragment extends Fragment {
 
     private final String TAG = "SearchResultFragment";
     private LinearLayout mSearchResults;
+    
+    private Context mContext;
+
+    private Button mNextButton;
+    private Button mPreviousButton;
+
+    private CourseService mCourseService;
+
+    private String mSearchQuery;
+
+    private Page<Course> mCoursePage;
+    private int mCurrentPage;
+
 
     //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,43 +75,100 @@ public class SearchResultFragment extends Fragment {
 //    }
     public SearchResultFragment() {
         super(R.layout.fragment_search_result);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         mParserService = ParserService.getInstance();
         mSearchResults = view.findViewById(R.id.search_results);
+        mPreviousButton = view.findViewById(R.id.prevButton);
+        mNextButton = view.findViewById(R.id.nextButton);
+
+
         Type listType = new TypeToken<Page<Course>>() {}.getType();
         String results = requireArguments().getString("searchResult");
-        Page<Course> courseList = (Page<Course>) (Object) mParserService.parseObject(results, listType);
+        mSearchQuery = requireArguments().getString("searchQuery");
+        mCoursePage = (Page<Course>) (Object) mParserService.parseObject(results, listType);
 
-        Context context = getActivity();
-        if (courseList.getTotalElements() == 0) {
-            TextView noCourses = new TextView(context);
+        mContext = getActivity();
+        mCourseService = new CourseService(mContext);
+
+        if (mCoursePage.getTotalElements() == 0) {
+            TextView noCourses = new TextView(mContext);
             noCourses.setText("No Courses Found!");
             mSearchResults.addView(noCourses);
         }
+
+
+        mPreviousButton.setOnClickListener(v -> {
+            if (mCoursePage.getNumber() > 0) {
+                fetchCoursesForPage(mCoursePage.getNumber());
+            }
+            mNextButton.setVisibility(View.VISIBLE);
+        });
+        mNextButton.setOnClickListener(v -> {
+            if (mCoursePage.getNumber() < mCoursePage.getTotalPages() - 1) {
+                fetchCoursesForPage(mCoursePage.getNumber() + 2);
+            }
+            mPreviousButton.setVisibility(View.VISIBLE);
+        });
+        Log.d(TAG, results);
+        addCourseTextAndShapes(mCoursePage);
+    }
+
+
+    private void fetchCoursesForPage(int page){
+        mCourseService.searchCoursesGET(
+                new NetworkCallback<String>() {
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.e(TAG, errorString);
+                    }
+
+                    @Override
+                    public void onSuccess(String result) {
+                        Type listType = new TypeToken<Page<Course>>() {}.getType();
+                        mCoursePage = (Page<Course>) (Object) mParserService.parseObject(result, listType);
+                        addCourseTextAndShapes(mCoursePage);
+                        Log.d("TAG","went to page "+page);
+                    }
+                }, "/searchcourses/?name="+mSearchQuery+"&page="+page
+        );
+    }
+
+    
+    private void addCourseTextAndShapes(Page<Course> courseList){
+
+        if (mCoursePage.isFirst()){
+            mPreviousButton.setVisibility(View.INVISIBLE);
+        }
+        if (mCoursePage.isLast()){
+            mNextButton.setVisibility(View.INVISIBLE);
+        }
+
+        Log.d(TAG, "I make it here");
+        mSearchResults.removeAllViews();
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
         shape.setCornerRadii(new float[]{20, 20, 20, 20, 20, 20, 20, 20});
         shape.setColor(Color.rgb(60, 38, 204));
-
         for (Course course : courseList.getContent()) {
-
+            Log.d(TAG, course.getName());
             //creating a container for one search result
-            LinearLayout searchResultLayout = new LinearLayout(context);
+            LinearLayout searchResultLayout = new LinearLayout(mContext);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(16, 16, 16, 16);
             searchResultLayout.setLayoutParams(layoutParams);
 
             //create LinearLayout to display content vertically
-            LinearLayout verticalLayout = new LinearLayout(context);
+            LinearLayout verticalLayout = new LinearLayout(mContext);
             LinearLayout.LayoutParams verticalParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             verticalLayout.setLayoutParams(verticalParams);
             verticalLayout.setOrientation(LinearLayout.VERTICAL);
 
             //creating a TextView for the course number with styling
-            TextView courseNumberTextView = new TextView(context);
+            TextView courseNumberTextView = new TextView(mContext);
             courseNumberTextView.setText(course.getNumber());
             courseNumberTextView.setBackground(shape);
             courseNumberTextView.setPadding(12, 36, 12, 36);
@@ -102,57 +176,57 @@ public class SearchResultFragment extends Fragment {
             searchResultLayout.addView(courseNumberTextView);
 
             //creating a TextView for the course name
-            TextView nameTextView = new TextView(context);
+            TextView nameTextView = new TextView(mContext);
             nameTextView.setText(course.getName());
             verticalLayout.addView(nameTextView);
 
             //creating a TextView for the course credits with guard for empty field
             Double credits = course.getCredits();
             if (credits != null) {
-                TextView creditsTextView = new TextView(context);
+                TextView creditsTextView = new TextView(mContext);
                 creditsTextView.setText((credits).toString() + " credits");
                 verticalLayout.addView(creditsTextView);
             }
             //still needs guard for empty input
             String level = course.getLevel();
-            TextView levelTextView = new TextView(context);
+            TextView levelTextView = new TextView(mContext);
             levelTextView.setText(level);
             verticalLayout.addView(levelTextView);
 
             //create LinearLayout to display content horizontally
-            LinearLayout horizontalLayout = new LinearLayout(context);
+            LinearLayout horizontalLayout = new LinearLayout(mContext);
             LinearLayout.LayoutParams horizontalParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             horizontalLayout.setLayoutParams(horizontalParams);
             horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
 
             //create LinearLayout to display text next to ratings
-            LinearLayout textLayout = new LinearLayout(context);
+            LinearLayout textLayout = new LinearLayout(mContext);
             LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             textLayout.setLayoutParams(textParams);
             textLayout.setOrientation(LinearLayout.VERTICAL);
 
 
             //create LinearLayout for all ratings
-            LinearLayout allRatingsLayout = new LinearLayout(context);
+            LinearLayout allRatingsLayout = new LinearLayout(mContext);
             LinearLayout.LayoutParams allRatingsLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             allRatingsLayout.setLayoutParams(allRatingsLayoutParams);
             allRatingsLayout.setOrientation(LinearLayout.VERTICAL);
 
             Double[] ratings = {course.getTotalOverall(), course.getTotalDifficulty(), course.getTotalCourseMaterial(), course.getTotalWorkload(), course.getTotalTeachingQuality()};
-            String[] headings = {"Overall Score", "Difficulty","Material","Workload","Teaching Quality"};
+            String[] headings = {"Overall Score", "Difficulty", "Material", "Workload", "Teaching Quality"};
             for (int j = 0; j < 5; j++) {
-                TextView ratingTextView = new TextView(context);
+                TextView ratingTextView = new TextView(mContext);
                 ratingTextView.setText(headings[j]);
                 textLayout.addView(ratingTextView);
 
                 double overAllRating = ratings[j] / course.getTotalReviews();
-                LinearLayout ratingLayout = new LinearLayout(context);
+                LinearLayout ratingLayout = new LinearLayout(mContext);
                 LinearLayout.LayoutParams ratingParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 ratingLayout.setLayoutParams(ratingParams);
                 for (int i = 0; i < 5; i++) {
-                    Drawable full = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_full, context.getTheme());
-                    Drawable empty = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_empty, context.getTheme());
-                    ImageView circleView = new ImageView(context);
+                    Drawable full = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_full, mContext.getTheme());
+                    Drawable empty = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_empty, mContext.getTheme());
+                    ImageView circleView = new ImageView(mContext);
                     if (overAllRating > 0.75) {
                         overAllRating--;
                         circleView.setBackground(full);
@@ -170,10 +244,10 @@ public class SearchResultFragment extends Fragment {
                             50,
                             50//ViewGroup.LayoutParams.WRAP_CONTENT
                     );
-                    params.setMargins(4,0,4,0);
+                    params.setMargins(4, 0, 4, 0);
 
                     circleView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    circleView.setPadding(3,3,3,3);
+                    circleView.setPadding(3, 3, 3, 3);
                     circleView.setLayoutParams(params);
 
                     ratingLayout.addView(circleView);
@@ -190,17 +264,16 @@ public class SearchResultFragment extends Fragment {
             searchResultLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    List<Object> courseList = new ArrayList<>();
-//                    courseList.add(course);
-                    Intent intent = new Intent(context, CourseActivity.class);
+                    //                    List<Object> courseList = new ArrayList<>();
+                    //                    courseList.add(course);
+                    Intent intent = new Intent(mContext, CourseActivity.class);
                     intent.putExtra("course", mParserService.deParseObject(course));
-                    context.startActivity(intent);
+                    mContext.startActivity(intent);
                 }
             });
             //adding the search result to the fragment
             mSearchResults.addView(searchResultLayout);
         }
-
     }
 
 }

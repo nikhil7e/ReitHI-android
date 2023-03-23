@@ -121,23 +121,18 @@ public class LandingPageActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String result) {
                         mCourseSearchResults = result;
-                        androidx.fragment.app.FragmentManager fm = getSupportFragmentManager();
-                        Fragment fragment = fm.findFragmentById(R.id.search_results_fragment_container_view);
+                        SearchResultFragment searchResultFragment = new SearchResultFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("searchResult", result);
-                        if (fragment == null) {
-                            getSupportFragmentManager().beginTransaction()
-                                    .setReorderingAllowed(true)
-                                    .add(R.id.search_results_fragment_container_view, SearchResultFragment.class, bundle)
-                                    .commit();
-                        } else {
-                            fragment.getFragmentManager().beginTransaction().detach(fragment).commit();
-                            fragment.setArguments(bundle);
-                            fragment.getFragmentManager().beginTransaction().attach(fragment).commit();
-                        }
+                        bundle.putString("searchQuery", mSearchBar.getText().toString());
+                        searchResultFragment.setArguments(bundle);
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.add(R.id.search_results_fragment_container_view, searchResultFragment);
+                        transaction.commit();
                         Log.d("TAG","Fragment added");
                     }
-                }, "/searchcourses/?name="+mSearchBar.getText().toString());
+                }, "/searchcourses/?name="+mSearchBar.getText().toString()
+        );
     }
 
 
