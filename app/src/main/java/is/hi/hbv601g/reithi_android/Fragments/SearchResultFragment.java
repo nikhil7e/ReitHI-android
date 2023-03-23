@@ -34,11 +34,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import is.hi.hbv601g.reithi_android.Activities.CourseActivity;
+import is.hi.hbv601g.reithi_android.Activities.LandingPageActivity;
 import is.hi.hbv601g.reithi_android.Activities.ReviewPageActivity;
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.Page;
@@ -103,13 +106,13 @@ public class SearchResultFragment extends Fragment {
 
         mPreviousButton.setOnClickListener(v -> {
             if (mCoursePage.getNumber() > 0) {
-                fetchCoursesForPage(mCoursePage.getNumber());
+                fetchCoursesForPage(null, mCoursePage.getNumber());
             }
             mNextButton.setVisibility(View.VISIBLE);
         });
         mNextButton.setOnClickListener(v -> {
             if (mCoursePage.getNumber() < mCoursePage.getTotalPages() - 1) {
-                fetchCoursesForPage(mCoursePage.getNumber() + 2);
+                fetchCoursesForPage(null, mCoursePage.getNumber() + 2);
             }
             mPreviousButton.setVisibility(View.VISIBLE);
         });
@@ -123,16 +126,20 @@ public class SearchResultFragment extends Fragment {
         //todo láta þetta refresha results
     }
 
-    public void updateFromFilter(String filtered){
-        Type listType = new TypeToken<Page<Course>>() {}.getType();
-        Log.d(TAG, filtered);
-        mCoursePage = (Page<Course>) (Object) mParserService.parseObject(filtered, listType);
-        addCourseTextAndShapes(mCoursePage);
+    public void updateFromFilter(JSONObject filtered){
+        fetchCoursesForPage(filtered, 1);
     }
 
 
-    private void fetchCoursesForPage(int page){
-        mCourseService.searchCoursesGET(
+    private void fetchCoursesForPage(JSONObject filterJson, int page){
+
+        if (filterJson == null){
+            Log.d(TAG, "filterJSON was null");
+            LandingPageActivity activity = (LandingPageActivity) getActivity();
+            filterJson = activity.getFilter();
+        }
+        Log.d(TAG, "filterJSON was NOT NOT NOT null");
+        mCourseService.filterPOST(
                 new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {
@@ -146,7 +153,7 @@ public class SearchResultFragment extends Fragment {
                         addCourseTextAndShapes(mCoursePage);
                         Log.d("TAG","went to page "+page);
                     }
-                }, "/searchcourses/?name="+mSearchQuery+"&page="+page
+                },filterJson, "/filter/?name="+mSearchQuery+"&page="+page
         );
     }
 
@@ -162,6 +169,11 @@ public class SearchResultFragment extends Fragment {
 
         Log.d(TAG, "I make it here");
         mSearchResults.removeAllViews();
+        if (mCoursePage.getTotalElements() == 0) {
+            TextView noCourses = new TextView(mContext);
+            noCourses.setText("No Courses Found!");
+            mSearchResults.addView(noCourses);
+        }
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
         shape.setCornerRadii(new float[]{20, 20, 20, 20, 20, 20, 20, 20});

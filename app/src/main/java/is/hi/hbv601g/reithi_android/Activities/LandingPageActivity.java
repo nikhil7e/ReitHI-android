@@ -45,7 +45,8 @@ public class LandingPageActivity extends AppCompatActivity {
     private String mCourseSearchResults;
     private CourseService mCourseService;
 
-    private SearchResultFragment mSearchResultFragment;
+    private SearchResultFragment mSearchResultFragment = null;
+    private FilterFragment mFilterFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +65,9 @@ public class LandingPageActivity extends AppCompatActivity {
         transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
         transaction.commit();
 
-        FilterFragment filterFragment = new FilterFragment ();
+        mFilterFragment = new FilterFragment ();
         FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
-        transaction2.add(R.id.navigation_drawer, filterFragment);
+        transaction2.add(R.id.navigation_drawer, mFilterFragment);
         transaction2.commit();
 
 
@@ -113,7 +114,7 @@ public class LandingPageActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 */
-        mCourseService.searchCoursesGET(
+        mCourseService.filterPOST(
                 new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {
@@ -123,17 +124,21 @@ public class LandingPageActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String result) {
                         mCourseSearchResults = result;
-                        mSearchResultFragment = new SearchResultFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("searchResult", result);
-                        bundle.putString("searchQuery", mSearchBar.getText().toString());
-                        mSearchResultFragment.setArguments(bundle);
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.add(R.id.search_results_fragment_container_view, mSearchResultFragment);
-                        transaction.commit();
+                        if (mSearchResultFragment == null){
+                            mSearchResultFragment = new SearchResultFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("searchResult", result);
+                            bundle.putString("searchQuery", mSearchBar.getText().toString());
+                            mSearchResultFragment.setArguments(bundle);
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            transaction.add(R.id.search_results_fragment_container_view, mSearchResultFragment);
+                            transaction.commit();
+                        }else{
+                            mSearchResultFragment.updateFromFilter(getFilter());
+                        }
                         Log.d("TAG","Fragment added");
                     }
-                }, "/searchcourses/?name="+mSearchBar.getText().toString()
+                },getFilter(), "/filter/?name="+mSearchBar.getText().toString()
         );
     }
 
@@ -144,7 +149,12 @@ public class LandingPageActivity extends AppCompatActivity {
         return headers;
     }
 
-    public void forwardFilter(String filtered){
+    public void forwardFilter(JSONObject filtered){
         mSearchResultFragment.updateFromFilter(filtered);
+    }
+
+    public JSONObject getFilter(){
+        Log.d(TAG, "CALLED GET FILTER");
+        return mFilterFragment.getFilterObject();
     }
 }
