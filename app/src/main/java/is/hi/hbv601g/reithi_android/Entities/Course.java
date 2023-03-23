@@ -40,8 +40,8 @@ public class Course {
     private String mProfessor_Email;
     @SerializedName("professor_URL")
     private String mProfessor_URL;
-    @SerializedName("totalOverallScore")
-    private Integer mTotalOverallScore;
+/*    @SerializedName("totalOverallScore")
+    private Integer mTotalOverallScore;*/
     @SerializedName("reviews")
     private List<Review> mReviews = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class Course {
         mFaculty = faculty;
         mProfessor_Email = professor_Email;
         mProfessor_URL = professor_URL;
-        mTotalOverallScore = totalOverallScore;
+        //mTotalOverallScore = totalOverallScore;
         mReviews = reviews;
         mTotalOverall = totalOverall;
         mTotalDifficulty = totalDifficulty;
@@ -214,13 +214,13 @@ public class Course {
         mProfessor_URL = professor_URL;
     }
 
-    public Integer getTotalOverallScore() {
+/*    public Integer getTotalOverallScore() {
         return mTotalOverallScore;
     }
 
     public void setTotalOverallScore(Integer totalOverallScore) {
         mTotalOverallScore = totalOverallScore;
-    }
+    }*/
 
     public List<Review> getReviews() {
         return mReviews;

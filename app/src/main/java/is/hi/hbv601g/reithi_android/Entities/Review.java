@@ -72,7 +72,7 @@ public class Review {
     }
 
 
-    public int getUpvotes() {
+    public int upvoteCount() {
         return mUpvoters.size() - mDownvoters.size();
     }
 
@@ -80,9 +80,7 @@ public class Review {
         mUpvoters.add(user);
     }
 
-    public void addDownvote(User user) {
-        mDownvoters.add(user);
-    }
+    public void addDownvote(User user) {mDownvoters.add(user);}
 
     public List<User> getUpvoters() {
         return mUpvoters;

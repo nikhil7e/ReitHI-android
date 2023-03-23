@@ -17,8 +17,8 @@ public class FilterSearch {
     private Integer[] mOverallRange;
     @SerializedName("difficultyRange")
     private Integer[] mDifficultyRange;
-    @SerializedName("worloadRange")
-    private Integer[] mWorloadRange;
+    @SerializedName("workloadRange")
+    private Integer[] mWorkloadRange;
     @SerializedName("teachingQualityRange")
     private Integer[] mTeachingQualityRange;
     @SerializedName("courseMaterialRange")
@@ -78,11 +78,11 @@ public class FilterSearch {
     }
 
     public Integer[] getWorloadRange() {
-        return mWorloadRange;
+        return mWorkloadRange;
     }
 
     public void setWorloadRange(Integer[] worloadRange) {
-        mWorloadRange = worloadRange;
+        mWorkloadRange = worloadRange;
     }
 
     public Integer[] getTeachingQualityRange() {
@@ -110,7 +110,7 @@ public class FilterSearch {
                 ", mCreditsRange=" + Arrays.toString(mCreditsRange) +
                 ", mOverallRange=" + Arrays.toString(mOverallRange) +
                 ", mDifficultyRange=" + Arrays.toString(mDifficultyRange) +
-                ", mWorloadRange=" + Arrays.toString(mWorloadRange) +
+                ", mWorkloadRange=" + Arrays.toString(mWorkloadRange) +
                 ", mTeachingQualityRange=" + Arrays.toString(mTeachingQualityRange) +
                 ", mCourseMaterialRange=" + Arrays.toString(mCourseMaterialRange) +
                 '}';

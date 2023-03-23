@@ -45,6 +45,9 @@ public class LandingPageActivity extends AppCompatActivity {
     private String mCourseSearchResults;
     private CourseService mCourseService;
 
+    private SearchResultFragment mSearchResultFragment = null;
+    private FilterFragment mFilterFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,9 +65,9 @@ public class LandingPageActivity extends AppCompatActivity {
         transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
         transaction.commit();
 
-        FilterFragment filterFragment = new FilterFragment ();
+        mFilterFragment = new FilterFragment ();
         FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
-        transaction2.add(R.id.navigation_drawer, filterFragment);
+        transaction2.add(R.id.navigation_drawer, mFilterFragment);
         transaction2.commit();
 
 
@@ -104,14 +107,14 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
     private void performSearch() {
-        JSONObject jsonBody = new JSONObject();
+      /*  JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("name", mSearchBar.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        mCourseService.searchCoursesPOST(
+*/
+        mCourseService.filterPOST(
                 new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {
@@ -121,23 +124,22 @@ public class LandingPageActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String result) {
                         mCourseSearchResults = result;
-                        androidx.fragment.app.FragmentManager fm = getSupportFragmentManager();
-                        Fragment fragment = fm.findFragmentById(R.id.search_results_fragment_container_view);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("searchResult", result);
-                        if (fragment == null) {
-                            getSupportFragmentManager().beginTransaction()
-                                    .setReorderingAllowed(true)
-                                    .add(R.id.search_results_fragment_container_view, SearchResultFragment.class, bundle)
-                                    .commit();
-                        } else {
-                            fragment.getFragmentManager().beginTransaction().detach(fragment).commit();
-                            fragment.setArguments(bundle);
-                            fragment.getFragmentManager().beginTransaction().attach(fragment).commit();
+                        if (mSearchResultFragment == null){
+                            mSearchResultFragment = new SearchResultFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("searchResult", result);
+                            bundle.putString("searchQuery", mSearchBar.getText().toString());
+                            mSearchResultFragment.setArguments(bundle);
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            transaction.add(R.id.search_results_fragment_container_view, mSearchResultFragment);
+                            transaction.commit();
+                        }else{
+                            mSearchResultFragment.updateFromFilter(getFilter());
                         }
                         Log.d("TAG","Fragment added");
                     }
-                }, jsonBody, "/searchcourses");
+                },getFilter(), "/filter/?name="+mSearchBar.getText().toString()
+        );
     }
 
 
@@ -145,5 +147,14 @@ public class LandingPageActivity extends AppCompatActivity {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json; charset=utf-8");
         return headers;
+    }
+
+    public void forwardFilter(JSONObject filtered){
+        mSearchResultFragment.updateFromFilter(filtered);
+    }
+
+    public JSONObject getFilter(){
+        Log.d(TAG, "CALLED GET FILTER");
+        return mFilterFragment.getFilterObject();
     }
 }

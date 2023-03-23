@@ -26,7 +26,24 @@ public class CourseService {
         mParserService = ParserService.getInstance();
     }
 
-    public void searchCoursesPOST(final NetworkCallback<String> callback, JSONObject
+    public void searchCoursesGET(final NetworkCallback<String> callback, String requestURL) {
+        mNetworkManager.genericGET(
+                new NetworkCallback<String>() {
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.e(TAG, errorString);
+                        callback.onFailure(errorString);
+                    }
+
+                    @Override
+                    public void onSuccess(String json) {
+                        callback.onSuccess(json);
+                    }
+                }
+                , requestURL);
+    }
+
+    public void filterPOST(final NetworkCallback<String> callback, JSONObject
             params, String requestURL) {
         mNetworkManager.genericPOST(
                 new NetworkCallback<String>() {
@@ -43,4 +60,6 @@ public class CourseService {
                 }
                 , params, requestURL);
     }
+
+
 }
