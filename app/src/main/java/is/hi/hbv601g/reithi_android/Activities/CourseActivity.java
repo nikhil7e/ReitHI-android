@@ -45,6 +45,8 @@ public class CourseActivity extends AppCompatActivity {
     private String mCourseString;
     private TextView[] scoreTextviews;
 
+    private boolean coldStart;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,26 +85,36 @@ public class CourseActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
         transaction.commit();
+        coldStart = true;
     }
 
     protected void onResume() {
-        super.onResume();
 
-        mCourseService.searchCoursesGET(new NetworkCallback<String>() {
-            @Override
-            public void onFailure(String errorString) {
-                // Handle the error
-            }
-            @Override
-            public void onSuccess(String json) {
-                // Parse the response JSON and update the Course object
-                Type listType = new TypeToken<List<Course>>() {}.getType();
-                List<Course> courseList = (List<Course>) (Object) mParserService.parse(json, listType);
-                mCourse = courseList.get(0);
-                Log.d(TAG, json);
-                loadData();
-            }
-        }, "/searchcourses"+mCourse.getName());
+        super.onResume();
+        if (!coldStart) {
+            mCourseService.searchCoursesGET(new NetworkCallback<String>() {
+                @Override
+                public void onFailure(String errorString) {
+                    // Handle the error
+                }
+
+                @Override
+                public void onSuccess(String json) {
+                    // Parse the response JSON and update the Course object
+                    /*Type listType = new TypeToken<List<Course>>() {
+                    }.getType();*/
+                    mCourse = (Course) (Object) mParserService.parseObject(json, Course.class);
+
+                    Log.d(TAG, json);
+                    loadData();
+                }
+            }, "/getcoursebyid/?id=" + mCourse.getID());
+        }
+        else{
+            coldStart = false;
+            loadData();
+        }
+
     }
 
     private void loadData(){

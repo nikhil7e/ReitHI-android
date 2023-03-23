@@ -117,6 +117,19 @@ public class SearchResultFragment extends Fragment {
         addCourseTextAndShapes(mCoursePage);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //todo láta þetta refresha results
+    }
+
+    public void updateFromFilter(String filtered){
+        Type listType = new TypeToken<Page<Course>>() {}.getType();
+        Log.d(TAG, filtered);
+        mCoursePage = (Page<Course>) (Object) mParserService.parseObject(filtered, listType);
+        addCourseTextAndShapes(mCoursePage);
+    }
+
 
     private void fetchCoursesForPage(int page){
         mCourseService.searchCoursesGET(

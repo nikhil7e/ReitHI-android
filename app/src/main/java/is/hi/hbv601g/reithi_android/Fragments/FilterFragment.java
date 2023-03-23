@@ -8,22 +8,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.slider.RangeSlider;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
+import is.hi.hbv601g.reithi_android.Activities.LandingPageActivity;
 import is.hi.hbv601g.reithi_android.Activities.LoginActivity;
+import is.hi.hbv601g.reithi_android.Activities.ReviewPageActivity;
 import is.hi.hbv601g.reithi_android.Entities.FilterSearch;
+import is.hi.hbv601g.reithi_android.NetworkCallback;
 import is.hi.hbv601g.reithi_android.R;
+import is.hi.hbv601g.reithi_android.Services.CourseService;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
 
 public class FilterFragment extends Fragment {
 
     private ParserService mParserService;
+
+    private CourseService mCourseService;
 
     private final String TAG = "FilterFragment";
 
@@ -38,7 +48,7 @@ public class FilterFragment extends Fragment {
 
 
         mParserService = ParserService.getInstance();
-
+        mCourseService = new CourseService(getActivity());
         applyFilter = view.findViewById(R.id.applyFilterButton);
         applyFilter.setOnClickListener(v -> {
             Switch graduateSwitch = view.findViewById(R.id.graduateSwitch);
@@ -87,7 +97,29 @@ public class FilterFragment extends Fragment {
                 }
             }
             Log.d(TAG, filter.toString());
+            String filterString = mParserService.deParseObject(filter);
+            JSONObject jsonBody = new JSONObject();
+            try {
+                jsonBody.put("filter", filterString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            mCourseService.filterPOST(new NetworkCallback<String>() {
+                @Override
+                public void onFailure(String errorString) {
+                    Log.e(TAG, errorString);
+                }
 
+                @Override
+                public void onSuccess(String result) {
+                    Log.d(TAG, "Filter successfully created");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("filtered", result);
+
+                    LandingPageActivity activity = (LandingPageActivity) getActivity();
+                    activity.forwardFilter(result);
+                }
+            }, jsonBody, "/filter");
         });
     }
 

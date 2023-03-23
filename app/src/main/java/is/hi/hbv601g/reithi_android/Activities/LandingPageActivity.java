@@ -45,6 +45,8 @@ public class LandingPageActivity extends AppCompatActivity {
     private String mCourseSearchResults;
     private CourseService mCourseService;
 
+    private SearchResultFragment mSearchResultFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,13 +123,13 @@ public class LandingPageActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String result) {
                         mCourseSearchResults = result;
-                        SearchResultFragment searchResultFragment = new SearchResultFragment();
+                        mSearchResultFragment = new SearchResultFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("searchResult", result);
                         bundle.putString("searchQuery", mSearchBar.getText().toString());
-                        searchResultFragment.setArguments(bundle);
+                        mSearchResultFragment.setArguments(bundle);
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.add(R.id.search_results_fragment_container_view, searchResultFragment);
+                        transaction.add(R.id.search_results_fragment_container_view, mSearchResultFragment);
                         transaction.commit();
                         Log.d("TAG","Fragment added");
                     }
@@ -140,5 +142,9 @@ public class LandingPageActivity extends AppCompatActivity {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json; charset=utf-8");
         return headers;
+    }
+
+    public void forwardFilter(String filtered){
+        mSearchResultFragment.updateFromFilter(filtered);
     }
 }
