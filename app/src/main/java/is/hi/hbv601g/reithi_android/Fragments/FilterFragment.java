@@ -54,8 +54,6 @@ public class FilterFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-
-
         mParserService = ParserService.getInstance();
         mCourseService = new CourseService(getActivity());
         applyFilter = view.findViewById(R.id.applyFilterButton);
@@ -71,23 +69,6 @@ public class FilterFragment extends Fragment {
             JSONObject jsonBody = getFilterObject();
             LandingPageActivity activity = (LandingPageActivity) getActivity();
             activity.forwardFilter(jsonBody);
-            /*mCourseService.filterPOST(new NetworkCallback<String>() {
-
-                @Override
-                public void onFailure(String errorString) {
-                    Log.e(TAG, errorString);
-                }
-
-                @Override
-                public void onSuccess(String result) {
-                    Log.d(TAG, "Filter successfully created");
-                    Bundle bundle = new Bundle();
-                    bundle.putString("filtered", result);
-
-                    LandingPageActivity activity = (LandingPageActivity) getActivity();
-                    activity.forwardFilter(result);
-                }
-            }, jsonBody, "/filter");*/
         });
     }
 
@@ -137,6 +118,7 @@ public class FilterFragment extends Fragment {
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("filter", filterString);
+            Log.d(TAG, "THIS IS WHAT NIKKI NEEDS: " + jsonBody);
             return jsonBody;
         } catch (JSONException e) {
             e.printStackTrace();

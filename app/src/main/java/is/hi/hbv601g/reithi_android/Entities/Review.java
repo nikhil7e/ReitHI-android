@@ -34,6 +34,12 @@ public class Review {
     @SerializedName("comment")
     private String mComment;
 
+   /* private String mUserName;
+    private long mUserID;
+    private String mCourseName;
+    private long mCourseID;*/
+
+
     public Review() {
     }
 
@@ -49,6 +55,38 @@ public class Review {
         mCourseMaterial = courseMaterial;
         mComment = comment;
     }
+
+  /*  public String getUserName() {
+        return mUserName;
+    }
+
+    public void setUserName(String userName) {
+        mUserName = userName;
+    }
+
+    public long getUserID() {
+        return mUserID;
+    }
+
+    public void setUserID(long userID) {
+        mUserID = userID;
+    }
+
+    public String getCourseName() {
+        return mCourseName;
+    }
+
+    public void setCourseName(String courseName) {
+        mCourseName = courseName;
+    }
+
+    public long getCourseID() {
+        return mCourseID;
+    }
+
+    public void setCourseID(long courseID) {
+        mCourseID = courseID;
+    }*/
 
     public long getID() {
         return mID;

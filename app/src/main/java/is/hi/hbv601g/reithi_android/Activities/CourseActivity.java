@@ -103,6 +103,7 @@ public class CourseActivity extends AppCompatActivity {
                     // Parse the response JSON and update the Course object
                     /*Type listType = new TypeToken<List<Course>>() {
                     }.getType();*/
+                    mCourseString = json;
                     mCourse = (Course) (Object) mParserService.parseObject(json, Course.class);
 
                     Log.d(TAG, json);

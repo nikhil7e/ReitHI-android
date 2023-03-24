@@ -201,7 +201,7 @@ public class ReviewPageActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(String result) {
-                    Log.d(TAG, "Review added");
+                    Log.d(TAG, "Review added: " + result);
 
                     // Show popup message
                     Toast.makeText(ReviewPageActivity.this, "Review successfully added", Toast.LENGTH_SHORT).show();
