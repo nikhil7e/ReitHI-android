@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         mSignupButton = findViewById(R.id.signup_button);
         mSignupButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 200);
         });
 
         mLoginButton = findViewById(R.id.login_button);
@@ -139,6 +139,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         }, userBody, "/finduser");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200) {
+            if (resultCode == 200) {
+                finish();
+            }
+        }
     }
 
 }
