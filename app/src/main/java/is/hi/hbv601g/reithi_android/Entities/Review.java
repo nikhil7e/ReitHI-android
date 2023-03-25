@@ -38,6 +38,12 @@ public class Review {
     @SerializedName("course_id")
     private long mCourseID;
 
+    @SerializedName("user_name")
+    private String mUserName;
+    @SerializedName("course_name")
+    private String mCourseName;
+
+
 
     public Review() {
     }
@@ -55,6 +61,20 @@ public class Review {
         mComment = comment;
     }
 
+    public String getUserName() {
+        return mUserName;
+    }
+
+    public String getCourseName() {
+        return mCourseName;
+    }
+    public void setUserName(String userName) {
+        mUserName = userName;
+    }
+
+    public void setCourseName(String courseName) {
+        mCourseName = courseName;
+    }
 
     public long getUserID() {
         return mUserID;

@@ -57,98 +57,27 @@ public class ReadReviewsActivity extends AppCompatActivity {
         mReviewService = new ReviewService(this);
         mUserService = new UserService(this);
         mCourseService = new CourseService(this);
-        String courseString = getIntent().getExtras().getString("course");
-        Log.d(TAG, courseString);
-
-        LinearLayout allReviews = findViewById(R.id.all_Reviews);
-
-        Course course = (Course) mParserService.parseObject(courseString, Course.class);
-
-
-        TextView mCourseNameTitle = findViewById(R.id.reviewCourseName);
-        mCourseNameTitle.setText(course.getName());
-
-
-        List<Review> reviews = course.getReviews();
-        Log.d(TAG, "num reviews total "+course.getTotalReviews()); //rétt tala
-        Log.d(TAG, "num reviews "+reviews.size()); //0 for some reason
-        for (Review review:reviews) {
-            Log.d(TAG, review.toString());
-            LayoutInflater inflater = LayoutInflater.from(ReadReviewsActivity.this);
-            View reviewView = inflater.inflate(R.layout.review_layout, null);
-
-            mUserService.genericUserGET(
-                    new NetworkCallback<String>() {
-                @Override
-                public void onFailure(String errorString) {
-                    Log.e(TAG, errorString);
-                }
-
-                @Override
-                public void onSuccess(String result) {
-
-                    User reviewUser = (User) (Object) mParserService.parseObject(result, User.class);
-                    mCourseService.searchCoursesGET(
-                            new NetworkCallback<String>() {
-                                @Override
-                                public void onFailure(String errorString) {
-                                    Log.e(TAG, errorString);
-                                }
-
-                                @Override
-                                public void onSuccess(String result) {
-
-                                    Course reviewCourse = (Course) (Object) mParserService.parseObject(result, Course.class);
-                                    TextView title = reviewView.findViewById(R.id.review_title);
-                                    title.setText(reviewUser.getUserName());
-                                    /*User user = review.getUser();
-                                    Log.d(TAG, "Username is" + user.toString());*/
-                                    /*
-                                    title.setText(user.getUserName());*/
-                                    TextView comment = reviewView.findViewById(R.id.comment_text_view);
-                                    comment.setText(review.getComment());
-                                    ImageButton upvote = reviewView.findViewById(R.id.upvote_button);
-                                    ImageButton downvote = reviewView.findViewById(R.id.downvote_button);
-
-
-                                    upvote.setOnClickListener(v -> {
-                                        SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
-                                        String userString = sharedPreferences.getString("loggedInUser", "");
-                                        JSONObject jsonBody = new JSONObject();
-                                        if (userString != ""){
-                                            User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
-                                            try {
-                                                jsonBody.put("user", mParserService.deParseObject(loggedInUser));
-                                                jsonBody.put("review", mParserService.deParseObject(review));
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                            addUpvoteDownvote(jsonBody,"/upvote/");
-                                        }
-
-                                    });
-                                    downvote.setOnClickListener(v -> {
-                                        SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
-                                        String userString = sharedPreferences.getString("loggedInUser", "");
-                                        JSONObject jsonBody = new JSONObject();
-                                        if (userString != ""){
-                                            User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
-                                            try {
-                                                jsonBody.put("user", mParserService.deParseObject(loggedInUser));
-                                                jsonBody.put("review", mParserService.deParseObject(review));
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                            addUpvoteDownvote(jsonBody,"/downvote/");
-                                        }
-                                    });
-                                    allReviews.addView(reviewView);
-                                    Log.d("TAG","upvote/downvote added");
-                                }
-                            }, "/getcoursebyid/?id="+review.getCourseID());
-
-                }
-            }, "/getuserbyid/?id="+review.getUserID());
+        String context = getIntent().getExtras().getString("context");
+        Log.d(TAG, context);
+        if (context.equals("course")){
+            String courseString = getIntent().getExtras().getString(context);
+            Log.d(TAG, courseString);
+            Course course = (Course) mParserService.parseObject(courseString, Course.class);
+            TextView mCourseNameTitle = findViewById(R.id.reviewCourseName);
+            mCourseNameTitle.setText(course.getName());
+            List<Review> reviews = course.getReviews();
+            Log.d(TAG, "num reviews total "+course.getTotalReviews()); //rétt tala
+            Log.d(TAG, "num reviews "+reviews.size()); //0 for some reason
+            addReviews(reviews, context);
+        }
+        else{
+            String userString = getIntent().getExtras().getString(context);
+            Log.d(TAG, userString);
+            User user = (User) mParserService.parseObject(userString, User.class);
+            TextView mCourseNameTitle = findViewById(R.id.reviewCourseName);
+            mCourseNameTitle.setText(user.getUserName());
+            List<Review> reviews = user.getReviews();
+            addReviews(reviews, context);
         }
 
         // Add the BottomAppBarFragment to the layout
@@ -156,7 +85,62 @@ public class ReadReviewsActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
         transaction.commit();
+    }
 
+    private void addReviews(List<Review> reviews, String context){
+        LinearLayout allReviews = findViewById(R.id.all_Reviews);
+        for (Review review:reviews) {
+            Log.d(TAG, review.toString());
+            LayoutInflater inflater = LayoutInflater.from(ReadReviewsActivity.this);
+            View reviewView = inflater.inflate(R.layout.review_layout, null);
+
+            TextView comment = reviewView.findViewById(R.id.comment_text_view);
+            comment.setText(review.getComment());
+            ImageButton upvote = reviewView.findViewById(R.id.upvote_button);
+            ImageButton downvote = reviewView.findViewById(R.id.downvote_button);
+
+            TextView title = reviewView.findViewById(R.id.review_title);
+            if (context.equals("course")){
+                title.setText(review.getUserName());
+                upvote.setOnClickListener(v -> {
+                    SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
+                    String userString = sharedPreferences.getString("loggedInUser", "");
+                    JSONObject jsonBody = new JSONObject();
+                    if (!userString.equals("")){
+                        User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
+                        try {
+                            jsonBody.put("user", mParserService.deParseObject(loggedInUser));
+                            jsonBody.put("review", mParserService.deParseObject(review));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        addUpvoteDownvote(jsonBody,"/upvote/");
+                    }
+
+                });
+                downvote.setOnClickListener(v -> {
+                    SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
+                    String userString = sharedPreferences.getString("loggedInUser", "");
+                    JSONObject jsonBody = new JSONObject();
+                    if (!userString.equals("")){
+                        User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
+                        try {
+                            jsonBody.put("user", mParserService.deParseObject(loggedInUser));
+                            jsonBody.put("review", mParserService.deParseObject(review));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        addUpvoteDownvote(jsonBody,"/downvote/");
+                    }
+                });
+            }
+            else {
+                title.setText(review.getCourseName());
+                downvote.setVisibility(View.INVISIBLE);
+                upvote.setVisibility(View.INVISIBLE);
+            }
+            allReviews.addView(reviewView);
+        }
     }
 
     public void addUpvoteDownvote(JSONObject jsonBody,String requestUrl){

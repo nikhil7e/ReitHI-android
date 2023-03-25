@@ -51,6 +51,8 @@ public class AccountActivity extends AppCompatActivity {
     private ToggleButton mToggleDayNight;
     private TextView mToggleDayNightText;
 
+    private Button mReadReviewsButton;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class AccountActivity extends AppCompatActivity {
         mToggleDayNight = findViewById(R.id.toggle_daynight);
         mToggleDayNightText = findViewById(R.id.toggle_daynight_text);
         mLogoutButton = findViewById(R.id.logout_button);
+        mReadReviewsButton = findViewById(R.id.reviews_button);
         mToggleDayNight.setOnClickListener(v -> {
 
             if (mToggleDayNight.isChecked()) {
@@ -89,6 +92,17 @@ public class AccountActivity extends AppCompatActivity {
             }
             recreate();
 
+        });
+
+        mReadReviewsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AccountActivity.this, ReadReviewsActivity.class);
+            SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
+            String userString = sharedPreferences.getString("loggedInUser", "");
+            if (userString != ""){
+                intent.putExtra("user", userString);
+                intent.putExtra("context", "user");
+                startActivity(intent);
+            }
         });
 
         mLogoutButton.setOnClickListener(v -> {
