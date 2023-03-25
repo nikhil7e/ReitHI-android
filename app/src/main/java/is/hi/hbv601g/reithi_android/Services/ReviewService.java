@@ -43,5 +43,23 @@ public class ReviewService {
                 }
                 , params, requestURL);
     }
+
+    public void semiGenericPOST(final NetworkCallback<String> callback, JSONObject
+            params, String requestURL) {
+        mNetworkManager.genericPOST(
+                new NetworkCallback<String>() {
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.e(TAG, errorString);
+                        callback.onFailure(errorString);
+                    }
+
+                    @Override
+                    public void onSuccess(String json) {
+                        callback.onSuccess(json);
+                    }
+                }
+                ,params, requestURL);
+    }
 }
 

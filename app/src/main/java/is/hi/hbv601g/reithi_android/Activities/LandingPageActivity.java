@@ -124,6 +124,7 @@ public class LandingPageActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String result) {
                         mCourseSearchResults = result;
+                        Log.d(TAG, result);
                         if (mSearchResultFragment == null){
                             mSearchResultFragment = new SearchResultFragment();
                             Bundle bundle = new Bundle();
@@ -134,6 +135,7 @@ public class LandingPageActivity extends AppCompatActivity {
                             transaction.add(R.id.search_results_fragment_container_view, mSearchResultFragment);
                             transaction.commit();
                         }else{
+                            mSearchResultFragment.updateSearchQuery(mSearchBar.getText().toString());
                             mSearchResultFragment.updateFromFilter(getFilter());
                         }
                         Log.d("TAG","Fragment added");

@@ -52,7 +52,6 @@ public class CourseService {
                         Log.e(TAG, errorString);
                         callback.onFailure(errorString);
                     }
-
                     @Override
                     public void onSuccess(String json) {
                         callback.onSuccess(json);

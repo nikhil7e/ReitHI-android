@@ -55,4 +55,13 @@ public class User {
     public void setReviews(List<Review> reviews) {
         mReviews = reviews;
     }
+
+    public String toString() {
+        return "User{" +
+                "mID=" + mID +
+                ", mUserName='" + mUserName + '\'' +
+                ", mPassword='" + mPassword + '\'' +
+                ", mReviews=" + mReviews +
+                '}';
+    }
 }

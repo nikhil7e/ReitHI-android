@@ -33,6 +33,11 @@ public class Review {
     private int mCourseMaterial;
     @SerializedName("comment")
     private String mComment;
+    @SerializedName("user_id")
+    private long mUserID;
+    @SerializedName("course_id")
+    private long mCourseID;
+
 
     public Review() {
     }
@@ -48,6 +53,25 @@ public class Review {
         mTeachingQuality = teachingQuality;
         mCourseMaterial = courseMaterial;
         mComment = comment;
+    }
+
+
+    public long getUserID() {
+        return mUserID;
+    }
+
+    public void setUserID(long userID) {
+        mUserID = userID;
+    }
+
+
+
+    public long getCourseID() {
+        return mCourseID;
+    }
+
+    public void setCourseID(long courseID) {
+        mCourseID = courseID;
     }
 
     public long getID() {
@@ -144,5 +168,24 @@ public class Review {
 
     public void setComment(String comment) {
         mComment = comment;
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "mID=" + mID +
+                ", mUser=" + mUser +
+                ", mCourse=" + mCourse +
+                ", mUpvoters=" + mUpvoters +
+                ", mDownvoters=" + mDownvoters +
+                ", mOverallScore=" + mOverallScore +
+                ", mDifficulty=" + mDifficulty +
+                ", mWorkload=" + mWorkload +
+                ", mTeachingQuality=" + mTeachingQuality +
+                ", mCourseMaterial=" + mCourseMaterial +
+                ", mComment='" + mComment + '\'' +
+                ", mUserID=" + mUserID +
+                ", mCourseID=" + mCourseID +
+                '}';
     }
 }

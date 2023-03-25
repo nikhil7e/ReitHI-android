@@ -301,4 +301,7 @@ public class SearchResultFragment extends Fragment {
         }
     }
 
+    public void updateSearchQuery(String toString) {
+        mSearchQuery = toString;
+    }
 }

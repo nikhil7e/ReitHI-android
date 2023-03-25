@@ -39,4 +39,21 @@ public class UserService {
                 , params, requestURL);
     }
 
+    public void genericUserGET(final NetworkCallback<String> callback, String requestURL) {
+        mNetworkManager.genericGET(
+                new NetworkCallback<String>() {
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.e(TAG, errorString);
+                        callback.onFailure(errorString);
+                    }
+
+                    @Override
+                    public void onSuccess(String json) {
+                        callback.onSuccess(json);
+                    }
+                }
+                , requestURL);
+    }
+
 }
