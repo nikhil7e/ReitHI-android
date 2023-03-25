@@ -201,6 +201,7 @@ public class ReviewPageActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(String result) {
+
                     Log.d(TAG, "Review added: " + result);
 
                     // Show popup message
