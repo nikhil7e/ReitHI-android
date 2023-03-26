@@ -55,7 +55,7 @@ public class ReithiFirebaseMessagingService extends FirebaseMessagingService {
             String message = remoteMessage.getNotification().getBody();
 
             // Display the notification
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1234")
                     .setSmallIcon(R.drawable.user_icon)
                     .setContentTitle(title)
                     .setContentText(message)
@@ -72,7 +72,7 @@ public class ReithiFirebaseMessagingService extends FirebaseMessagingService {
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            notificationManager.notify(0, builder.build());
+            notificationManager.notify((int) System.currentTimeMillis(), builder.build());
         }
     }
 
