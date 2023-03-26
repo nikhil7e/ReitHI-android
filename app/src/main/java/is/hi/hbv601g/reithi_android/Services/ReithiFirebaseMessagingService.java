@@ -59,7 +59,7 @@ public class ReithiFirebaseMessagingService extends FirebaseMessagingService {
                     .setSmallIcon(R.drawable.user_icon)
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                    .setPriority(NotificationCompat.PRIORITY_MAX);
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {

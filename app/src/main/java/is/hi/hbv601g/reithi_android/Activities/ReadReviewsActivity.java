@@ -176,6 +176,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
                             jsonBody.put("user", mParserService.deParseObject(loggedInUser));
                             jsonBody.put("review", mParserService.deParseObject(review));
                             jsonBody.put("deviceToken", mParserService.deParseObject(review.getUserToken()));
+                            jsonBody.put("courseName", mParserService.deParseObject(review.getCourseName()));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -196,6 +197,8 @@ public class ReadReviewsActivity extends AppCompatActivity {
                         try {
                             jsonBody.put("user", mParserService.deParseObject(loggedInUser));
                             jsonBody.put("review", mParserService.deParseObject(review));
+                            jsonBody.put("deviceToken", mParserService.deParseObject(review.getUserToken()));
+                            jsonBody.put("courseName", mParserService.deParseObject(review.getCourseName()));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
