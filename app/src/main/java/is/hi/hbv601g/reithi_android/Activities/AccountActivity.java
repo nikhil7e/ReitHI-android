@@ -17,21 +17,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.util.List;
-
-import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.User;
 import is.hi.hbv601g.reithi_android.Fragments.BottomBarFragment;
 import is.hi.hbv601g.reithi_android.NetworkCallback;
 import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
+import is.hi.hbv601g.reithi_android.Services.UserService;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -52,27 +47,18 @@ public class AccountActivity extends AppCompatActivity {
     private TextView mToggleDayNightText;
 
     private Button mReadReviewsButton;
+    private UserService mUserService;
+    private User mLoggedInUser;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-/*        if (isDarkMode) {
-            setTheme(R.style.Theme_ReitHI_dark);
-
-        } else {
-            setTheme(R.style.Theme_ReitHI_android);
-        }*/
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your_account);
 
-
-
-
         mParserService = ParserService.getInstance();
-
-
+        mUserService = new UserService(this);
         mUsernameTextView = findViewById(R.id.username_text_view);
         mFacultyTextView = findViewById(R.id.faculty_text_view);
         mEditFacultyButton = findViewById(R.id.edit_faculty_button);
@@ -97,7 +83,7 @@ public class AccountActivity extends AppCompatActivity {
         mReadReviewsButton.setOnClickListener(v -> {
             Intent intent = new Intent(AccountActivity.this, ReadReviewsActivity.class);
             SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
-            String userString = sharedPreferences.getString("loggedInUser", "");
+            String userString = mParserService.deParseObject(mLoggedInUser);
             if (userString != ""){
                 intent.putExtra("user", userString);
                 intent.putExtra("context", "user");
@@ -114,8 +100,6 @@ public class AccountActivity extends AppCompatActivity {
             Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-
-
 
         // Add the BottomAppBarFragment to the layout
         BottomBarFragment bottomAppBarFragment = new BottomBarFragment();
@@ -172,10 +156,30 @@ public class AccountActivity extends AppCompatActivity {
         String userString = sharedPreferences.getString("loggedInUser", "");
         Log.d(TAG, userString);
         if (userString != ""){
-            User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
-            mUsernameTextView.setText(loggedInUser.getUserName());
+            User tempUser = (User) (Object) mParserService.parseObject(userString, User.class);
+            reloadUser(tempUser);
         }
+    }
 
+    private void reloadUser(User user){
+        JSONObject userBody = new JSONObject();
+        try {
+            userBody.put("username", user.getUserName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mUserService.genericUserPOST(new NetworkCallback<String>() {
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, errorString);
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                mLoggedInUser = (User) (Object) mParserService.parseObject(result, User.class);
+                mUsernameTextView.setText(mLoggedInUser.getUserName());
+            }
+        }, userBody, "/finduser");
     }
 
 }

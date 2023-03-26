@@ -46,6 +46,8 @@ public class Review {
 
 
     public Review() {
+        mUpvoters = new ArrayList<>();
+        mDownvoters = new ArrayList<>();
     }
 
     public Review(User user, Course course, int overallScore, int difficulty, int workload, int teachingQuality, int courseMaterial, String comment) {
@@ -117,6 +119,13 @@ public class Review {
 
 
     public int upvoteCount() {
+        if (mUpvoters == null && mDownvoters == null) {
+            return 0;
+        } else if (mUpvoters == null) {
+            return -mDownvoters.size();
+        } else if (mDownvoters == null) {
+            return mUpvoters.size();
+        }
         return mUpvoters.size() - mDownvoters.size();
     }
 

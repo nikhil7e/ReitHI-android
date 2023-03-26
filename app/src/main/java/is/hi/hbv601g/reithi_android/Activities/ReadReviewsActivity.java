@@ -1,17 +1,23 @@
 package is.hi.hbv601g.reithi_android.Activities;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -22,6 +28,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.function.Consumer;
 
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.Review;
@@ -87,22 +94,74 @@ public class ReadReviewsActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void addReviews(List<Review> reviews, String context){
         LinearLayout allReviews = findViewById(R.id.all_Reviews);
         for (Review review:reviews) {
             Log.d(TAG, review.toString());
             LayoutInflater inflater = LayoutInflater.from(ReadReviewsActivity.this);
             View reviewView = inflater.inflate(R.layout.review_layout, null);
-
+            updateUpvotesDownvotes(reviewView.findViewById(R.id.upvotes_downvotes_text), review.upvoteCount());
             TextView comment = reviewView.findViewById(R.id.comment_text_view);
             comment.setText(review.getComment());
             ImageButton upvote = reviewView.findViewById(R.id.upvote_button);
             ImageButton downvote = reviewView.findViewById(R.id.downvote_button);
+            ImageButton deleteButton= reviewView.findViewById(R.id.delete_review_button);
+            deleteButton.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        // Change button icon to pressed state
+                        deleteButton.setBackgroundResource(R.drawable.delete_icon_pressed);
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        // Change button icon to default state
+                        deleteButton.setBackgroundResource(R.drawable.delete_icon);
+
+                        // Show confirmation dialog
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ReadReviewsActivity.this);
+                        builder.setMessage("Are you sure you want to delete this review?")
+                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        JSONObject jsonBody = new JSONObject();
+                                        try {
+                                            jsonBody.put("review", mParserService.deParseObject(review));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        mCourseService.semiGenericPOST(new NetworkCallback<String>() {
+                                            @Override
+                                            public void onFailure(String errorString) {
+                                                Log.e(TAG, errorString);
+
+                                            }
+
+                                            @Override
+                                            public void onSuccess(String result) {
+                                                Log.d("TAG", "deleted review");
+                                                allReviews.removeView(reviewView);
+                                                Toast.makeText(ReadReviewsActivity.this, "Review successfully deleted", Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        }, jsonBody, "/deletereview/");
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // User cancelled the dialog
+                                    }
+                                });
+                        builder.create().show();
+                    }
+                    return true;
+                }
+            });
+
 
             TextView title = reviewView.findViewById(R.id.review_title);
             if (context.equals("course")){
                 title.setText(review.getUserName());
                 upvote.setOnClickListener(v -> {
+
                     SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
                     String userString = sharedPreferences.getString("loggedInUser", "");
                     JSONObject jsonBody = new JSONObject();
@@ -114,7 +173,11 @@ public class ReadReviewsActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        addUpvoteDownvote(jsonBody,"/upvote/");
+                        addUpvoteDownvote(jsonBody, "/upvote/", result -> {
+                            // Do something with the result
+                            updateUpvotesDownvotes(reviewView.findViewById(R.id.upvotes_downvotes_text), result);
+                            System.out.println("Result: " + result);
+                        });
                     }
 
                 });
@@ -130,7 +193,11 @@ public class ReadReviewsActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        addUpvoteDownvote(jsonBody,"/downvote/");
+                        addUpvoteDownvote(jsonBody, "/downvote/", result -> {
+                            // Do something with the result
+                            updateUpvotesDownvotes(reviewView.findViewById(R.id.upvotes_downvotes_text), result);
+                            System.out.println("Result: " + result);
+                        });
                     }
                 });
             }
@@ -143,21 +210,24 @@ public class ReadReviewsActivity extends AppCompatActivity {
         }
     }
 
-    public void addUpvoteDownvote(JSONObject jsonBody,String requestUrl){
-        mReviewService.semiGenericPOST(
-                new NetworkCallback<String>() {
-                    @Override
-                    public void onFailure(String errorString) {
-                        Log.e(TAG, errorString);
-                    }
+    private void updateUpvotesDownvotes(TextView textView, Integer count){
+        textView.setText(String.valueOf(count));
+    }
 
-                    @Override
-                    public void onSuccess(String result) {
+    public void addUpvoteDownvote(JSONObject jsonBody, String requestUrl, Consumer<Integer> callback) {
+        mReviewService.semiGenericPOST(new NetworkCallback<String>() {
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, errorString);
+                callback.accept(0);
+            }
 
-                        Log.d("TAG","upvote/downvote added");
-                    }
-                },jsonBody, requestUrl
-        );
+            @Override
+            public void onSuccess(String result) {
+                Log.d("TAG", "upvote/downvote added");
+                callback.accept(Integer.parseInt(result));
+            }
+        }, jsonBody, requestUrl);
     }
 
 }
