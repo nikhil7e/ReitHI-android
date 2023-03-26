@@ -37,10 +37,8 @@ import org.json.JSONObject;
 public class LandingPageActivity extends AppCompatActivity {
 
     private static final String TAG = "LandingPageActivity";
-    public static final String CHANNEL_ID = "channel_id";
-
+    public static final String CHANNEL_ID = "1234";
     private NetworkManager mNetworkManager;
-
     private EditText mSearchBar;
     private ImageButton mSearchButton;
     private Button mFilterButton;
@@ -58,7 +56,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the notification channel
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "My Channel Name", NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "channel_id", NotificationManager.IMPORTANCE_HIGH);
             channel.setDescription("My Channel Description");
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);

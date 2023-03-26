@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -228,14 +229,16 @@ public class ReadReviewsActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 Log.d("TAG", "upvote/downvote added");
                 if (!token.equals("")){
-                    FirebaseMessaging.getInstance().send(new RemoteMessage.Builder("281319629505@fcm.googleapis.com")
-                            .setMessageId(Integer.toString(1234))
+
+                    /*FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(token + "@fcm.googleapis.com")
+                            .setMessageId(System.currentTimeMillis() + token)
+                                    .addToken()
                             .addData("receiver_token", token)
                             .addData("title", "A user has voted for your comment on ReitHÍ!")
                             .addData("body", "Message")
                             .addData("message", "Notification!!!")
                             .setTtl(100)
-                            .build());
+                            .build());*/
                 }
                 callback.accept(Integer.parseInt(result));
 
