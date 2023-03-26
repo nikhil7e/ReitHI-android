@@ -39,6 +39,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private static final String TAG = "LandingPageActivity";
     public static final String CHANNEL_ID = "1234";
     private NetworkManager mNetworkManager;
+
     private EditText mSearchBar;
     private ImageButton mSearchButton;
     private Button mFilterButton;
