@@ -80,6 +80,9 @@ public class SignupActivity extends AppCompatActivity {
         try {
             User user = new User(mUsernameField.getText().toString(), mPasswordField.getText().toString());
             userBody.put("user", mParserService.deParseObject(user));
+
+            String deviceToken = mParserService.deParseObject(mSharedPreferences.getString("deviceToken", ""));
+            userBody.put("deviceToken",  deviceToken);
         } catch (JSONException e) {
             e.printStackTrace();
         }
