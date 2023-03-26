@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,9 @@ public class SearchResultFragment extends Fragment {
     private Page<Course> mCoursePage;
     private int mCurrentPage;
 
+    private boolean coldStart;
+
+
 
     //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class SearchResultFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        coldStart = true;
         mParserService = ParserService.getInstance();
         mSearchResults = view.findViewById(R.id.search_results);
         mPreviousButton = view.findViewById(R.id.prevButton);
@@ -110,7 +115,10 @@ public class SearchResultFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        fetchCoursesForPage(null, mCurrentPage);
+        if (!coldStart){
+            fetchCoursesForPage(null, mCurrentPage);
+        }
+        coldStart = false;
     }
 
     public void updateFromFilter(JSONObject filtered){
@@ -120,7 +128,9 @@ public class SearchResultFragment extends Fragment {
 
 
     private void fetchCoursesForPage(JSONObject filterJson, int page){
-
+        mSearchResults.removeAllViews();
+        ProgressBar progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleSmall);
+        mSearchResults.addView(progressBar);
         if (filterJson == null){
             Log.d(TAG, "filterJSON was null");
             LandingPageActivity activity = (LandingPageActivity) getActivity();

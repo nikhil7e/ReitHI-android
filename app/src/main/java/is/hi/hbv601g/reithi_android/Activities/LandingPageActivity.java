@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,7 +110,9 @@ public class LandingPageActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-*/
+*/      ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleSmall);
+        LinearLayout loadingView = findViewById(R.id.loadingview);
+        loadingView.addView(progressBar);
         mCourseService.semiGenericPOST(
                 new NetworkCallback<String>() {
                     @Override
@@ -133,9 +137,10 @@ public class LandingPageActivity extends AppCompatActivity {
                             mSearchResultFragment.updateSearchQuery(mSearchBar.getText().toString());
                             mSearchResultFragment.updateFromFilter(getFilter());
                         }
+                        loadingView.removeAllViews();
                         Log.d("TAG","Fragment added");
                     }
-                },getFilter(), "/filter/?name="+mSearchBar.getText().toString()
+                },getFilter(), "/filter/?name="+mSearchBar.getText().toString()+"&page=1"
         );
     }
 
