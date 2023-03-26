@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "281319629505",
+    "project_id": "reithi",
+    "storage_bucket": "reithi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281319629505:android:b60e5a74b1ccb3633f2a40",
+        "android_client_info": {
+          "package_name": "is.hi.hbv601g.reithi_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "281319629505-26kv8c0t6odshv74i5ej3dp5l55m1ge0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAANa5hjgjXfPjMhkLD_m4gSo01JX_l0Nw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "281319629505-26kv8c0t6odshv74i5ej3dp5l55m1ge0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

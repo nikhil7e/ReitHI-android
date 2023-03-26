@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.inputmethod.EditorInfo;
@@ -36,6 +39,8 @@ import org.json.JSONObject;
 public class LandingPageActivity extends AppCompatActivity {
 
     private static final String TAG = "LandingPageActivity";
+    public static final String CHANNEL_ID = "channel_id";
+
     private NetworkManager mNetworkManager;
 
     private EditText mSearchBar;
@@ -53,6 +58,13 @@ public class LandingPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the notification channel
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "My Channel Name", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("My Channel Description");
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
         mCourseService = new CourseService(this);
         mNetworkManager = NetworkManager.getInstance(this);

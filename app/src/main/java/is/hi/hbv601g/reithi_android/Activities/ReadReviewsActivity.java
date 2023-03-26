@@ -13,15 +13,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.Review;
@@ -115,7 +120,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
                                         SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
                                         String userString = sharedPreferences.getString("loggedInUser", "");
                                         JSONObject jsonBody = new JSONObject();
-                                        if (userString != ""){
+                                        if (!userString.equals("")){
                                             User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
                                             try {
                                                 jsonBody.put("user", mParserService.deParseObject(loggedInUser));
@@ -123,7 +128,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
-                                            addUpvoteDownvote(jsonBody,"/upvote/");
+                                            addUpvoteDownvote(jsonBody,"/upvote/", reviewUser.getDeviceToken());
                                         }
 
                                     });
@@ -131,7 +136,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
                                         SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
                                         String userString = sharedPreferences.getString("loggedInUser", "");
                                         JSONObject jsonBody = new JSONObject();
-                                        if (userString != ""){
+                                        if (!userString.equals("")){
                                             User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
                                             try {
                                                 jsonBody.put("user", mParserService.deParseObject(loggedInUser));
@@ -139,7 +144,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
-                                            addUpvoteDownvote(jsonBody,"/downvote/");
+                                            addUpvoteDownvote(jsonBody,"/downvote/", reviewUser.getDeviceToken());
                                         }
                                     });
                                     allReviews.addView(reviewView);
@@ -159,7 +164,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
 
     }
 
-    public void addUpvoteDownvote(JSONObject jsonBody,String requestUrl){
+    public void addUpvoteDownvote(JSONObject jsonBody,String requestUrl, String token){
         mReviewService.semiGenericPOST(
                 new NetworkCallback<String>() {
                     @Override
@@ -169,6 +174,29 @@ public class ReadReviewsActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(String result) {
+                        Map<String, String> data = new HashMap<>();
+
+//                        FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(token)
+//                                .setMessageId(Integer.toString(1234))
+//                                .setData(data)
+//                                .setNotification(new NotificationCompat.Builder(getApplicationContext(), "channel_id")
+//                                        .setSmallIcon(R.drawable.user_icon)
+//                                        .setContentTitle("A user has voted for your comment on ReitHÍ!")
+//                                        .setContentText("Message")
+//                                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                                        .build())
+//                                .build());
+
+                        FirebaseMessaging.getInstance().send(new RemoteMessage.Builder("281319629505@fcm.googleapis.com")
+                                .setMessageId(Integer.toString(1234))
+                                .addData("receiver_token", token)
+                                .addData("title", "A user has voted for your comment on ReitHÍ!")
+                                .addData("body", "Message")
+                                .addData("message", "Notification!!!")
+                                .setTtl(100)
+                                .build());
+
 
                         Log.d("TAG","upvote/downvote added");
                     }

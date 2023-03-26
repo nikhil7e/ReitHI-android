@@ -13,6 +13,8 @@ public class User {
     private String mPassword;
     @SerializedName("reviews")
     private List<Review> mReviews = new ArrayList<>();
+    @SerializedName("deviceToken")
+    private String mDeviceToken;
 
 
     public User() {
@@ -27,6 +29,21 @@ public class User {
         mID = ID;
         mUserName = userName;
         mPassword = password;
+    }
+
+    public User(long ID, String userName, String password, String deviceToken) {
+        mID = ID;
+        mUserName = userName;
+        mPassword = password;
+        mDeviceToken = deviceToken;
+    }
+
+    public String getDeviceToken() {
+        return mDeviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        mDeviceToken = deviceToken;
     }
 
     public long getID() {
