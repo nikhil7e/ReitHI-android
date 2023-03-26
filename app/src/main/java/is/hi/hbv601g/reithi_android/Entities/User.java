@@ -18,6 +18,11 @@ public class User {
     public User() {
     }
 
+    public User(String userName, String password) {
+        mUserName = userName;
+        mPassword = password;
+    }
+
     public User(long ID, String userName, String password) {
         mID = ID;
         mUserName = userName;
