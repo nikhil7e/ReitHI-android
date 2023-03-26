@@ -24,7 +24,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentTransaction;
-import com.google.firebase.messaging.Message;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
@@ -176,6 +175,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
                         try {
                             jsonBody.put("user", mParserService.deParseObject(loggedInUser));
                             jsonBody.put("review", mParserService.deParseObject(review));
+                            jsonBody.put("deviceToken", mParserService.deParseObject(review.getUserToken()));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -231,84 +231,11 @@ public class ReadReviewsActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 Log.d("TAG", "upvote/downvote added");
                 if (!token.equals("")) {
-//                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "1234")
-//                            .setSmallIcon(R.drawable.user_icon)
-//                            .setContentTitle("Test")
-//                            .setContentText("testes")
-//                            .setPriority(NotificationCompat.PRIORITY_MAX);
-//
-//                    // 281319629505
-//                    RemoteMessage message = new RemoteMessage.Builder(token + "@fcm.googleapis.com")
-//                            .setMessageId(System.currentTimeMillis() + token)
-//                            .addData("title", "test")
-//                            .addData("receiver_token", token)
-//                            .addData("body", "test")
-//                            .addData("channel_id", "1234")
-//                            .build();
-//
-//                    FirebaseMessaging.getInstance().send(message);
-
-
-//                    FirebaseMessaging.getInstance().send(
-//                            new RemoteMessage.Builder("281319629505@fcm.googleapis.com")
-//                                    .setMessageId(System.currentTimeMillis() + token)
-//                                    .addData("key", "value")
-//                                    .
-//                                    .build());
-
-                    // See documentation on defining a message payload.
-                    Message message = Message. . Builder()
-                            .putData("score", "850")
-                            .putData("time", "2:45")
-                            .setTopic(topic)
-                            .build();
-
-// Send a message to the devices subscribed to the provided topic.
-                    String response = FirebaseMessaging.getInstance().send(message);
-
-
-//                    FirebaseMessaging.getInstance().send(new RemoteMessage.Builder("281319629505@fcm.googleapis.com")
-//                            .setMessageId(Long.toString(System.currentTimeMillis()) + token)
-//                            .addData("receiver_token", token)
-//                            .addData("title", "A user has voted for your comment on ReitHÍ!")
-//                            .addData("body", "Message")
-//                            .addData("message", "Notification!!!")
-//                            .setTtl(0)
-//                            .build());
-//
-//                    FirebaseMessaging.getInstance().send(new RemoteMessage.Builder("281319629505@fcm.googleapis.com")
-//                            .setMessageId(Long.toString(System.currentTimeMillis()) + token)
-//                            .addData("receiver_token", token)
-//                            .addData("title", "A user has voted for your comment on ReitHÍ!")
-//                            .addData("body", "Message")
-//                            .addData("message", "Notification!!!")
-//                            .setTtl(0)
-//                            .build());
                 }
                 callback.accept(Integer.parseInt(result));
 
             }
         }, jsonBody, requestUrl);
-    }
-
-    public void sendToToken() throws Exception{
-        // [START send_to_token]
-        // This registration token comes from the client FCM SDKs.
-        String registrationToken = "YOUR_REGISTRATION_TOKEN";
-
-        // See documentation on defining a message payload.
-        Message message = Message.builder()
-                .putData("score", "850")
-                .putData("time", "2:45")
-                .setToken(registrationToken)
-                .build();
-
-        // Send a message to the device corresponding to the provided
-        // registration token.
-        String response = FirebaseMessaging.getInstance().send(message);
-        // Response is a message ID string.
-        System.out.println("Successfully sent message: " + response);
-        // [END send_to_token]
     }
 
 }
