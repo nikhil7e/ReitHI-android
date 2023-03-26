@@ -2,7 +2,6 @@ package is.hi.hbv601g.reithi_android.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,11 +9,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +27,8 @@ import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.CourseService;
 
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 //test push Eddi
@@ -125,8 +123,10 @@ public class LandingPageActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-*/
-        mCourseService.filterPOST(
+*/      ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleSmall);
+        LinearLayout loadingView = findViewById(R.id.loadingview);
+        loadingView.addView(progressBar);
+        mCourseService.semiGenericPOST(
                 new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {
@@ -150,9 +150,10 @@ public class LandingPageActivity extends AppCompatActivity {
                             mSearchResultFragment.updateSearchQuery(mSearchBar.getText().toString());
                             mSearchResultFragment.updateFromFilter(getFilter());
                         }
+                        loadingView.removeAllViews();
                         Log.d("TAG","Fragment added");
                     }
-                },getFilter(), "/filter/?name="+mSearchBar.getText().toString()
+                },getFilter(), "/filter/?name="+mSearchBar.getText().toString()+"&page=1"
         );
     }
 

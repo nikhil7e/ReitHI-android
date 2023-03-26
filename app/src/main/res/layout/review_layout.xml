@@ -13,7 +13,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/delete_review_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/delete_icon"
 
+                android:background="@null" />
             <TextView
                 android:id="@+id/review_title"
                 android:layout_width="wrap_content"

@@ -101,13 +101,18 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(String userString) {
-                Log.d(TAG, "Signup Successful with user " + userString);
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                editor.putString("loggedInUser", userString);
-                editor.apply();
-                Toast.makeText(SignupActivity.this, "Successfully signed up as " + mUsernameField.getText(), Toast.LENGTH_SHORT).show();
-                setResult(200);
-                finish();
+                if (!userString.equals("")){
+                    Log.d(TAG, "Signup Successful with user " + userString);
+                    SharedPreferences.Editor editor = mSharedPreferences.edit();
+                    editor.putString("loggedInUser", userString);
+                    editor.apply();
+                    Toast.makeText(SignupActivity.this, "Successfully signed up as " + mUsernameField.getText(), Toast.LENGTH_SHORT).show();
+                    setResult(200);
+                    finish();
+                }else{
+                    Toast.makeText(SignupActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                }
+
             }
         }, userBody, "/signup");
     }

@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         mSignupButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
             startActivityForResult(intent, 200);
+            finish();
         });
 
         mLoginButton = findViewById(R.id.login_button);
@@ -103,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                 User user = userList.get(0);*/
 
                 User user = (User) (Object) mParserService.parseObject(result, User.class);
-                Log.d(TAG, "input password: '" + mPasswordInput.getText() + "' correct password: '" + user.getPassword() + "'");
+                // Log.d(TAG, "input password: '" + mPasswordInput.getText() + "' correct password: '" + user.getPassword() + "'");
                 if (user.getPassword().equals(mPasswordInput.getText().toString())){
                     Log.d(TAG, "result er " + result);
                     String userJson = mParserService.deParseObject(user);

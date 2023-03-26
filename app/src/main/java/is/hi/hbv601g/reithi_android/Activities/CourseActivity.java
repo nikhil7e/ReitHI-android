@@ -77,6 +77,7 @@ public class CourseActivity extends AppCompatActivity {
         mReadReviewsButton.setOnClickListener(v -> {
             Intent intent = new Intent(CourseActivity.this, ReadReviewsActivity.class);
             intent.putExtra("course", mCourseString);
+            intent.putExtra("context", "course");
             startActivity(intent);
         });
 

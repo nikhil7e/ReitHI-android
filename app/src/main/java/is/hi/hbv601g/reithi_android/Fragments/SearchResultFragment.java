@@ -3,18 +3,10 @@ package is.hi.hbv601g.reithi_android.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,26 +15,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 import is.hi.hbv601g.reithi_android.Activities.CourseActivity;
 import is.hi.hbv601g.reithi_android.Activities.LandingPageActivity;
-import is.hi.hbv601g.reithi_android.Activities.ReviewPageActivity;
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Entities.Page;
 import is.hi.hbv601g.reithi_android.NetworkCallback;
@@ -69,6 +57,9 @@ public class SearchResultFragment extends Fragment {
     private Page<Course> mCoursePage;
     private int mCurrentPage;
 
+    private boolean coldStart;
+
+
 
     //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,6 +74,7 @@ public class SearchResultFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        coldStart = true;
         mParserService = ParserService.getInstance();
         mSearchResults = view.findViewById(R.id.search_results);
         mPreviousButton = view.findViewById(R.id.prevButton);
@@ -123,23 +115,30 @@ public class SearchResultFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //todo láta þetta refresha results
+        if (!coldStart){
+            fetchCoursesForPage(null, mCurrentPage);
+        }
+        coldStart = false;
     }
 
     public void updateFromFilter(JSONObject filtered){
         fetchCoursesForPage(filtered, 1);
+        mCurrentPage = 1;
     }
 
 
     private void fetchCoursesForPage(JSONObject filterJson, int page){
-
+        mSearchResults.removeAllViews();
+        ProgressBar progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleSmall);
+        mSearchResults.addView(progressBar);
         if (filterJson == null){
             Log.d(TAG, "filterJSON was null");
             LandingPageActivity activity = (LandingPageActivity) getActivity();
             filterJson = activity.getFilter();
         }
+        mCurrentPage = page + 1;
         Log.d(TAG, "filterJSON was NOT NOT NOT null");
-        mCourseService.filterPOST(
+        mCourseService.semiGenericPOST(
                 new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {
@@ -303,5 +302,6 @@ public class SearchResultFragment extends Fragment {
 
     public void updateSearchQuery(String toString) {
         mSearchQuery = toString;
+        mCurrentPage = 1;
     }
 }

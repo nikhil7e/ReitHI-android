@@ -20,13 +20,14 @@ android {
             excludes += 'META-INF/spring.factories'*//*
         }
     }*/
+
     defaultConfig {
         applicationId "is.hi.hbv601g.reithi_android"
         minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

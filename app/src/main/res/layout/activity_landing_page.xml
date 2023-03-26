@@ -49,7 +49,15 @@
             android:layout_weight="0"
             android:text="Filter search results" />
     -->
+    <LinearLayout
+        android:id="@+id/loadingview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+    </LinearLayout>
     <ScrollView
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
@@ -65,9 +73,8 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:background="@color/white"
          >
 
             <androidx.fragment.app.FragmentContainerView
