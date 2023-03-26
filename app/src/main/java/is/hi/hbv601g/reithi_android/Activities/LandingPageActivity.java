@@ -2,12 +2,9 @@ package is.hi.hbv601g.reithi_android.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,10 +21,8 @@ import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.CourseService;
 
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 //test push Eddi
@@ -114,7 +109,7 @@ public class LandingPageActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 */
-        mCourseService.filterPOST(
+        mCourseService.semiGenericPOST(
                 new NetworkCallback<String>() {
                     @Override
                     public void onFailure(String errorString) {

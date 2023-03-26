@@ -38,8 +38,16 @@ public class Review {
     @SerializedName("course_id")
     private long mCourseID;
 
+    @SerializedName("user_name")
+    private String mUserName;
+    @SerializedName("course_name")
+    private String mCourseName;
+
+
 
     public Review() {
+        mUpvoters = new ArrayList<>();
+        mDownvoters = new ArrayList<>();
     }
 
     public Review(User user, Course course, int overallScore, int difficulty, int workload, int teachingQuality, int courseMaterial, String comment) {
@@ -55,6 +63,20 @@ public class Review {
         mComment = comment;
     }
 
+    public String getUserName() {
+        return mUserName;
+    }
+
+    public String getCourseName() {
+        return mCourseName;
+    }
+    public void setUserName(String userName) {
+        mUserName = userName;
+    }
+
+    public void setCourseName(String courseName) {
+        mCourseName = courseName;
+    }
 
     public long getUserID() {
         return mUserID;
@@ -97,6 +119,13 @@ public class Review {
 
 
     public int upvoteCount() {
+        if (mUpvoters == null && mDownvoters == null) {
+            return 0;
+        } else if (mUpvoters == null) {
+            return -mDownvoters.size();
+        } else if (mDownvoters == null) {
+            return mUpvoters.size();
+        }
         return mUpvoters.size() - mDownvoters.size();
     }
 

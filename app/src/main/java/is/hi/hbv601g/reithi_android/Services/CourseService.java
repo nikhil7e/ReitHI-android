@@ -7,11 +7,6 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Map;
-
-import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.NetworkCallback;
 import is.hi.hbv601g.reithi_android.NetworkManager;
 
@@ -43,7 +38,7 @@ public class CourseService {
                 , requestURL);
     }
 
-    public void filterPOST(final NetworkCallback<String> callback, JSONObject
+    public void semiGenericPOST(final NetworkCallback<String> callback, JSONObject
             params, String requestURL) {
         mNetworkManager.genericPOST(
                 new NetworkCallback<String>() {
@@ -59,6 +54,8 @@ public class CourseService {
                 }
                 , params, requestURL);
     }
+
+
 
 
 }
