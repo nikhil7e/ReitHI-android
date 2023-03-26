@@ -157,6 +157,7 @@ public class AccountActivity extends AppCompatActivity {
         Log.d(TAG, userString);
         if (userString != ""){
             User tempUser = (User) (Object) mParserService.parseObject(userString, User.class);
+            mUsernameTextView.setText(tempUser.getUserName());
             reloadUser(tempUser);
         }
     }
@@ -177,7 +178,6 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 mLoggedInUser = (User) (Object) mParserService.parseObject(result, User.class);
-                mUsernameTextView.setText(mLoggedInUser.getUserName());
             }
         }, userBody, "/finduser");
     }
