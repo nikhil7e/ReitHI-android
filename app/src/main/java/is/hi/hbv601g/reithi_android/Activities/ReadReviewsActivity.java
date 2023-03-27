@@ -3,19 +3,26 @@ package is.hi.hbv601g.reithi_android.Activities;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONException;
@@ -50,7 +57,11 @@ public class ReadReviewsActivity extends AppCompatActivity {
 
     private SharedPreferences mSharedPreferences;
 
+    private User mLoggedInUser;
+
     private String mContext;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +88,10 @@ public class ReadReviewsActivity extends AppCompatActivity {
         super.onResume();
         if (mContext.equals("course")) {
             String courseString = getIntent().getExtras().getString(mContext);
+            String userString = mSharedPreferences.getString("loggedInUser", "");
+            if (!userString.equals("")){
+                mLoggedInUser = (User) mParserService.parseObject(userString, User.class);
+            }
             Log.d(TAG, courseString);
             Course course = (Course) mParserService.parseObject(courseString, Course.class);
             TextView mCourseNameTitle = findViewById(R.id.reviewCourseName);
@@ -88,10 +103,13 @@ public class ReadReviewsActivity extends AppCompatActivity {
         } else {
             String userString = getIntent().getExtras().getString(mContext);
             Log.d(TAG, userString);
-            User user = (User) mParserService.parseObject(userString, User.class);
+            if (userString.equals("null")){
+                userString = mSharedPreferences.getString("loggedInUser", "");
+            }
+            mLoggedInUser = (User) mParserService.parseObject(userString, User.class);
             TextView mCourseNameTitle = findViewById(R.id.reviewCourseName);
-            mCourseNameTitle.setText(user.getUserName());
-            List<Review> reviews = user.getReviews();
+            mCourseNameTitle.setText(mLoggedInUser.getUserName());
+            List<Review> reviews = mLoggedInUser.getReviews();
             addReviews(reviews, mContext);
         }
     }
@@ -99,16 +117,36 @@ public class ReadReviewsActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     private void addReviews(List<Review> reviews, String context) {
         LinearLayout allReviews = findViewById(R.id.all_Reviews);
+        Drawable upvoteFilled = ResourcesCompat.getDrawable(getResources(), R.drawable.upvote_icon_filled, getTheme());
+        Drawable upvoteEmpty = ResourcesCompat.getDrawable(getResources(), R.drawable.upvote_icon, getTheme());
+        Drawable downvoteFilled = ResourcesCompat.getDrawable(getResources(), R.drawable.downvote_icon_filled, getTheme());
+        Drawable downvoteEmpty = ResourcesCompat.getDrawable(getResources(), R.drawable.downvote_icon, getTheme());
+
         for (Review review : reviews) {
             Log.d(TAG, review.toString());
             LayoutInflater inflater = LayoutInflater.from(ReadReviewsActivity.this);
             View reviewView = inflater.inflate(R.layout.review_layout, null);
+
             updateUpvotesDownvotes(reviewView.findViewById(R.id.upvotes_downvotes_text), Integer.parseInt(review.getUpvotes()));
             TextView comment = reviewView.findViewById(R.id.comment_text_view);
             comment.setText(review.getComment());
             ImageButton upvote = reviewView.findViewById(R.id.upvote_button);
             ImageButton downvote = reviewView.findViewById(R.id.downvote_button);
             ImageButton deleteButton = reviewView.findViewById(R.id.delete_review_button);
+            addRatings(review, reviewView);
+            for (String userId: review.getUpvoterIds()) {
+                if (String.valueOf(mLoggedInUser.getID()).equals(userId)){
+                    upvote.setImageDrawable(upvoteFilled);
+                }
+            }
+            for (String userId: review.getDownvoterIds()) {
+                if (String.valueOf(mLoggedInUser.getID()).equals(userId)){
+                    downvote.setImageDrawable(downvoteFilled);
+                }
+            }
+            if (mLoggedInUser.getID() != review.getUserID()){
+                deleteButton.setVisibility(View.INVISIBLE);
+            }
             deleteButton.setOnTouchListener((v, event) -> {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     // Change button icon to pressed state
@@ -154,15 +192,18 @@ public class ReadReviewsActivity extends AppCompatActivity {
                 }
                 return true;
             });
-
-
             TextView title = reviewView.findViewById(R.id.review_title);
-
             String userGuard = mSharedPreferences.getString("loggedInUser", "");
             if (context.equals("course") && !userGuard.equals("")) {
                 title.setText(review.getUserName());
                 upvote.setOnTouchListener((v, event) -> {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Drawable currentDrawable = upvote.getDrawable();
+                        if (upvote.getDrawable().getConstantState().equals(upvoteFilled.getConstantState())) {
+                            upvote.setImageDrawable(upvoteEmpty);
+                        } else {
+                            upvote.setImageDrawable(upvoteFilled);
+                        }
                         String userString = mSharedPreferences.getString("loggedInUser", "");
                         JSONObject jsonBody = new JSONObject();
                         if (!userString.equals("")) {
@@ -186,6 +227,11 @@ public class ReadReviewsActivity extends AppCompatActivity {
                 });
                 downvote.setOnTouchListener((v, event) -> {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (downvote.getDrawable().getConstantState() == downvoteFilled.getConstantState()) {
+                            downvote.setImageDrawable(downvoteEmpty);
+                        } else {
+                            downvote.setImageDrawable(downvoteFilled);
+                        }
                         String userString = mSharedPreferences.getString("loggedInUser", "");
                         JSONObject jsonBody = new JSONObject();
                         if (!userString.equals("")) {
@@ -237,6 +283,46 @@ public class ReadReviewsActivity extends AppCompatActivity {
 
             }
         }, jsonBody, requestUrl);
+    }
+
+    private void addRatings(Review review, View view){
+        int[] ratings = {review.getOverallScore(), review.getDifficulty(), review.getCourseMaterial(), review.getWorkload(), review.getTeachingQuality()};
+        String[] headings = {"Overall Score", "Difficulty", "Material", "Workload", "Teaching Quality"};
+        LinearLayout textLayout = view.findViewById(R.id.rating_layout_text);
+        LinearLayout ratingsLayout = view.findViewById(R.id.rating_layout_ratings);
+        for (int j = 0; j < 5; j++) {
+
+            LinearLayout ratingLayout = new LinearLayout(this);
+            TextView ratingTextView = new TextView(this);
+            ratingTextView.setText(headings[j]);
+            textLayout.addView(ratingTextView);
+
+            int rating = ratings[j];
+
+            for (int i = 0; i < 5; i++) {
+                Drawable full = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_full, this.getTheme());
+                Drawable empty = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_empty, this.getTheme());
+                ImageView circleView = new ImageView(this);
+                if (rating >= 1) {
+                    rating--;
+                    circleView.setBackground(full);
+                }  else {
+                    circleView.setBackground(empty);
+                }
+                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(
+                        50,
+                        50//ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(4, 0, 4, 0);
+
+                circleView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                circleView.setPadding(3, 3, 3, 3);
+                circleView.setLayoutParams(params);
+
+                ratingLayout.addView(circleView);
+            }
+            ratingsLayout.addView(ratingLayout);
+        }
     }
 
 }

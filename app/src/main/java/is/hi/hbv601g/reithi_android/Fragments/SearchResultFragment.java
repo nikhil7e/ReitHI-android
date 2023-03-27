@@ -215,7 +215,8 @@ public class SearchResultFragment extends Fragment {
                 creditsTextView.setText((credits).toString() + " credits");
                 verticalLayout.addView(creditsTextView);
             }
-            //still needs guard for empty input
+
+            //todo still needs guard for empty input like above
             String level = course.getLevel();
             TextView levelTextView = new TextView(mContext);
             levelTextView.setText(level);
