@@ -98,7 +98,9 @@ public class AccountActivity extends AppCompatActivity {
             editor.apply();
             finish();
             Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finishAffinity();
         });
 
         // Add the BottomAppBarFragment to the layout

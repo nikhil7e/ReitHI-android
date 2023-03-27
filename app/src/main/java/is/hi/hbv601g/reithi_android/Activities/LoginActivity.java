@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         mSignupButton = findViewById(R.id.signup_button);
         mSignupButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-            startActivityForResult(intent, 200);
+            startActivity(intent);
             finish();
         });
 
@@ -128,6 +128,8 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.putString("loggedInUser", userString);
                                 editor.apply();
                                 Toast.makeText(LoginActivity.this, "Successfully logged in as " + user.getUserName(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
+                                startActivity(intent);
                                 finish();
                             }
                         }, requestBody, "/login");

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -85,10 +86,11 @@ public class LandingPageActivity extends AppCompatActivity {
                     performSearch();
                 }
         );
-
         mSearchBar.setOnEditorActionListener((v, actionId, event) -> {
-            Log.d(TAG, "enter pressed");
-            performSearch();
+            if (event.getAction() == KeyEvent.ACTION_DOWN){
+                Log.d(TAG, "enter pressed" + event);
+                performSearch();
+            }
             return true;
         });
     }
@@ -122,38 +124,42 @@ public class LandingPageActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-*/      ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleSmall);
-        LinearLayout loadingView = findViewById(R.id.loadingview);
-        loadingView.addView(progressBar);
-        mCourseService.semiGenericPOST(
-                new NetworkCallback<String>() {
-                    @Override
-                    public void onFailure(String errorString) {
-                        Log.e(TAG, errorString);
-                    }
+*/      if (mSearchResultFragment == null){
+            ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleLarge);
+            LinearLayout loadingView = findViewById(R.id.loadingview);
+            loadingView.addView(progressBar);
 
-                    @Override
-                    public void onSuccess(String result) {
-                        mCourseSearchResults = result;
-                        Log.d(TAG, result);
-                        if (mSearchResultFragment == null){
-                            mSearchResultFragment = new SearchResultFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("searchResult", result);
-                            bundle.putString("searchQuery", mSearchBar.getText().toString());
-                            mSearchResultFragment.setArguments(bundle);
-                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                            transaction.add(R.id.search_results_fragment_container_view, mSearchResultFragment);
-                            transaction.commit();
-                        }else{
-                            mSearchResultFragment.updateSearchQuery(mSearchBar.getText().toString());
-                            mSearchResultFragment.updateFromFilter(getFilter());
+            mCourseService.semiGenericPOST(
+                    new NetworkCallback<String>() {
+                        @Override
+                        public void onFailure(String errorString) {
+                            Log.e(TAG, errorString);
                         }
-                        loadingView.removeAllViews();
-                        Log.d("TAG","Fragment added");
-                    }
-                },getFilter(), "/filter/?name="+mSearchBar.getText().toString()+"&page=1"
-        );
+
+                        @Override
+                        public void onSuccess(String result) {
+                            mCourseSearchResults = result;
+                            Log.d(TAG, result);
+                            if (mSearchResultFragment == null){
+                                mSearchResultFragment = new SearchResultFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("searchResult", result);
+                                bundle.putString("searchQuery", mSearchBar.getText().toString());
+                                mSearchResultFragment.setArguments(bundle);
+                                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                transaction.add(R.id.search_results_fragment_container_view, mSearchResultFragment);
+                                transaction.commit();
+                            }
+                            loadingView.removeAllViews();
+                            Log.d("TAG","Fragment added");
+                        }
+                    },getFilter(), "/filter/?name="+mSearchBar.getText().toString()+"&page=1"
+            );
+        }
+        else{
+            mSearchResultFragment.updateSearchQuery(mSearchBar.getText().toString());
+            mSearchResultFragment.updateFromFilter(getFilter());
+        }
     }
 
 

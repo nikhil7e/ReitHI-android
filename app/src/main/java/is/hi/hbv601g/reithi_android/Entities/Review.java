@@ -46,6 +46,14 @@ public class Review {
     @SerializedName("user_token")
     private String mUserToken;
 
+    @SerializedName("upvotes")
+    private String mUpvotes;
+
+    @SerializedName("upvoter_ids")
+    private List<String> mUpvoterIds;
+
+    @SerializedName("downvoter_ids")
+    private List<String> mDownvoterIds;
 
 
     public Review() {
@@ -70,6 +78,22 @@ public class Review {
         return mUserName;
     }
 
+    public List<String> getUpvoterIds() {
+        return mUpvoterIds;
+    }
+
+    public void setUpvoterIds(List<String> upvoterIds) {
+        mUpvoterIds = upvoterIds;
+    }
+
+    public List<String> getDownvoterIds() {
+        return mDownvoterIds;
+    }
+
+    public void setDownvoterIds(List<String> downvoterIds) {
+        mDownvoterIds = downvoterIds;
+    }
+
     public String getCourseName() {
         return mCourseName;
     }
@@ -83,6 +107,14 @@ public class Review {
 
     public long getUserID() {
         return mUserID;
+    }
+
+    public String getUpvotes() {
+        return mUpvotes;
+    }
+
+    public void setUpvotes(String upvotes) {
+        mUpvotes = upvotes;
     }
 
     public void setUserID(long userID) {

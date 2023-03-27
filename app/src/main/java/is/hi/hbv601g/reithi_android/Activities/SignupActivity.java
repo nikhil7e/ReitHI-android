@@ -57,6 +57,7 @@ public class SignupActivity extends AppCompatActivity {
         mBackToLoginButton.setOnClickListener(v -> {
             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
             startActivity(intent);
+            finish();
         });
 
         mUsernameField = findViewById(R.id.userName_input);

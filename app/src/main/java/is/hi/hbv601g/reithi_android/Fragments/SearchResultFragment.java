@@ -129,7 +129,7 @@ public class SearchResultFragment extends Fragment {
 
     private void fetchCoursesForPage(JSONObject filterJson, int page){
         mSearchResults.removeAllViews();
-        ProgressBar progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleSmall);
+        ProgressBar progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleLarge);
         mSearchResults.addView(progressBar);
         if (filterJson == null){
             Log.d(TAG, "filterJSON was null");
@@ -161,9 +161,13 @@ public class SearchResultFragment extends Fragment {
 
         if (mCoursePage.isFirst()){
             mPreviousButton.setVisibility(View.INVISIBLE);
+        }else{
+            mPreviousButton.setVisibility(View.VISIBLE);
         }
         if (mCoursePage.isLast()){
             mNextButton.setVisibility(View.INVISIBLE);
+        }else{
+            mNextButton.setVisibility(View.VISIBLE);
         }
 
         Log.d(TAG, "I make it here");
