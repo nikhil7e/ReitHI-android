@@ -153,7 +153,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
                     deleteButton.setBackgroundResource(R.drawable.delete_icon_pressed);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Change button icon to default state
-                    deleteButton.setBackgroundResource(R.drawable.delete_icon);
+
 
                     // Show confirmation dialog
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReadReviewsActivity.this);
@@ -185,7 +185,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    // User cancelled the dialog
+                                    deleteButton.setBackgroundResource(R.drawable.delete_icon);
                                 }
                             });
                     builder.create().show();
