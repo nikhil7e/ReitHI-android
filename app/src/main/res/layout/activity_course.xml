@@ -20,42 +20,113 @@
             android:layout_height="wrap_content"
             android:text="Course Name"
             android:textAlignment="center"
-            android:textSize="16sp"
+            android:textSize="26sp"
             android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Button
+            android:text="@string/review"
+            android:id="@+id/review_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_marginEnd="20dp">
+        </Button>
+
+        <Button
+            android:text="Read Reviews"
+            android:id="@+id/read_reviews_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+        </Button>
+    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/schoolTextViewLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="School"
+                android:textSize="18sp"
+                android:textStyle="bold"
+          />
+
             <TextView
                 android:id="@+id/schoolTextView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="School"
-                android:textAlignment="center"
-                android:textSize="16sp"
+                android:layout_weight="2"
+                android:text="School Name"
+                android:textSize="18sp"
+            />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/creditsTextViewLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Credits"
+                android:textSize="18sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/creditsTextView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Credits"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_weight="2"
+                android:text="3"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/semesterTextViewLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Semester"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
             <TextView
                 android:id="@+id/semesterTextView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Semester"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_weight="2"
+                android:text="Fall 2023"
+                android:textSize="18sp" />
+
         </LinearLayout>
+
+
 
         <LinearLayout  android:id="@+id/scores"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,6 +134,8 @@
                 android:textAlignment="center"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+
             <TextView
                 android:id="@+id/overallscoretext"
                 android:layout_width="match_parent"
@@ -106,21 +179,7 @@
 
         </LinearLayout>
 
-        <Button
-            android:text="@string/review"
-            android:id="@+id/review_button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0">
-        </Button>
 
-        <Button
-            android:text="Read Reviews"
-            android:id="@+id/read_reviews_button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0">
-        </Button>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="reithi_litur">#3c26cc</color>
-    <color name="reithi_litur_alt">#261CF2</color>
-    <color name="reithi_litur_dark">#10099F</color>
-    <color name="reithi_noaction">#909090</color>
+    <color name="reithi_litur">#FF3C26CC</color>
+    <color name="reithi_litur_alt">#FF261CF2</color>
+    <color name="reithi_litur_dark">#FF10099F</color>
+    <color name="reithi_noaction">#FF909090</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="mtrl_dark_background">#121212</color>
-
-
 </resources>

@@ -16,6 +16,8 @@
             android:id="@+id/userName_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
             android:hint="Enter your username"
             android:inputType="text"/>
 
@@ -23,12 +25,16 @@
             android:id="@+id/password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
             android:hint="Enter your password"
             android:inputType="textPassword"/>
 
         <EditText
             android:id="@+id/password_verify_input"
             android:layout_width="match_parent"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
             android:layout_height="wrap_content"
             android:hint="Verify your password"
             android:inputType="textPassword"/>

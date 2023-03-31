@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.reflect.TypeToken;
@@ -152,7 +153,7 @@ public class CourseActivity extends AppCompatActivity {
             });
             mReviewButton.setBackgroundColor(Color.GRAY);
         } else {
-            mReviewButton.setBackgroundColor(Color.BLUE);
+            mReviewButton.setBackgroundColor(ContextCompat.getColor(this, R.color.reithi_litur));
             mReviewButton.setOnClickListener(v -> {
                 Intent intent = new Intent(CourseActivity.this, ReviewPageActivity.class);
                 intent.putExtra("course", mCourseString);
