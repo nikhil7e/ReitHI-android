@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,8 +39,7 @@ public class AccountActivity extends AppCompatActivity {
 
     private Button mLogoutButton;
     private TextView mUsernameTextView;
-    private TextView mFacultyTextView;
-    private ImageButton mEditFacultyButton;
+
     private Spinner mFacultySpinner;
 
     private boolean isDarkMode = false;
@@ -60,8 +60,8 @@ public class AccountActivity extends AppCompatActivity {
         mParserService = ParserService.getInstance();
         mUserService = new UserService(this);
         mUsernameTextView = findViewById(R.id.username_text_view);
-        mFacultyTextView = findViewById(R.id.faculty_text_view);
-        mEditFacultyButton = findViewById(R.id.edit_faculty_button);
+ /*       mFacultyTextView = findViewById(R.id.faculty_text_view);
+        mEditFacultyButton = findViewById(R.id.edit_faculty_button);*/
         mFacultySpinner = findViewById(R.id.faculty_spinner);
         mToggleDayNight = findViewById(R.id.toggle_daynight);
         mToggleDayNightText = findViewById(R.id.toggle_daynight_text);
@@ -109,23 +109,35 @@ public class AccountActivity extends AppCompatActivity {
         transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
         transaction.commit();
 
-        // Set up the spinner with the faculty list
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.faculty_list, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mFacultySpinner.setAdapter(adapter);
-        // Set the spinner item select listener
+
         mFacultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Get the selected item text from the spinner
                 String selectedText = parent.getItemAtPosition(position).toString();
 
-                // Set the text of mFacultyTextView
-                mFacultyTextView.setText(selectedText);
+                JSONObject jsonBody = new JSONObject();
+                try{
+                    jsonBody.put("user", mParserService.deParseObject(mLoggedInUser));
+                    if (selectedText.equals("No Faculty/School Selected")){
+                        selectedText = null;
+                    }
+                    jsonBody.put("enrolledSchoolOrFaculty", mParserService.deParseObject(selectedText));
+                    mUserService.genericUserPOST(new NetworkCallback<String>() {
+                        @Override
+                        public void onFailure(String errorString) {
+                            Log.e(TAG, errorString);
+                        }
 
-                // Close the spinner
-                mFacultySpinner.setVisibility(View.GONE);
+                        @Override
+                        public void onSuccess(String result) {
+                            reloadUser((User)mParserService.parseObject(result,User.class));
+                        }
+                    }, jsonBody, "/updateSchool");
+                }catch (JSONException e) {
+
+                }
+
             }
 
             @Override
@@ -133,14 +145,6 @@ public class AccountActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
-    }
-    public void onEditFacultyButtonClick(View view) {
-        // Show/hide the spinner when the edit button is clicked
-        if (mFacultySpinner.getVisibility() == View.GONE) {
-            mFacultySpinner.setVisibility(View.VISIBLE);
-        } else {
-            mFacultySpinner.setVisibility(View.GONE);
-        }
     }
 
     protected void onResume() {
@@ -161,6 +165,7 @@ public class AccountActivity extends AppCompatActivity {
             User tempUser = (User) (Object) mParserService.parseObject(userString, User.class);
             mUsernameTextView.setText(tempUser.getUserName());
             reloadUser(tempUser);
+
         }
     }
 
@@ -180,6 +185,10 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 mLoggedInUser = (User) (Object) mParserService.parseObject(result, User.class);
+                SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("loggedInUser", mParserService.deParseObject(mLoggedInUser));
+                editor.apply();
             }
         }, userBody, "/finduser");
     }

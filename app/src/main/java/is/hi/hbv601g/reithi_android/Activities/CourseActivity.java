@@ -31,6 +31,7 @@ import is.hi.hbv601g.reithi_android.NetworkManager;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.CourseService;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
+import is.hi.hbv601g.reithi_android.Services.UserService;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -49,6 +50,12 @@ public class CourseActivity extends AppCompatActivity {
     private Course mCourse;
     private String mCourseString;
     private TextView[] scoreTextviews;
+    TextView mCourseNameTitle;
+    private TextView mSemesterTextView;
+    private TextView mCreditsTextView;
+    private TextView mSchoolTextView;
+
+    private UserService mUserService;
 
     private boolean coldStart;
 
@@ -62,15 +69,24 @@ public class CourseActivity extends AppCompatActivity {
         mParserService = ParserService.getInstance();
         mCourseString = getIntent().getExtras().getString("course");
         mCourseService = new CourseService(this);
+        mUserService = new UserService(this);
         Log.d(TAG, mCourseString);
 
         scoreTextviews = new TextView[]{findViewById(R.id.overallscoretext), findViewById(R.id.difficultytext), findViewById(R.id.materialtext), findViewById(R.id.workloadtext), findViewById(R.id.teachingqualitytext)};
 
+
+
         mCourse = (Course) mParserService.parseObject(mCourseString, Course.class);
-        TextView mCourseNameTitle = findViewById(R.id.courseName);
+
+
+        mCourseNameTitle = findViewById(R.id.courseName);
+        mSemesterTextView = findViewById(R.id.semesterTextView);
+        mCreditsTextView = findViewById(R.id.creditsTextView);
+        mSchoolTextView = findViewById(R.id.schoolTextView);
         mCourseNameTitle.setText(mCourse.getName());
-
-
+        mSemesterTextView.setText(mCourse.getSemester());
+        mCreditsTextView.setText(mCourse.getCredits().toString());
+        mSchoolTextView.setText(mCourse.getSchool());
         mReviewButton = findViewById(R.id.review_button);
 
         mReadReviewsButton = findViewById(R.id.read_reviews_button);
@@ -106,6 +122,7 @@ public class CourseActivity extends AppCompatActivity {
                     }.getType();*/
                     mCourseString = json;
                     mCourse = (Course) (Object) mParserService.parseObject(json, Course.class);
+                    checkReviewButtonAccess();
 
                     Log.d(TAG, json);
                     loadData();
@@ -113,9 +130,12 @@ public class CourseActivity extends AppCompatActivity {
             }, "/getcoursebyid/?id=" + mCourse.getID());
         } else {
             coldStart = false;
+            checkReviewButtonAccess();
             loadData();
         }
 
+    }
+    private void checkReviewButtonAccess(){
         SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
         String userString = sharedPreferences.getString("loggedInUser", "");
         User user = (User) mParserService.parseObject(userString, User.class);
@@ -125,8 +145,8 @@ public class CourseActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Please log in to add a review", Toast.LENGTH_SHORT).show();
             });
             mReviewButton.setBackgroundColor(Color.GRAY);
-        } else if (user.getReviews().stream()
-                .anyMatch(review -> review.getCourseName().equals(mCourse.getName()))) {
+        } else if (mCourse.getReviews().stream()
+                .anyMatch(review -> review.getUserName().equals(user.getUserName()))) {
             mReviewButton.setOnClickListener(v -> {
                 Toast.makeText(getApplicationContext(), "You have already reviewed this course", Toast.LENGTH_SHORT).show();
             });
@@ -139,9 +159,7 @@ public class CourseActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
-
     }
-
     private void loadData() {
         Double[] ratings = {mCourse.getTotalOverall(), mCourse.getTotalDifficulty(), mCourse.getTotalCourseMaterial(), mCourse.getTotalWorkload(), mCourse.getTotalTeachingQuality()};
         for (int i = 0; i < scoreTextviews.length; i++) {

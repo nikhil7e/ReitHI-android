@@ -1,7 +1,10 @@
 package is.hi.hbv601g.reithi_android.Fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +27,7 @@ import is.hi.hbv601g.reithi_android.Activities.LandingPageActivity;
 import is.hi.hbv601g.reithi_android.Activities.LoginActivity;
 import is.hi.hbv601g.reithi_android.Activities.ReviewPageActivity;
 import is.hi.hbv601g.reithi_android.Entities.FilterSearch;
+import is.hi.hbv601g.reithi_android.Entities.User;
 import is.hi.hbv601g.reithi_android.NetworkCallback;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.CourseService;
@@ -32,6 +36,7 @@ import is.hi.hbv601g.reithi_android.Services.ParserService;
 public class FilterFragment extends Fragment {
 
     private ParserService mParserService;
+    private SharedPreferences mSharedPreferences;
 
     private CourseService mCourseService;
 
@@ -45,6 +50,7 @@ public class FilterFragment extends Fragment {
 
     private Switch graduateSwitch;
     private Switch undergraduateSwitch;
+    private Switch schoolSwitch;
     private RangeSlider creditRangeSlider;
     private RangeSlider overallRangeSlider;
     private RangeSlider difficultyRangeSlider;
@@ -58,6 +64,7 @@ public class FilterFragment extends Fragment {
         mCourseService = new CourseService(getActivity());
         applyFilter = view.findViewById(R.id.applyFilterButton);
         graduateSwitch = view.findViewById(R.id.graduateSwitch);
+        schoolSwitch = view.findViewById(R.id.schoolSwitch);
         undergraduateSwitch = view.findViewById(R.id.undergraduate_switch);
         creditRangeSlider = view.findViewById(R.id.credits_range_slider);
         overallRangeSlider = view.findViewById(R.id.overall_score_range_slider);
@@ -65,6 +72,7 @@ public class FilterFragment extends Fragment {
         workloadRangeSlider = view.findViewById(R.id.workload_range_slider);
         TQSlider = view.findViewById(R.id.teaching_quality_range_slider);
         CMSlider = view.findViewById(R.id.course_material_range_slider);
+        mSharedPreferences = getActivity().getSharedPreferences("MySession", MODE_PRIVATE);
         applyFilter.setOnClickListener(v -> {
             JSONObject jsonBody = getFilterObject();
             LandingPageActivity activity = (LandingPageActivity) getActivity();
@@ -82,6 +90,11 @@ public class FilterFragment extends Fragment {
             filter.setGraduate(true);
         } else if (!graduateSwitch.isChecked() && undergraduateSwitch.isChecked()) {
             filter.setUndergraduate(true);
+        }
+        if (schoolSwitch.isChecked()){
+            String userString = mSharedPreferences.getString("loggedInUser", "");
+            User user = (User) mParserService.parseObject(userString, User.class);
+            filter.setEnrolledSchoolOrFaculty(user.getEnrolledSchoolOrFaculty());
         }
         filter.setCreditsRange(new Integer[]{0, 300});
 
@@ -105,7 +118,7 @@ public class FilterFragment extends Fragment {
                     case 2:
                         filter.setDifficultyRange(params);break;
                     case 3:
-                        filter.setWorloadRange(params);break;
+                        filter.setWorkloadRange(params);break;
                     case 4:
                         filter.setTeachingQualityRange(params);break;
                     case 5:

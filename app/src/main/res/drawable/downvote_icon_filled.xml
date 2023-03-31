@@ -7,19 +7,19 @@
       android:scaleY="-1"
       android:translateY="475.1">
   <path
-      android:fillColor="#0000FF"
+      android:fillColor="?attr/colorPrimary"
       android:pathData="M242,196
         a200,80 0 1,1 -1,0z"/>
   <path
-      android:fillColor="#0000FF"
+      android:fillColor="?attr/colorPrimary"
       android:pathData="M234,265
         a160,92 7 1,1 -1,0z"/>
   <path
-      android:fillColor="#0000FF"
+      android:fillColor="?attr/colorPrimary"
       android:pathData="M304,20
         a134,60 120 1,1 -1,0z"/>
   <path
-      android:fillColor="#0000FF"
+      android:fillColor="?attr/colorPrimary"
       android:pathData="M342,160
         a90,80 0 1,1 -1,0z"/>
     <path

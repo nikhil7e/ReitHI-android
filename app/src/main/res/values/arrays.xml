@@ -9,8 +9,11 @@
         <item>30.0</item>
     </array>
     <array name="faculty_list">
-        <item>School of Science</item>
-        <item>School of Literature</item>
-        <item>School of Economics</item>
+        <item>No Faculty/School Selected</item>
+        <item>Health Sciences</item>
+        <item>Humanities</item>
+        <item>Social Sciences</item>
+        <item>Engineering and Natural Sciences</item>
+        <item>Education</item>
     </array>
 </resources>

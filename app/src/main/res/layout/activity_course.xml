@@ -22,6 +22,35 @@
             android:textAlignment="center"
             android:textSize="16sp"
             android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/schoolTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="School"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/creditsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Credits"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/semesterTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Semester"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout  android:id="@+id/scores"
             android:layout_width="match_parent"

@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 User user = (User) (Object) mParserService.parseObject(result, User.class);
                 // Log.d(TAG, "input password: '" + mPasswordInput.getText() + "' correct password: '" + user.getPassword() + "'");
-                if (user.getPassword().equals(mPasswordInput.getText().toString())){
+                if (user != null && user.getPassword().equals(mPasswordInput.getText().toString())){
                     Log.d(TAG, "result er " + result);
                     String userJson = mParserService.deParseObject(user);
                     JSONObject requestBody = new JSONObject();

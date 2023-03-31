@@ -16,6 +16,9 @@ public class User {
     @SerializedName("deviceToken")
     private String mDeviceToken;
 
+    @SerializedName("enrolledSchoolOrFaculty")
+    private String mEnrolledSchoolOrFaculty;
+
 
     public User() {
     }
@@ -36,6 +39,14 @@ public class User {
         mUserName = userName;
         mPassword = password;
         mDeviceToken = deviceToken;
+    }
+
+    public String getEnrolledSchoolOrFaculty() {
+        return mEnrolledSchoolOrFaculty;
+    }
+
+    public void setEnrolledSchoolOrFaculty(String enrolledSchoolOrFaculty) {
+        mEnrolledSchoolOrFaculty = enrolledSchoolOrFaculty;
     }
 
     public String getDeviceToken() {

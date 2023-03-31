@@ -256,6 +256,7 @@ public class Review {
                 ", mComment='" + mComment + '\'' +
                 ", mUserID=" + mUserID +
                 ", mCourseID=" + mCourseID +
+                ", mCourseName=" + mCourseName +
                 '}';
     }
 }

@@ -24,6 +24,10 @@ public class FilterSearch {
     @SerializedName("courseMaterialRange")
     private Integer[] mCourseMaterialRange;
 
+    @SerializedName("enrolledSchoolOrFaculty")
+    private String mEnrolledSchoolOrFaculty;
+
+
 
     public FilterSearch(){
 
@@ -35,6 +39,22 @@ public class FilterSearch {
 
     public void setID(long ID) {
         mID = ID;
+    }
+
+    public Integer[] getWorkloadRange() {
+        return mWorkloadRange;
+    }
+
+    public void setWorkloadRange(Integer[] workloadRange) {
+        mWorkloadRange = workloadRange;
+    }
+
+    public String getEnrolledSchoolOrFaculty() {
+        return mEnrolledSchoolOrFaculty;
+    }
+
+    public void setEnrolledSchoolOrFaculty(String enrolledSchoolOrFaculty) {
+        mEnrolledSchoolOrFaculty = enrolledSchoolOrFaculty;
     }
 
     public Boolean getGraduate() {
@@ -77,13 +97,7 @@ public class FilterSearch {
         mDifficultyRange = difficultyRange;
     }
 
-    public Integer[] getWorloadRange() {
-        return mWorkloadRange;
-    }
 
-    public void setWorloadRange(Integer[] worloadRange) {
-        mWorkloadRange = worloadRange;
-    }
 
     public Integer[] getTeachingQualityRange() {
         return mTeachingQualityRange;
@@ -113,6 +127,7 @@ public class FilterSearch {
                 ", mWorkloadRange=" + Arrays.toString(mWorkloadRange) +
                 ", mTeachingQualityRange=" + Arrays.toString(mTeachingQualityRange) +
                 ", mCourseMaterialRange=" + Arrays.toString(mCourseMaterialRange) +
+                ", mEnrolledSchoolOrFaculty=" + mEnrolledSchoolOrFaculty +
                 '}';
     }
 }
