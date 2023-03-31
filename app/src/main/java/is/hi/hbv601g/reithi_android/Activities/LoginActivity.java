@@ -129,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.apply();
                                 Toast.makeText(LoginActivity.this, "Successfully logged in as " + user.getUserName(), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
+                                // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
                             }

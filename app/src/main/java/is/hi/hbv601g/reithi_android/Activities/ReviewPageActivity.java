@@ -185,7 +185,7 @@ public class ReviewPageActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
         String userString = sharedPreferences.getString("loggedInUser", "");
         Log.d(TAG, userString);
-        if (userString != ""){
+        if (!userString.equals("")){
             User loggedInUser = (User) (Object) mParserService.parseObject(userString, User.class);
             try {
                 jsonBody.put("user", userString);

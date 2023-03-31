@@ -1,14 +1,18 @@
 package is.hi.hbv601g.reithi_android.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.reflect.TypeToken;
@@ -20,6 +24,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import is.hi.hbv601g.reithi_android.Entities.Course;
+import is.hi.hbv601g.reithi_android.Entities.User;
 import is.hi.hbv601g.reithi_android.Fragments.BottomBarFragment;
 import is.hi.hbv601g.reithi_android.NetworkCallback;
 import is.hi.hbv601g.reithi_android.NetworkManager;
@@ -30,7 +35,7 @@ import is.hi.hbv601g.reithi_android.Services.ParserService;
 public class CourseActivity extends AppCompatActivity {
 
     private static final String TAG = "courseActivity";
-    private static final String[] headings = {"Overall Score", "Difficulty","Material","Workload","Teaching Quality"};
+    private static final String[] headings = {"Overall Score", "Difficulty", "Material", "Workload", "Teaching Quality"};
 
     private ParserService mParserService;
 
@@ -67,11 +72,6 @@ public class CourseActivity extends AppCompatActivity {
 
 
         mReviewButton = findViewById(R.id.review_button);
-        mReviewButton.setOnClickListener(v -> {
-            Intent intent = new Intent(CourseActivity.this, ReviewPageActivity.class);
-            intent.putExtra("course", mCourseString);
-            startActivity(intent);
-        });
 
         mReadReviewsButton = findViewById(R.id.read_reviews_button);
         mReadReviewsButton.setOnClickListener(v -> {
@@ -111,20 +111,43 @@ public class CourseActivity extends AppCompatActivity {
                     loadData();
                 }
             }, "/getcoursebyid/?id=" + mCourse.getID());
-        }
-        else{
+        } else {
             coldStart = false;
             loadData();
         }
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
+        String userString = sharedPreferences.getString("loggedInUser", "");
+        User user = (User) mParserService.parseObject(userString, User.class);
+
+        if (userString.isEmpty()) {
+            mReviewButton.setOnClickListener(v -> {
+                Toast.makeText(getApplicationContext(), "Please log in to add a review", Toast.LENGTH_SHORT).show();
+            });
+            mReviewButton.setBackgroundColor(Color.GRAY);
+        } else if (user.getReviews().stream()
+                .anyMatch(review -> review.getCourseName().equals(mCourse.getName()))) {
+            mReviewButton.setOnClickListener(v -> {
+                Toast.makeText(getApplicationContext(), "You have already reviewed this course", Toast.LENGTH_SHORT).show();
+            });
+            mReviewButton.setBackgroundColor(Color.GRAY);
+        } else {
+            mReviewButton.setBackgroundColor(Color.BLUE);
+            mReviewButton.setOnClickListener(v -> {
+                Intent intent = new Intent(CourseActivity.this, ReviewPageActivity.class);
+                intent.putExtra("course", mCourseString);
+                startActivity(intent);
+            });
+        }
+
     }
 
-    private void loadData(){
+    private void loadData() {
         Double[] ratings = {mCourse.getTotalOverall(), mCourse.getTotalDifficulty(), mCourse.getTotalCourseMaterial(), mCourse.getTotalWorkload(), mCourse.getTotalTeachingQuality()};
-        for (int i = 0; i<scoreTextviews.length; i++){
+        for (int i = 0; i < scoreTextviews.length; i++) {
             double rating = ratings[i] / mCourse.getTotalReviews();
             TextView score = scoreTextviews[i];
-            score.setText(headings[i] +": " + rating);
+            score.setText(headings[i] + ": " + rating);
         }
     }
 

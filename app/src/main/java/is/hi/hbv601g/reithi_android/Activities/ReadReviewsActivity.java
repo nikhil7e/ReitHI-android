@@ -62,7 +62,6 @@ public class ReadReviewsActivity extends AppCompatActivity {
     private String mContext;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +88,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
         if (mContext.equals("course")) {
             String courseString = getIntent().getExtras().getString(mContext);
             String userString = mSharedPreferences.getString("loggedInUser", "");
-            if (!userString.equals("")){
+            if (!userString.equals("")) {
                 mLoggedInUser = (User) mParserService.parseObject(userString, User.class);
             }
             Log.d(TAG, courseString);
@@ -103,7 +102,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
         } else {
             String userString = getIntent().getExtras().getString(mContext);
             Log.d(TAG, userString);
-            if (userString.equals("null")){
+            if (userString.equals("null")) {
                 userString = mSharedPreferences.getString("loggedInUser", "");
             }
             mLoggedInUser = (User) mParserService.parseObject(userString, User.class);
@@ -134,17 +133,17 @@ public class ReadReviewsActivity extends AppCompatActivity {
             ImageButton downvote = reviewView.findViewById(R.id.downvote_button);
             ImageButton deleteButton = reviewView.findViewById(R.id.delete_review_button);
             addRatings(review, reviewView);
-            for (String userId: review.getUpvoterIds()) {
-                if (String.valueOf(mLoggedInUser.getID()).equals(userId)){
+            for (String userId : review.getUpvoterIds()) {
+                if (String.valueOf(mLoggedInUser.getID()).equals(userId)) {
                     upvote.setImageDrawable(upvoteFilled);
                 }
             }
-            for (String userId: review.getDownvoterIds()) {
-                if (String.valueOf(mLoggedInUser.getID()).equals(userId)){
+            for (String userId : review.getDownvoterIds()) {
+                if (String.valueOf(mLoggedInUser.getID()).equals(userId)) {
                     downvote.setImageDrawable(downvoteFilled);
                 }
             }
-            if (mLoggedInUser.getID() != review.getUserID()){
+            if (mLoggedInUser.getID() != review.getUserID()) {
                 deleteButton.setVisibility(View.INVISIBLE);
             }
             deleteButton.setOnTouchListener((v, event) -> {
@@ -285,7 +284,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
         }, jsonBody, requestUrl);
     }
 
-    private void addRatings(Review review, View view){
+    private void addRatings(Review review, View view) {
         int[] ratings = {review.getOverallScore(), review.getDifficulty(), review.getCourseMaterial(), review.getWorkload(), review.getTeachingQuality()};
         String[] headings = {"Overall Score", "Difficulty", "Material", "Workload", "Teaching Quality"};
         LinearLayout textLayout = view.findViewById(R.id.rating_layout_text);
@@ -306,7 +305,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
                 if (rating >= 1) {
                     rating--;
                     circleView.setBackground(full);
-                }  else {
+                } else {
                     circleView.setBackground(empty);
                 }
                 ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(
