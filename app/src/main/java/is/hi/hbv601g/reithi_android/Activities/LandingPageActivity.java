@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,6 +30,8 @@ import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.CourseService;
 
 import androidx.fragment.app.FragmentTransaction;
+
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.json.JSONObject;
 
@@ -51,6 +54,8 @@ public class LandingPageActivity extends AppCompatActivity {
     private SearchResultFragment mSearchResultFragment = null;
     private FilterFragment mFilterFragment;
 
+    private ShimmerFrameLayout mShimmerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,10 @@ public class LandingPageActivity extends AppCompatActivity {
         mNetworkManager = NetworkManager.getInstance(this);
         mSearchBar = findViewById(R.id.search_bar);
         mSearchButton = findViewById(R.id.search_button);
+
+        mShimmerLayout = findViewById(R.id.shimmer_layout);
+        hideShimmer();
+
 
         // Add the BottomAppBarFragment to the layout
         BottomBarFragment bottomAppBarFragment = new BottomBarFragment();
@@ -130,10 +139,10 @@ public class LandingPageActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 */      if (mSearchResultFragment == null){
-            ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleLarge);
+            /*ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleLarge);
             LinearLayout loadingView = findViewById(R.id.loadingview);
-            loadingView.addView(progressBar);
-
+            loadingView.addView(progressBar);*/
+            showShimmer();
             mCourseService.semiGenericPOST(
                     new NetworkCallback<String>() {
                         @Override
@@ -155,7 +164,7 @@ public class LandingPageActivity extends AppCompatActivity {
                                 transaction.add(R.id.search_results_fragment_container_view, mSearchResultFragment);
                                 transaction.commit();
                             }
-                            loadingView.removeAllViews();
+
                             Log.d("TAG","Fragment added");
                         }
                     },getFilter(), "/filter/?name="+mSearchBar.getText().toString()+"&page=1"
@@ -177,7 +186,15 @@ public class LandingPageActivity extends AppCompatActivity {
     public void forwardFilter(JSONObject filtered){
         mSearchResultFragment.updateFromFilter(filtered);
     }
+    public void showShimmer(){
+        mShimmerLayout.startShimmer();
+        mShimmerLayout.setVisibility(View.VISIBLE);
+    }
 
+    public void hideShimmer(){
+        mShimmerLayout.stopShimmer();
+        mShimmerLayout.setVisibility(View.GONE);
+    }
     public JSONObject getFilter(){
         Log.d(TAG, "CALLED GET FILTER");
         return mFilterFragment.getFilterObject();

@@ -25,6 +25,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
@@ -85,6 +86,7 @@ public class SearchResultFragment extends Fragment {
         mNextButton = view.findViewById(R.id.nextButton);
 
 
+
         Type listType = new TypeToken<Page<Course>>() {}.getType();
         String results = requireArguments().getString("searchResult");
         mSearchQuery = requireArguments().getString("searchQuery");
@@ -114,12 +116,16 @@ public class SearchResultFragment extends Fragment {
         });
         Log.d(TAG, results);
         addCourseTextAndShapes(mCoursePage);
+        LandingPageActivity activity = (LandingPageActivity) getActivity();
+        activity.hideShimmer();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (!coldStart){
+
+
             if (mCurrentPage==0){
                 fetchCoursesForPage(null, 1);
             }
@@ -138,11 +144,12 @@ public class SearchResultFragment extends Fragment {
 
     private void fetchCoursesForPage(JSONObject filterJson, int page){
         mSearchResults.removeAllViews();
-        ProgressBar progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleLarge);
-        mSearchResults.addView(progressBar);
+        /*ProgressBar progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleLarge);
+        mSearchResults.addView(progressBar);*/
+        LandingPageActivity activity = (LandingPageActivity) getActivity();
+        activity.showShimmer();
         if (filterJson == null){
             Log.d(TAG, "filterJSON was null");
-            LandingPageActivity activity = (LandingPageActivity) getActivity();
             filterJson = activity.getFilter();
         }
         mCurrentPage = page + 1;
@@ -158,6 +165,8 @@ public class SearchResultFragment extends Fragment {
                     public void onSuccess(String result) {
                         Type listType = new TypeToken<Page<Course>>() {}.getType();
                         mCoursePage = (Page<Course>) (Object) mParserService.parseObject(result, listType);
+                        LandingPageActivity activity = (LandingPageActivity) getActivity();
+                        activity.hideShimmer();
                         addCourseTextAndShapes(mCoursePage);
                         Log.d("TAG","went to page "+page);
                     }

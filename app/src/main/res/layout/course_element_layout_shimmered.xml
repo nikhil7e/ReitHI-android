@@ -24,33 +24,38 @@
             android:layout_height="wrap_content"
 
             android:layout_marginStart="10dp"
-            android:text="courseNum"
-            android:background="@drawable/border_circular"
+
+            android:background="@drawable/border_circular_shimmer"
             android:padding="12dp"
             android:textColor="@android:color/white" />
         <TextView
             android:id="@+id/creditsTextView"
-            android:layout_width="match_parent"
+            android:layout_width="80dp"
+            android:background="@color/reithi_noaction"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginStart="20dp"
             android:textSize="12dp"
-            android:text="6 credits"/>
+            />
 
         <TextView
             android:id="@+id/levelTextView"
-            android:layout_width="match_parent"
+            android:layout_width="70dp"
+            android:background="@color/reithi_noaction"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:textSize="12dp"
-            android:text="level"/>
+           />
         <TextView
             android:id="@+id/schoolTextView"
-            android:layout_width="match_parent"
+            android:layout_width="90dp"
+            android:background="@color/reithi_noaction"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="20dp"
             android:textSize="12dp"
-            android:text="school"/>
+          />
 
     </LinearLayout>
     <LinearLayout
@@ -62,12 +67,11 @@
 
         <TextView
             android:id="@+id/nameTextView"
-            android:layout_width="match_parent"
+            android:layout_width="240dp"
+            android:background="@color/reithi_noaction"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="courseName"/>
-
-
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
 
         <LinearLayout
             android:id="@+id/horizontalLayout"
@@ -83,33 +87,38 @@
 
                 <TextView
                     android:id="@+id/overallScoreTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Overall Score" />
+                    android:layout_width="90dp"
+                    android:background="@color/reithi_noaction"
+                    android:layout_height="18dp"
+                    android:layout_marginBottom="2dp"
+              />
 
                 <TextView
                     android:id="@+id/difficultyTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Difficulty" />
+                    android:layout_width="55dp"
+                    android:background="@color/reithi_noaction"
+                    android:layout_height="18dp"
+                    android:layout_marginBottom="2dp"/>
 
                 <TextView
                     android:id="@+id/materialTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Material" />
+                    android:layout_width="50dp"
+                    android:background="@color/reithi_noaction"
+                    android:layout_height="18dp"
+                    android:layout_marginBottom="2dp" />
 
                 <TextView
                     android:id="@+id/workloadTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Workload" />
+                    android:layout_width="60dp"
+                    android:background="@color/reithi_noaction"
+                    android:layout_height="18dp"
+                    android:layout_marginBottom="2dp"/>
 
                 <TextView
                     android:id="@+id/teachingQualityTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Teaching Quality" />
+                    android:layout_width="110dp"
+                    android:background="@color/reithi_noaction"
+                    android:layout_height="18dp"/>
 
             </LinearLayout>
 
@@ -126,37 +135,38 @@
                     android:layout_height="20dp"
                     >
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/difficultyRatingsLayout"
@@ -164,148 +174,152 @@
                     android:layout_height="20dp"
                    >
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/materialRatingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                  >
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/workloadRatingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="20dp">
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/tqRatingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="20dp">
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_shimmer"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
