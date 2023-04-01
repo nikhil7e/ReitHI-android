@@ -207,6 +207,9 @@ public class SearchResultFragment extends Fragment {
             if (Arrays.asList(schools).contains(course.getSchool())) {
                 courseSchool.setText(course.getSchool());
             }
+            else{
+                courseSchool.setVisibility(View.GONE);
+            }
             TextView courseName = searchResultLayout.findViewById(R.id.nameTextView);
             courseName.setText(course.getName());
             TextView courseLevel = searchResultLayout.findViewById(R.id.levelTextView);

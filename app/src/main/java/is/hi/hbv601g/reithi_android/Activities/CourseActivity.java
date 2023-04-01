@@ -78,8 +78,6 @@ public class CourseActivity extends AppCompatActivity {
 
 
         mCourse = (Course) mParserService.parseObject(mCourseString, Course.class);
-
-
         mCourseNameTitle = findViewById(R.id.courseName);
         mSemesterTextView = findViewById(R.id.semesterTextView);
         mCreditsTextView = findViewById(R.id.creditsTextView);

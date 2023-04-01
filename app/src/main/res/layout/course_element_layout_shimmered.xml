@@ -71,7 +71,7 @@
             android:background="@color/reithi_noaction"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:textSize="18sp"/>
+            android:textSize="17sp"/>
 
         <LinearLayout
             android:id="@+id/horizontalLayout"
@@ -89,36 +89,36 @@
                     android:id="@+id/overallScoreTextView"
                     android:layout_width="90dp"
                     android:background="@color/reithi_noaction"
-                    android:layout_height="18dp"
-                    android:layout_marginBottom="2dp"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
               />
 
                 <TextView
                     android:id="@+id/difficultyTextView"
                     android:layout_width="55dp"
                     android:background="@color/reithi_noaction"
-                    android:layout_height="18dp"
-                    android:layout_marginBottom="2dp"/>
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"/>
 
                 <TextView
                     android:id="@+id/materialTextView"
                     android:layout_width="50dp"
                     android:background="@color/reithi_noaction"
-                    android:layout_height="18dp"
-                    android:layout_marginBottom="2dp" />
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp" />
 
                 <TextView
                     android:id="@+id/workloadTextView"
                     android:layout_width="60dp"
                     android:background="@color/reithi_noaction"
-                    android:layout_height="18dp"
-                    android:layout_marginBottom="2dp"/>
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"/>
 
                 <TextView
                     android:id="@+id/teachingQualityTextView"
-                    android:layout_width="110dp"
+                    android:layout_width="104dp"
                     android:background="@color/reithi_noaction"
-                    android:layout_height="18dp"/>
+                    android:layout_height="17dp"/>
 
             </LinearLayout>
 
@@ -127,42 +127,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:orientation="vertical"
-                android:layout_marginStart="20dp">
+                android:layout_marginStart="17dp">
 
                 <LinearLayout
                     android:id="@+id/overallRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
                     >
 
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
@@ -171,37 +172,38 @@
                 <LinearLayout
                     android:id="@+id/difficultyRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
                    >
 
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
@@ -210,36 +212,37 @@
                 <LinearLayout
                     android:id="@+id/materialRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
                  >
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
@@ -248,36 +251,37 @@
                 <LinearLayout
                     android:id="@+id/workloadRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp">
 
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
@@ -286,36 +290,37 @@
                 <LinearLayout
                     android:id="@+id/tqRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp">
 
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_shimmer"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"

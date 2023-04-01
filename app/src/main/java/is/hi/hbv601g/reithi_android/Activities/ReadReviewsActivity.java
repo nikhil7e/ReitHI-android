@@ -61,6 +61,11 @@ public class ReadReviewsActivity extends AppCompatActivity {
 
     private String mContext;
 
+    private Drawable upvoteFilled;
+    private Drawable upvoteEmpty;
+    private Drawable downvoteFilled;
+    private Drawable downvoteEmpty;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +86,11 @@ public class ReadReviewsActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
         transaction.commit();
+
+        upvoteFilled = ResourcesCompat.getDrawable(getResources(), R.drawable.upvote_icon_filled, getTheme());
+        upvoteEmpty = ResourcesCompat.getDrawable(getResources(), R.drawable.upvote_icon, getTheme());
+        downvoteFilled = ResourcesCompat.getDrawable(getResources(), R.drawable.downvote_icon_filled, getTheme());
+        downvoteEmpty = ResourcesCompat.getDrawable(getResources(), R.drawable.downvote_icon, getTheme());
     }
 
     protected void onResume() {
@@ -116,11 +126,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     private void addReviews(List<Review> reviews, String context) {
         LinearLayout allReviews = findViewById(R.id.all_Reviews);
-        Drawable upvoteFilled = ResourcesCompat.getDrawable(getResources(), R.drawable.upvote_icon_filled, getTheme());
-        Drawable upvoteEmpty = ResourcesCompat.getDrawable(getResources(), R.drawable.upvote_icon, getTheme());
-        Drawable downvoteFilled = ResourcesCompat.getDrawable(getResources(), R.drawable.downvote_icon_filled, getTheme());
-        Drawable downvoteEmpty = ResourcesCompat.getDrawable(getResources(), R.drawable.downvote_icon, getTheme());
-
+        allReviews.removeAllViews();
         for (Review review : reviews) {
             Log.d(TAG, review.toString());
             LayoutInflater inflater = LayoutInflater.from(ReadReviewsActivity.this);
@@ -255,7 +261,8 @@ public class ReadReviewsActivity extends AppCompatActivity {
             } else {
                 title.setText(review.getCourseName());
                 downvote.setVisibility(View.INVISIBLE);
-                upvote.setVisibility(View.INVISIBLE);
+                upvote.setEnabled(false);
+                upvote.setImageDrawable(upvoteFilled);
             }
             allReviews.addView(reviewView);
         }

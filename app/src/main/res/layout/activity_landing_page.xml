@@ -109,6 +109,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     >
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -116,21 +117,25 @@
                         <include
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
                             android:id="@+id/my_included_layout1"
                             layout="@layout/course_element_layout_shimmered" />
                         <include
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
                             android:id="@+id/my_included_layout2"
                             layout="@layout/course_element_layout_shimmered" />
                         <include
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
                             android:id="@+id/my_included_layout3"
                             layout="@layout/course_element_layout_shimmered" />
                         <include
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
                             android:id="@+id/my_included_layout4"
                             layout="@layout/course_element_layout_shimmered" />
                         <include
