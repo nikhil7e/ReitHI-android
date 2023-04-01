@@ -49,6 +49,7 @@ public class AccountActivity extends AppCompatActivity {
     private Button mReadReviewsButton;
     private UserService mUserService;
     private User mLoggedInUser;
+    private BottomBarFragment mBottomAppBarFragment;
 
 
     @Override
@@ -104,9 +105,9 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         // Add the BottomAppBarFragment to the layout
-        BottomBarFragment bottomAppBarFragment = new BottomBarFragment();
+        mBottomAppBarFragment = new BottomBarFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
+        transaction.add(R.id.bottomBar_fragment_container_view, mBottomAppBarFragment);
         transaction.commit();
 
 
@@ -151,6 +152,7 @@ public class AccountActivity extends AppCompatActivity {
         super.onResume();
         fillAccountInfo();
     }
+
 
     public void toggleDarkMode() {
         isDarkMode = !isDarkMode;

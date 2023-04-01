@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
@@ -80,7 +81,38 @@ public class BottomBarFragment extends Fragment {
             Intent intent = new Intent(getActivity(), LandingPageActivity.class);
             startActivity(intent);
         });
+        setUserIcon(false);
+        setHomeIcon(false);
+        if (getActivity() instanceof AccountActivity) {
+            setUserIcon(true);
+        } else if(getActivity() instanceof LandingPageActivity){
+            setHomeIcon(true);
+        }
+    }
+    public void setUserIcon(Boolean isInAccount){
+        if (isInAccount){
+            Drawable userFilled = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.user_icon_filled, getActivity().getTheme());
+            mLoginAndAccountButton.setImageDrawable(userFilled);
+            mLoginAndAccountButton.setEnabled(false);
+        }
+        else{
+            Drawable user= ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.user_icon, getActivity().getTheme());
+            mLoginAndAccountButton.setImageDrawable(user);
+            mLoginAndAccountButton.setEnabled(true);
+        }
+    }
 
+    public void setHomeIcon(Boolean isInHome){
+        if (isInHome){
+            Drawable userFilled = ResourcesCompat.getDrawable(getResources(), R.drawable.home_icon_filled, getActivity().getTheme());
+            mHomeButton.setImageDrawable(userFilled);
+            mHomeButton.setEnabled(false);
+        }
+        else{
+            Drawable user= ResourcesCompat.getDrawable(getResources(), R.drawable.home_icon, getActivity().getTheme());
+            mHomeButton.setImageDrawable(user);
+            mHomeButton.setEnabled(true);
+        }
     }
 
 }
