@@ -26,6 +26,7 @@
                 android:id="@+id/homeButton"
                 android:layout_width="30dp"
                 android:layout_height="match_parent"
+                android:elevation="4dp"
                 android:background="@null"
                 android:contentDescription="@string/home"
                 android:scaleType="fitCenter"

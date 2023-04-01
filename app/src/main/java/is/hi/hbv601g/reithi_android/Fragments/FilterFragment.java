@@ -14,8 +14,10 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.slider.RangeSlider;
 
 import org.json.JSONException;
@@ -48,9 +50,10 @@ public class FilterFragment extends Fragment {
         super(R.layout.fragment_filter);
     }
 
-    private Switch graduateSwitch;
-    private Switch undergraduateSwitch;
-    private Switch schoolSwitch;
+    private Chip graduateChip;
+    private Chip undergraduateChip;
+    private Chip schoolChip;
+
     private RangeSlider creditRangeSlider;
     private RangeSlider overallRangeSlider;
     private RangeSlider difficultyRangeSlider;
@@ -63,9 +66,9 @@ public class FilterFragment extends Fragment {
         mParserService = ParserService.getInstance();
         mCourseService = new CourseService(getActivity());
         applyFilter = view.findViewById(R.id.applyFilterButton);
-        graduateSwitch = view.findViewById(R.id.graduateSwitch);
-        schoolSwitch = view.findViewById(R.id.schoolSwitch);
-        undergraduateSwitch = view.findViewById(R.id.undergraduate_switch);
+        graduateChip = view.findViewById(R.id.graduateChip);
+        schoolChip = view.findViewById(R.id.enrolledChip);
+        undergraduateChip = view.findViewById(R.id.undergraduateChip);
         creditRangeSlider = view.findViewById(R.id.credits_range_slider);
         overallRangeSlider = view.findViewById(R.id.overall_score_range_slider);
         difficultyRangeSlider = view.findViewById(R.id.difficulty_range_slider);
@@ -78,6 +81,8 @@ public class FilterFragment extends Fragment {
             LandingPageActivity activity = (LandingPageActivity) getActivity();
             activity.forwardFilter(jsonBody);
         });
+
+
     }
 
     public JSONObject getFilterObject(){
@@ -86,12 +91,12 @@ public class FilterFragment extends Fragment {
 
         FilterSearch filter = new FilterSearch();
 
-        if (graduateSwitch.isChecked() && !undergraduateSwitch.isChecked()) {
+        if (graduateChip.isChecked() && !undergraduateChip.isChecked()) {
             filter.setGraduate(true);
-        } else if (!graduateSwitch.isChecked() && undergraduateSwitch.isChecked()) {
+        } else if (!graduateChip.isChecked() && undergraduateChip.isChecked()) {
             filter.setUndergraduate(true);
         }
-        if (schoolSwitch.isChecked()){
+        if (schoolChip.isChecked()){
             String userString = mSharedPreferences.getString("loggedInUser", "");
             User user = (User) mParserService.parseObject(userString, User.class);
             filter.setEnrolledSchoolOrFaculty(user.getEnrolledSchoolOrFaculty());

@@ -17,16 +17,14 @@
         android:layout_weight="1"
         android:gravity="center">
 
-
         <TextView
             android:id="@+id/username_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="UserName"
             android:textColor="?attr/colorOnSecondary"
-            android:textSize="18sp"
+            android:textSize="40sp"
             android:textStyle="bold"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"/>
         <Button
@@ -36,6 +34,8 @@
             android:text="Log Out"/>
         <TextView
             android:id="@+id/enrolled_faculty_label"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enrolled Faculty/School"
@@ -47,6 +47,8 @@
             android:id="@+id/faculty_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:entries="@array/faculty_list" />
 
 
@@ -72,8 +74,7 @@
             android:textOff="Day"
             android:textOn="Night"
             android:checked="false"
-            android:layout_marginTop="16dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_marginTop="16dp"/>
 
         </LinearLayout>
 

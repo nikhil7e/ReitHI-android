@@ -49,6 +49,7 @@ public class AccountActivity extends AppCompatActivity {
     private Button mReadReviewsButton;
     private UserService mUserService;
     private User mLoggedInUser;
+    private BottomBarFragment mBottomAppBarFragment;
 
 
     @Override
@@ -60,9 +61,7 @@ public class AccountActivity extends AppCompatActivity {
         mParserService = ParserService.getInstance();
         mUserService = new UserService(this);
         mUsernameTextView = findViewById(R.id.username_text_view);
- /*       mFacultyTextView = findViewById(R.id.faculty_text_view);
-        mEditFacultyButton = findViewById(R.id.edit_faculty_button);*/
-        mFacultySpinner = findViewById(R.id.faculty_spinner);
+
         mToggleDayNight = findViewById(R.id.toggle_daynight);
         mToggleDayNightText = findViewById(R.id.toggle_daynight_text);
         mLogoutButton = findViewById(R.id.logout_button);
@@ -104,53 +103,18 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         // Add the BottomAppBarFragment to the layout
-        BottomBarFragment bottomAppBarFragment = new BottomBarFragment();
+        mBottomAppBarFragment = new BottomBarFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.bottomBar_fragment_container_view, bottomAppBarFragment);
+        transaction.add(R.id.bottomBar_fragment_container_view, mBottomAppBarFragment);
         transaction.commit();
 
-
-        mFacultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Get the selected item text from the spinner
-                String selectedText = parent.getItemAtPosition(position).toString();
-
-                JSONObject jsonBody = new JSONObject();
-                try{
-                    jsonBody.put("user", mParserService.deParseObject(mLoggedInUser));
-                    if (selectedText.equals("No Faculty/School Selected")){
-                        selectedText = null;
-                    }
-                    jsonBody.put("enrolledSchoolOrFaculty", mParserService.deParseObject(selectedText));
-                    mUserService.genericUserPOST(new NetworkCallback<String>() {
-                        @Override
-                        public void onFailure(String errorString) {
-                            Log.e(TAG, errorString);
-                        }
-
-                        @Override
-                        public void onSuccess(String result) {
-                            reloadUser((User)mParserService.parseObject(result,User.class));
-                        }
-                    }, jsonBody, "/updateSchool");
-                }catch (JSONException e) {
-
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
-            }
-        });
     }
 
     protected void onResume() {
         super.onResume();
         fillAccountInfo();
     }
+
 
     public void toggleDarkMode() {
         isDarkMode = !isDarkMode;
@@ -189,8 +153,58 @@ public class AccountActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("loggedInUser", mParserService.deParseObject(mLoggedInUser));
                 editor.apply();
+                setUpSpinner();
             }
         }, userBody, "/finduser");
+    }
+
+    private void setUpSpinner(){
+        mFacultySpinner = findViewById(R.id.faculty_spinner);
+
+        String enrolled = mLoggedInUser.getEnrolledSchoolOrFaculty();
+        if (enrolled != null){
+            String[] schoolArray = getResources().getStringArray(R.array.faculty_list);
+            for (int i = 0;i<schoolArray.length;i++){
+                if (schoolArray[i].equals(enrolled)){
+                    mFacultySpinner.setSelection(i);
+                }
+            }
+        }
+        mFacultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item text from the spinner
+                String selectedText = parent.getItemAtPosition(position).toString();
+
+                JSONObject jsonBody = new JSONObject();
+                try{
+                    jsonBody.put("user", mParserService.deParseObject(mLoggedInUser));
+                    if (selectedText.equals("No Faculty/School Selected")){
+                        selectedText = null;
+                    }
+                    jsonBody.put("enrolledSchoolOrFaculty", mParserService.deParseObject(selectedText));
+                    mUserService.genericUserPOST(new NetworkCallback<String>() {
+                        @Override
+                        public void onFailure(String errorString) {
+                            Log.e(TAG, errorString);
+                        }
+
+                        @Override
+                        public void onSuccess(String result) {
+                            reloadUser((User)mParserService.parseObject(result,User.class));
+                        }
+                    }, jsonBody, "/updateSchool");
+                }catch (JSONException e) {
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
     }
 
 }
