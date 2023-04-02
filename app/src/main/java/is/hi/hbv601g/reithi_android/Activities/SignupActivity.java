@@ -122,13 +122,16 @@ public class SignupActivity extends AppCompatActivity {
                                         msg = "Subscribe failed";
                                     }
                                     Log.d(TAG, msg);
-                                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                                 }
                             });
 
                     Toast.makeText(SignupActivity.this, "Successfully signed up as " + mUsernameField.getText(), Toast.LENGTH_SHORT).show();
                     setResult(200);
+                    Intent intent = new Intent(SignupActivity.this, AccountActivity.class);
+                    startActivity(intent);
                     finish();
+
                 }else{
                     Toast.makeText(SignupActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
                 }

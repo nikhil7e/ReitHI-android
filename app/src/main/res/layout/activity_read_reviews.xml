@@ -9,6 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:orientation="vertical"
         android:layout_weight="1"
         android:gravity="center">
@@ -25,15 +27,16 @@
             android:layout_height="wrap_content"
             android:text="title"
             android:textAlignment="center"
-            android:textSize="16sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="600dp">
+            android:layout_height="0dp"
+            android:layout_weight="1">
             <LinearLayout  android:id="@+id/all_Reviews"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
             </LinearLayout>
         </ScrollView>

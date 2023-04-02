@@ -47,7 +47,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/schoolTextViewLabel"
@@ -73,8 +75,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:padding="16dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/creditsTextViewLabel"
@@ -98,8 +101,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:padding="16dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/semesterTextViewLabel"
@@ -120,62 +124,203 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="10dp">
 
+            <TextView
+                android:id="@+id/professorTextViewLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Professor"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/professorTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="prof Name"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+
+            app:dividerColor="?attr/colorOnSecondary" />
+
+
+        <TextView
+            android:id="@+id/scoresTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="30dp"
+            android:text="@string/no_reviews_submitted_yet"
+            android:textAlignment="center"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
         <LinearLayout  android:id="@+id/scores"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Scores"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/overallTextViewLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Overall Score"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/overallscoretext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:textSize="18sp"
+                    />
+
+            </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/overallscoretext"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Overall Score"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/difficultytext"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/difficultyTextViewLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Difficulty"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/difficultytext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:textSize="18sp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Difficulty"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/materialtext"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/materialTextViewLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Material"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/materialtext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:textSize="18sp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Material"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/workloadtext"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/workloadTextViewLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Workload"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/workloadtext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:textSize="18sp"
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Workload"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/teachingqualitytext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Teaching Quality"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/teachingqualityTextViewLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Teaching Quality"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/teachingqualitytext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:textSize="18sp"
+                    />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

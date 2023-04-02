@@ -126,7 +126,7 @@ public class ReadReviewsActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     private void addReviews(List<Review> reviews, String context) {
         LinearLayout allReviews = findViewById(R.id.all_Reviews);
-        allReviews.removeAllViews();
+
         for (Review review : reviews) {
             Log.d(TAG, review.toString());
             LayoutInflater inflater = LayoutInflater.from(ReadReviewsActivity.this);
@@ -155,7 +155,8 @@ public class ReadReviewsActivity extends AppCompatActivity {
             deleteButton.setOnTouchListener((v, event) -> {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     // Change button icon to pressed state
-                    deleteButton.setBackgroundResource(R.drawable.delete_icon_pressed);
+                    Drawable deleteFilled = ResourcesCompat.getDrawable(getResources(), R.drawable.delete_icon_pressed, getTheme());
+                    deleteButton.setImageDrawable(deleteFilled);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Change button icon to default state
 
@@ -190,7 +191,8 @@ public class ReadReviewsActivity extends AppCompatActivity {
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    deleteButton.setBackgroundResource(R.drawable.delete_icon);
+                                    Drawable deleteIcon = ResourcesCompat.getDrawable(getResources(), R.drawable.delete_icon, getTheme());
+                                    deleteButton.setImageDrawable(deleteIcon);
                                 }
                             });
                     builder.create().show();

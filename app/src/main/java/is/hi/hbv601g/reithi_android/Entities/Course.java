@@ -23,7 +23,7 @@ public class Course {
     private String mSemester;
     @SerializedName("level")
     private String mLevel;
-    @SerializedName("professor_name")
+    @SerializedName("professor_Name")
     private String mProfessor_Name;
     //private Professor professor;
     @SerializedName("minimumGrade")
@@ -36,7 +36,7 @@ public class Course {
     private String mSchool;
     @SerializedName("faculty")
     private String mFaculty;
-    @SerializedName("professor_email")
+    @SerializedName("professor_Email")
     private String mProfessor_Email;
     @SerializedName("professor_URL")
     private String mProfessor_URL;

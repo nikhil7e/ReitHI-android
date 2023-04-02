@@ -124,13 +124,12 @@ public class SearchResultFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (!coldStart){
-
-
             if (mCurrentPage==0){
                 fetchCoursesForPage(null, 1);
             }
            else{
-                fetchCoursesForPage(null, mCurrentPage);
+                fetchCoursesForPage(null, mCurrentPage-1);
+
             }
         }
         coldStart = false;

@@ -178,7 +178,7 @@ public class AccountActivity extends AppCompatActivity {
 
                 JSONObject jsonBody = new JSONObject();
                 try{
-                    jsonBody.put("user", mParserService.deParseObject(mLoggedInUser));
+                    jsonBody.put("userID", mParserService.deParseObject(mLoggedInUser.getID()));
                     if (selectedText.equals("No Faculty/School Selected")){
                         selectedText = null;
                     }
