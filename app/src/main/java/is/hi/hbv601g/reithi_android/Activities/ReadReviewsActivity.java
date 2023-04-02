@@ -138,7 +138,13 @@ public class ReadReviewsActivity extends AppCompatActivity {
             ImageButton upvote = reviewView.findViewById(R.id.upvote_button);
             ImageButton downvote = reviewView.findViewById(R.id.downvote_button);
             ImageButton deleteButton = reviewView.findViewById(R.id.delete_review_button);
-            addRatings(review, reviewView);
+
+            colorDots(reviewView.findViewById(R.id.overallRatingsLayout), review.getOverallScore());
+            colorDots(reviewView.findViewById(R.id.workloadRatingsLayout), review.getWorkload());
+            colorDots(reviewView.findViewById(R.id.difficultyRatingsLayout), review.getDifficulty());
+            colorDots(reviewView.findViewById(R.id.materialRatingsLayout), review.getCourseMaterial());
+            colorDots(reviewView.findViewById(R.id.tqRatingsLayout), review.getTeachingQuality());
+
             for (String userId : review.getUpvoterIds()) {
                 if (String.valueOf(mLoggedInUser.getID()).equals(userId)) {
                     upvote.setImageDrawable(upvoteFilled);
@@ -293,44 +299,18 @@ public class ReadReviewsActivity extends AppCompatActivity {
         }, jsonBody, requestUrl);
     }
 
-    private void addRatings(Review review, View view) {
-        int[] ratings = {review.getOverallScore(), review.getDifficulty(), review.getCourseMaterial(), review.getWorkload(), review.getTeachingQuality()};
-        String[] headings = {"Overall Score", "Difficulty", "Material", "Workload", "Teaching Quality"};
-        LinearLayout textLayout = view.findViewById(R.id.rating_layout_text);
-        LinearLayout ratingsLayout = view.findViewById(R.id.rating_layout_ratings);
-        for (int j = 0; j < 5; j++) {
-
-            LinearLayout ratingLayout = new LinearLayout(this);
-            TextView ratingTextView = new TextView(this);
-            ratingTextView.setText(headings[j]);
-            textLayout.addView(ratingTextView);
-
-            int rating = ratings[j];
-
-            for (int i = 0; i < 5; i++) {
-                Drawable full = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_full, this.getTheme());
-                Drawable empty = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_empty, this.getTheme());
-                ImageView circleView = new ImageView(this);
-                if (rating >= 1) {
-                    rating--;
-                    circleView.setBackground(full);
-                } else {
-                    circleView.setBackground(empty);
+    private void colorDots(LinearLayout container, int score){
+        int childCount = container.getChildCount();
+        Drawable ratingDotFull = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_full, getTheme());
+        for (int i = 0; i < childCount; i++) {
+            View childView = container.getChildAt(i);
+            if (childView instanceof ImageView) {
+                ImageView imageView = (ImageView) childView;
+                if(score > 0){
+                    imageView.setImageDrawable(ratingDotFull);
                 }
-                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(
-                        50,
-                        50//ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-                params.setMargins(4, 0, 4, 0);
-
-                circleView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                circleView.setPadding(3, 3, 3, 3);
-                circleView.setLayoutParams(params);
-
-                ratingLayout.addView(circleView);
+                score--;
             }
-            ratingsLayout.addView(ratingLayout);
         }
     }
-
 }

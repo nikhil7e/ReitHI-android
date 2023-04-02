@@ -96,21 +96,21 @@ public class SearchResultFragment extends Fragment {
         mCourseService = new CourseService(mContext);
 
         if (mCoursePage.getTotalElements() == 0) {
-            TextView noCourses = new TextView(mContext);
-            noCourses.setText("No Courses Found!");
-            mSearchResults.addView(noCourses);
+            noCourses();
         }
 
 
         mPreviousButton.setOnClickListener(v -> {
             if (mCoursePage.getNumber() > 0) {
-                fetchCoursesForPage(null, mCoursePage.getNumber());
+                mCurrentPage = mCoursePage.getNumber();
+                fetchCoursesForPage(null, mCurrentPage);
             }
             mNextButton.setVisibility(View.VISIBLE);
         });
         mNextButton.setOnClickListener(v -> {
             if (mCoursePage.getNumber() < mCoursePage.getTotalPages() - 1) {
-                fetchCoursesForPage(null, mCoursePage.getNumber() + 2);
+                mCurrentPage = mCoursePage.getNumber() + 2;
+                fetchCoursesForPage(null, mCurrentPage);
             }
             mPreviousButton.setVisibility(View.VISIBLE);
         });
@@ -125,10 +125,11 @@ public class SearchResultFragment extends Fragment {
         super.onResume();
         if (!coldStart){
             if (mCurrentPage==0){
-                fetchCoursesForPage(null, 1);
+                mCurrentPage = 1;
+                fetchCoursesForPage(null, mCurrentPage);
             }
            else{
-                fetchCoursesForPage(null, mCurrentPage-1);
+                fetchCoursesForPage(null, mCurrentPage);
 
             }
         }
@@ -136,8 +137,21 @@ public class SearchResultFragment extends Fragment {
     }
 
     public void updateFromFilter(JSONObject filtered){
-        fetchCoursesForPage(filtered, 1);
         mCurrentPage = 1;
+        fetchCoursesForPage(filtered, mCurrentPage);
+    }
+
+    private void noCourses(){
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout linearLayout = new LinearLayout(mContext);
+        linearLayout.setLayoutParams(layoutParams);
+        linearLayout.setGravity(Gravity.CENTER);
+        TextView noCourses = new TextView(mContext);
+        noCourses.setText("No Courses Found!");
+        noCourses.setTextSize(20);
+        linearLayout.addView(noCourses);
+        mSearchResults.addView(linearLayout);
     }
 
 
@@ -151,7 +165,8 @@ public class SearchResultFragment extends Fragment {
             Log.d(TAG, "filterJSON was null");
             filterJson = activity.getFilter();
         }
-        mCurrentPage = page + 1;
+        //mCurrentPage = page + 1;
+
         Log.d(TAG, "filterJSON was NOT NOT NOT null");
         mCourseService.semiGenericPOST(
                 new NetworkCallback<String>() {
@@ -190,9 +205,7 @@ public class SearchResultFragment extends Fragment {
         Log.d(TAG, "I make it here");
         mSearchResults.removeAllViews();
         if (mCoursePage.getTotalElements() == 0) {
-            TextView noCourses = new TextView(mContext);
-            noCourses.setText("No Courses Found!");
-            mSearchResults.addView(noCourses);
+            noCourses();
         }
         Resources res = getResources();
         String[] schools = res.getStringArray(R.array.faculty_list);
@@ -245,7 +258,7 @@ public class SearchResultFragment extends Fragment {
         mCurrentPage = 1;
     }
 
-    public void colorDots(LinearLayout container, Double score){
+    private void colorDots(LinearLayout container, Double score){
         int childCount = container.getChildCount();
         Drawable ratingDotFull = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_full, mContext.getTheme());
         Drawable ratingDotEmpty = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_empty, mContext.getTheme());

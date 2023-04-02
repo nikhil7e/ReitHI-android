@@ -40,7 +40,7 @@
                 android:background="@null"
                 android:contentDescription="@string/login_and_account"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/user_icon"
+                app:srcCompat="@drawable/user_icon_svg_test"
                 android:layout_marginEnd="300dp"
                 />
 

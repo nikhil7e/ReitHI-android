@@ -37,6 +37,7 @@ import is.hi.hbv601g.reithi_android.Activities.CourseActivity;
 import is.hi.hbv601g.reithi_android.Activities.LandingPageActivity;
 import is.hi.hbv601g.reithi_android.Activities.LoginActivity;
 import is.hi.hbv601g.reithi_android.Activities.ReadReviewsActivity;
+import is.hi.hbv601g.reithi_android.Activities.SignupActivity;
 import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.R;
 import is.hi.hbv601g.reithi_android.Services.ParserService;
@@ -83,7 +84,7 @@ public class BottomBarFragment extends Fragment {
         });
         setUserIcon(false);
         setHomeIcon(false);
-        if (getActivity() instanceof AccountActivity) {
+        if (getActivity() instanceof AccountActivity || getActivity() instanceof LoginActivity || getActivity() instanceof SignupActivity) {
             setUserIcon(true);
         } else if(getActivity() instanceof LandingPageActivity){
             setHomeIcon(true);
@@ -91,12 +92,12 @@ public class BottomBarFragment extends Fragment {
     }
     public void setUserIcon(Boolean isInAccount){
         if (isInAccount){
-            Drawable userFilled = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.user_icon_filled, getActivity().getTheme());
+            Drawable userFilled = ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.user_icon_svg_test_filled, getActivity().getTheme());
             mLoginAndAccountButton.setImageDrawable(userFilled);
             mLoginAndAccountButton.setEnabled(false);
         }
         else{
-            Drawable user= ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.user_icon, getActivity().getTheme());
+            Drawable user= ResourcesCompat.getDrawable(getActivity().getResources(), R.drawable.user_icon_svg_test, getActivity().getTheme());
             mLoginAndAccountButton.setImageDrawable(user);
             mLoginAndAccountButton.setEnabled(true);
         }
