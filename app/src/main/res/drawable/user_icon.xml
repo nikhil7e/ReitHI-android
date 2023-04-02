@@ -19,7 +19,7 @@
                 android:width="4dp"
                 android:height="4dp" />
             <stroke
-                android:width="0.2dp"
+                android:width="0.5dp"
                 android:color="#FFFFFF" />
 
         </shape>
@@ -31,7 +31,7 @@
                 android:width="7dp"
                 android:height="4dp" />
             <stroke
-                android:width="0.2dp"
+                android:width="0.5dp"
                 android:color="#FFFFFF" />
 
         </shape>

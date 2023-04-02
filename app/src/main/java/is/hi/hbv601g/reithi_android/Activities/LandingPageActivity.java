@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ import is.hi.hbv601g.reithi_android.Services.CourseService;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.gms.tasks.OnCompleteListener;
 
 import org.json.JSONObject;
 
@@ -184,7 +186,11 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
     public void forwardFilter(JSONObject filtered){
-        mSearchResultFragment.updateFromFilter(filtered);
+        if (mSearchResultFragment != null){
+            mSearchResultFragment.updateFromFilter(filtered);
+        }else{
+            performSearch();
+        }
     }
     public void showShimmer(){
         mShimmerLayout.startShimmer();

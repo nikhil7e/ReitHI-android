@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:textSize="12dp"
             android:text="level"/>
         <TextView
@@ -49,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:textSize="12dp"
             android:text="school"/>
 
@@ -58,13 +60,15 @@
         android:layout_width="0dp"
         android:layout_weight="7"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18dp"
+            android:layout_marginBottom="5dp"
             android:text="courseName"/>
 
 
@@ -84,31 +88,35 @@
                 <TextView
                     android:id="@+id/overallScoreTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Overall Score" />
+                    android:layout_height="17dp"
+                    android:text="Overall Score"
+                    android:layout_marginBottom="3dp"/>
 
                 <TextView
                     android:id="@+id/difficultyTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Difficulty" />
+                    android:layout_height="17dp"
+                    android:text="Difficulty"
+                    android:layout_marginBottom="3dp"/>
 
                 <TextView
                     android:id="@+id/materialTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Material" />
+                    android:layout_height="17dp"
+                    android:text="Material"
+                    android:layout_marginBottom="3dp"/>
 
                 <TextView
                     android:id="@+id/workloadTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="Workload" />
+                    android:layout_height="17dp"
+                    android:text="Workload"
+                    android:layout_marginBottom="3dp"/>
 
                 <TextView
                     android:id="@+id/teachingQualityTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="17dp"
                     android:text="Teaching Quality" />
 
             </LinearLayout>
@@ -118,41 +126,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:orientation="vertical"
-                android:layout_marginStart="20dp">
+                android:layout_marginStart="17dp">
 
                 <LinearLayout
                     android:id="@+id/overallRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
                     >
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
@@ -161,36 +170,37 @@
                 <LinearLayout
                     android:id="@+id/difficultyRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
                    >
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
@@ -199,35 +209,36 @@
                 <LinearLayout
                     android:id="@+id/materialRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
                  >
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
@@ -236,35 +247,36 @@
                 <LinearLayout
                     android:id="@+id/workloadRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp">
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
@@ -273,35 +285,35 @@
                 <LinearLayout
                     android:id="@+id/tqRatingsLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="17dp">
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
 
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ratingdot_empty"/>
                     <ImageView
-                        android:layout_width="15dp"
+                        android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"

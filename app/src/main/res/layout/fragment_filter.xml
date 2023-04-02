@@ -4,88 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:gravity="center"
     android:orientation="vertical"
     android:background="?attr/background"
     tools:context=".Fragments.FilterFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
 
 
-        <LinearLayout
+        <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_marginTop="16dp"
+            app:singleSelection="false">
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/undergraduateChip"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/graduate_classes" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/undergraduate_classes" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Only show classes from enrolled school" />
-            </LinearLayout>
+                android:text="Undergraduate"
+                style="@style/MyChipStyle"
+                android:checked="true"
+                android:textColor="?attr/colorOnPrimary" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/graduateChip"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
-                    <Switch
-                        android:id="@+id/graduateSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
-                    <Switch
-                        android:id="@+id/undergraduate_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
-                    <Switch
-                        android:id="@+id/schoolSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="false" />
-                </LinearLayout>
+                android:text="Graduate"
+                android:checked="true"
+                style="@style/MyChipStyle"
+                android:textColor="?attr/colorOnPrimary"
+              />
 
-            </LinearLayout>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/enrolledChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Match Department"
+                style="@style/MyChipStyle"
+                android:textColor="?attr/colorOnPrimary"
+               />
 
-        </LinearLayout>
-
+        </com.google.android.material.chip.ChipGroup>
 
         <!-- Filter by credits -->
         <TextView
@@ -183,5 +151,5 @@
         android:layout_height="wrap_content"
         android:text="Apply" />
 
-
+    </LinearLayout>
 </LinearLayout>

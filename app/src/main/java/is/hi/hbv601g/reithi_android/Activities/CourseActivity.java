@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -56,6 +59,8 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mCreditsTextView;
     private TextView mSchoolTextView;
 
+    private TextView mProfessorTextView;
+
     private UserService mUserService;
 
     private boolean coldStart;
@@ -78,16 +83,41 @@ public class CourseActivity extends AppCompatActivity {
 
 
         mCourse = (Course) mParserService.parseObject(mCourseString, Course.class);
-
-
         mCourseNameTitle = findViewById(R.id.courseName);
         mSemesterTextView = findViewById(R.id.semesterTextView);
+        mProfessorTextView = findViewById(R.id.professorTextView);
         mCreditsTextView = findViewById(R.id.creditsTextView);
         mSchoolTextView = findViewById(R.id.schoolTextView);
         mCourseNameTitle.setText(mCourse.getName());
-        mSemesterTextView.setText(mCourse.getSemester());
-        mCreditsTextView.setText(mCourse.getCredits().toString());
-        mSchoolTextView.setText(mCourse.getSchool());
+
+        if (TextUtils.isEmpty(mCourse.getProfessor_Name())) {
+            LinearLayout parent = (LinearLayout) mProfessorTextView.getParent();
+            parent.setVisibility(View.GONE);
+        } else {
+            mProfessorTextView.setText(mCourse.getProfessor_Name());
+        }
+
+        if (TextUtils.isEmpty(mCourse.getSemester())) {
+            LinearLayout parent = (LinearLayout) mSemesterTextView.getParent();
+            parent.setVisibility(View.GONE);
+        } else {
+            mSemesterTextView.setText(mCourse.getSemester());
+        }
+
+        if (mCourse.getCredits() == null) {
+            LinearLayout parent = (LinearLayout) mCreditsTextView.getParent();
+            parent.setVisibility(View.GONE);
+        } else {
+            mCreditsTextView.setText(mCourse.getCredits().toString());
+        }
+
+        if (TextUtils.isEmpty(mCourse.getSchool())) {
+            LinearLayout parent = (LinearLayout) mSchoolTextView.getParent();
+            parent.setVisibility(View.GONE);
+        } else {
+            mSchoolTextView.setText(mCourse.getSchool());
+        }
+
         mReviewButton = findViewById(R.id.review_button);
 
         mReadReviewsButton = findViewById(R.id.read_reviews_button);
@@ -124,17 +154,31 @@ public class CourseActivity extends AppCompatActivity {
                     mCourseString = json;
                     mCourse = (Course) (Object) mParserService.parseObject(json, Course.class);
                     checkReviewButtonAccess();
-
                     Log.d(TAG, json);
-                    loadData();
+                    setRatings();
                 }
             }, "/getcoursebyid/?id=" + mCourse.getID());
         } else {
             coldStart = false;
             checkReviewButtonAccess();
-            loadData();
+            setRatings();
         }
 
+    }
+
+    private void setRatings(){
+        if (mCourse.getTotalReviews() != 0){
+            loadData();
+            TextView scoresTextView = findViewById(R.id.scoresTextView);
+            scoresTextView.setVisibility(View.GONE);
+            LinearLayout scores = findViewById(R.id.scores);
+            scores.setVisibility(View.VISIBLE);
+        }else{
+            LinearLayout scores = findViewById(R.id.scores);
+            scores.setVisibility(View.GONE);
+            TextView scoresTextView = findViewById(R.id.scoresTextView);
+            scoresTextView.setVisibility(View.VISIBLE);
+        }
     }
     private void checkReviewButtonAccess(){
         SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
@@ -164,9 +208,9 @@ public class CourseActivity extends AppCompatActivity {
     private void loadData() {
         Double[] ratings = {mCourse.getTotalOverall(), mCourse.getTotalDifficulty(), mCourse.getTotalCourseMaterial(), mCourse.getTotalWorkload(), mCourse.getTotalTeachingQuality()};
         for (int i = 0; i < scoreTextviews.length; i++) {
-            double rating = ratings[i] / mCourse.getTotalReviews();
             TextView score = scoreTextviews[i];
-            score.setText(headings[i] + ": " + rating);
+            double rating = ratings[i] / mCourse.getTotalReviews();
+            score.setText(rating+"");
         }
     }
 
