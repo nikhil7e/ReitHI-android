@@ -25,14 +25,16 @@ public class ReithiFirebaseMessagingService extends FirebaseMessagingService {
 
     private SharedPreferences mSharedPreferences;
     private UserService mUserService;
+    private ParserService mParserService;
     private final String TAG = "ReithiFirebaseMessagingService";
 
     @Override
     public void onNewToken(String token) {
         mUserService = new UserService(getApplicationContext());
         mSharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
+        mParserService = ParserService.getInstance();
         String userString = mSharedPreferences.getString("loggedInUser", "");
-
+        User user = (User) mParserService.parseObject(userString, User.class);
         Log.d("MyFirebaseMsgService", "Refreshed token: " + token);
 
         // Send the registration token to your backend server along with the user's ID
@@ -42,7 +44,7 @@ public class ReithiFirebaseMessagingService extends FirebaseMessagingService {
         editor.apply();
 
         if (!userString.isEmpty()) {
-            sendRegistrationTokenToServer(token, userString);
+            sendRegistrationTokenToServer(token, user.getID());
         }
     }
 
@@ -76,11 +78,11 @@ public class ReithiFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    public void sendRegistrationTokenToServer(String token, String userString) {
+    public void sendRegistrationTokenToServer(String token, Long userID) {
         JSONObject requestBody = new JSONObject();
         try {
-            requestBody.put("user", userString);
-            requestBody.put("deviceToken", token);
+            requestBody.put("userID", mParserService.deParseObject(userID));
+            requestBody.put("deviceToken", mParserService.deParseObject(token));
         } catch (JSONException e) {
             e.printStackTrace();
         }
