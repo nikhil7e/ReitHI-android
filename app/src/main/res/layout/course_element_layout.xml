@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/searchResultLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:orientation="horizontal"
-    >
+    android:orientation="horizontal">
+
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="3"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        >
+        android:layout_weight="3"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/courseNumberTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginStart="10dp"
-            android:text="courseNum"
             android:background="@drawable/border_circular"
             android:padding="12dp"
+            android:text="courseNum"
             android:textColor="@android:color/white" />
+
         <TextView
             android:id="@+id/creditsTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="20dp"
-            android:textSize="12dp"
-            android:text="6 credits"/>
+            android:layout_marginTop="5dp"
+            android:text="6 credits"
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/levelTextView"
@@ -43,34 +42,34 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
-            android:textSize="12dp"
-            android:text="level"/>
+            android:text="level"
+            android:textSize="12dp" />
+
         <TextView
             android:id="@+id/schoolTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
-            android:textSize="12dp"
-            android:text="school"/>
+            android:text="school"
+            android:textSize="12dp" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/verticalLayout"
         android:layout_width="0dp"
-        android:layout_weight="7"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_weight="7"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
             android:layout_marginBottom="5dp"
-            android:text="courseName"/>
-
+            android:text="courseName"
+            android:textSize="18dp" />
 
 
         <LinearLayout
@@ -89,29 +88,29 @@
                     android:id="@+id/overallScoreTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="17dp"
-                    android:text="Overall Score"
-                    android:layout_marginBottom="3dp"/>
+                    android:layout_marginBottom="3dp"
+                    android:text="Overall Score" />
 
                 <TextView
                     android:id="@+id/difficultyTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="17dp"
-                    android:text="Difficulty"
-                    android:layout_marginBottom="3dp"/>
+                    android:layout_marginBottom="3dp"
+                    android:text="Difficulty" />
 
                 <TextView
                     android:id="@+id/materialTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="17dp"
-                    android:text="Material"
-                    android:layout_marginBottom="3dp"/>
+                    android:layout_marginBottom="3dp"
+                    android:text="Material" />
 
                 <TextView
                     android:id="@+id/workloadTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="17dp"
-                    android:text="Workload"
-                    android:layout_marginBottom="3dp"/>
+                    android:layout_marginBottom="3dp"
+                    android:text="Workload" />
 
                 <TextView
                     android:id="@+id/teachingQualityTextView"
@@ -125,125 +124,135 @@
                 android:id="@+id/allRatingsLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:orientation="vertical"
-                android:layout_marginStart="17dp">
+                android:layout_marginStart="17dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/overallRatingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="17dp"
-                    android:layout_marginBottom="3dp"
-                    >
+                    android:layout_marginBottom="3dp">
 
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
 
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/difficultyRatingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="17dp"
-                    android:layout_marginBottom="3dp"
-                   >
+                    android:layout_marginBottom="3dp">
 
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
 
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/materialRatingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="17dp"
-                    android:layout_marginBottom="3dp"
-                 >
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                    android:layout_marginBottom="3dp">
 
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/workloadRatingsLayout"
                     android:layout_width="match_parent"
@@ -255,33 +264,37 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
 
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/tqRatingsLayout"
                     android:layout_width="match_parent"
@@ -292,32 +305,35 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
 
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
                     <ImageView
                         android:layout_width="17dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ratingdot_empty"/>
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

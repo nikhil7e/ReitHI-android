@@ -49,7 +49,7 @@ public class SearchResultFragment extends Fragment {
 
     private final String TAG = "SearchResultFragment";
     private LinearLayout mSearchResults;
-    
+
     private Context mContext;
 
     private Button mNextButton;
@@ -63,7 +63,6 @@ public class SearchResultFragment extends Fragment {
     private int mCurrentPage;
 
     private boolean coldStart;
-
 
 
     //    @Override
@@ -86,8 +85,8 @@ public class SearchResultFragment extends Fragment {
         mNextButton = view.findViewById(R.id.nextButton);
 
 
-
-        Type listType = new TypeToken<Page<Course>>() {}.getType();
+        Type listType = new TypeToken<Page<Course>>() {
+        }.getType();
         String results = requireArguments().getString("searchResult");
         mSearchQuery = requireArguments().getString("searchQuery");
         mCoursePage = (Page<Course>) (Object) mParserService.parseObject(results, listType);
@@ -123,31 +122,30 @@ public class SearchResultFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (!coldStart){
-            if (mCurrentPage==0){
+        if (!coldStart) {
+            if (mCurrentPage == 0) {
                 fetchCoursesForPage(null, 1);
-            }
-           else{
-                fetchCoursesForPage(null, mCurrentPage-1);
+            } else {
+                fetchCoursesForPage(null, mCurrentPage - 1);
 
             }
         }
         coldStart = false;
     }
 
-    public void updateFromFilter(JSONObject filtered){
+    public void updateFromFilter(JSONObject filtered) {
         fetchCoursesForPage(filtered, 1);
         mCurrentPage = 1;
     }
 
 
-    private void fetchCoursesForPage(JSONObject filterJson, int page){
+    private void fetchCoursesForPage(JSONObject filterJson, int page) {
         mSearchResults.removeAllViews();
         /*ProgressBar progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleLarge);
         mSearchResults.addView(progressBar);*/
         LandingPageActivity activity = (LandingPageActivity) getActivity();
         activity.showShimmer();
-        if (filterJson == null){
+        if (filterJson == null) {
             Log.d(TAG, "filterJSON was null");
             filterJson = activity.getFilter();
         }
@@ -162,28 +160,29 @@ public class SearchResultFragment extends Fragment {
 
                     @Override
                     public void onSuccess(String result) {
-                        Type listType = new TypeToken<Page<Course>>() {}.getType();
+                        Type listType = new TypeToken<Page<Course>>() {
+                        }.getType();
                         mCoursePage = (Page<Course>) (Object) mParserService.parseObject(result, listType);
                         LandingPageActivity activity = (LandingPageActivity) getActivity();
                         activity.hideShimmer();
                         addCourseTextAndShapes(mCoursePage);
-                        Log.d("TAG","went to page "+page);
+                        Log.d("TAG", "went to page " + page);
                     }
-                },filterJson, "/filter/?name="+mSearchQuery+"&page="+page
+                }, filterJson, "/filter/?name=" + mSearchQuery + "&page=" + page
         );
     }
 
-    
-    private void addCourseTextAndShapes(Page<Course> courseList){
 
-        if (mCoursePage.isFirst()){
+    private void addCourseTextAndShapes(Page<Course> courseList) {
+
+        if (mCoursePage.isFirst()) {
             mPreviousButton.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             mPreviousButton.setVisibility(View.VISIBLE);
         }
-        if (mCoursePage.isLast()){
+        if (mCoursePage.isLast()) {
             mNextButton.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             mNextButton.setVisibility(View.VISIBLE);
         }
 
@@ -199,14 +198,13 @@ public class SearchResultFragment extends Fragment {
 
         for (Course course : courseList.getContent()) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View searchResultLayout= inflater.inflate(R.layout.course_element_layout, null);
+            View searchResultLayout = inflater.inflate(R.layout.course_element_layout, null);
             TextView courseNum = searchResultLayout.findViewById(R.id.courseNumberTextView);
             courseNum.setText(course.getNumber());
             TextView courseSchool = searchResultLayout.findViewById(R.id.schoolTextView);
             if (Arrays.asList(schools).contains(course.getSchool())) {
                 courseSchool.setText(course.getSchool());
-            }
-            else{
+            } else {
                 courseSchool.setVisibility(View.GONE);
             }
             TextView courseName = searchResultLayout.findViewById(R.id.nameTextView);
@@ -214,18 +212,18 @@ public class SearchResultFragment extends Fragment {
             TextView courseLevel = searchResultLayout.findViewById(R.id.levelTextView);
             courseLevel.setText(course.getLevel());
             TextView courseCredits = searchResultLayout.findViewById(R.id.creditsTextView);
-            courseCredits.setText(course.getCredits()+" credits");
+            courseCredits.setText(course.getCredits() + " credits");
 
             LinearLayout overAllLayout = searchResultLayout.findViewById(R.id.overallRatingsLayout);
             LinearLayout workloadLayout = searchResultLayout.findViewById(R.id.workloadRatingsLayout);
             LinearLayout difficultyLayout = searchResultLayout.findViewById(R.id.difficultyRatingsLayout);
             LinearLayout materialLayout = searchResultLayout.findViewById(R.id.materialRatingsLayout);
             LinearLayout tqLayout = searchResultLayout.findViewById(R.id.tqRatingsLayout);
-            colorDots(overAllLayout, course.getTotalOverall()/course.getTotalReviews());
-            colorDots(workloadLayout, course.getTotalWorkload()/course.getTotalReviews());
-            colorDots(difficultyLayout, course.getTotalDifficulty()/course.getTotalReviews());
-            colorDots(materialLayout, course.getTotalCourseMaterial()/course.getTotalReviews());
-            colorDots(tqLayout, course.getTotalTeachingQuality()/course.getTotalReviews());
+            colorDots(overAllLayout, course.getTotalOverall() / course.getTotalReviews());
+            colorDots(workloadLayout, course.getTotalWorkload() / course.getTotalReviews());
+            colorDots(difficultyLayout, course.getTotalDifficulty() / course.getTotalReviews());
+            colorDots(materialLayout, course.getTotalCourseMaterial() / course.getTotalReviews());
+            colorDots(tqLayout, course.getTotalTeachingQuality() / course.getTotalReviews());
             //creating a onclick listener for the search result
             searchResultLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -245,7 +243,7 @@ public class SearchResultFragment extends Fragment {
         mCurrentPage = 1;
     }
 
-    public void colorDots(LinearLayout container, Double score){
+    public void colorDots(LinearLayout container, Double score) {
         int childCount = container.getChildCount();
         Drawable ratingDotFull = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_full, mContext.getTheme());
         Drawable ratingDotEmpty = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_empty, mContext.getTheme());
@@ -253,9 +251,9 @@ public class SearchResultFragment extends Fragment {
             View childView = container.getChildAt(i);
             if (childView instanceof ImageView) {
                 ImageView imageView = (ImageView) childView;
-                if(score > 0.75){
+                if (score > 0.75) {
                     imageView.setImageDrawable(ratingDotFull);
-                } else if (score >0.25) {
+                } else if (score > 0.25) {
                     ClipDrawable clipDrawable = new ClipDrawable(ratingDotFull, Gravity.LEFT, ClipDrawable.HORIZONTAL);
                     clipDrawable.setLevel(5000);
                     Drawable[] layers = {ratingDotEmpty, clipDrawable};
