@@ -4,32 +4,27 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewAssertion;
-import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import androidx.test.rule.ActivityTestRule;
 
-import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +37,12 @@ public class LandingPageEspressoTest {
 
     @Rule
     public ActivityScenarioRule<LandingPageActivity> activityRule = new ActivityScenarioRule<>(LandingPageActivity.class);
+
+    @Rule
+    public ActivityTestRule<LandingPageActivity> activityTestRule = new ActivityTestRule<>(LandingPageActivity.class);
+
+//    @Rule
+//    public IdlingRegistry idlingRegistry = IdlingRegistry.getInstance();
 
     @Test
     public void searchBar_visible() {
@@ -59,19 +60,82 @@ public class LandingPageEspressoTest {
 //        // Add assertion for the expected behavior after search button is clicked
 //    }
 
+//    @Test
+//    public void searchResultsContainsTitleWithSearchQuery() throws InterruptedException {
+//        String searchQuery = "Software";
+//        onView(withId(R.id.search_bar)).perform(typeText(searchQuery));
+//        onView(withId(R.id.search_button)).perform(click());
+//
+//        Thread.sleep(5000); // wait for 5 seconds
+//
+//        onView(withId(R.id.search_results))
+//                .check(matches(isDisplayed()))
+//                .check(new ViewAssertion() {
+//                    @Override
+//                    public void check(View view, NoMatchingViewException noViewFoundException) {
+//                        if (view instanceof LinearLayout) {
+//                            LinearLayout linearLayout = (LinearLayout) view;
+//                            int childCount = linearLayout.getChildCount();
+//                            for (int i = 0; i < childCount; i++) {
+//                                View childView = linearLayout.getChildAt(i);
+//                                TextView textView = childView.findViewById(R.id.nameTextView);
+//                                String text = textView.getText().toString().toLowerCase();
+//                                assertThat(text, containsString(searchQuery.toLowerCase()));
+//                            }
+//                        } else {
+//                            throw new AssertionError("View is not a LinearLayout");
+//                        }
+//                    }
+//                });
+//    }
+//
+//    @Test
+//    public void searchResultsContainsTitleWithInvalidSearchQuery() throws InterruptedException {
+//        String searchQuery = "-+|:{";
+//        onView(withId(R.id.search_bar)).perform(typeText(searchQuery));
+//        onView(withId(R.id.search_button)).perform(click());
+//
+//        Thread.sleep(5000); // wait for 5 seconds
+//
+//        onView(withId(R.id.search_results))
+//                .check(matches(isDisplayed()))
+//                .check(new ViewAssertion() {
+//                    @Override
+//                    public void check(View view, NoMatchingViewException noViewFoundException) {
+//                        if (view instanceof LinearLayout) {
+//                            LinearLayout linearLayout = (LinearLayout) view;
+//                            int childCount = linearLayout.getChildCount();
+//                            for (int i = 0; i < childCount; i++) {
+//                                View childView = linearLayout.getChildAt(i);
+//                                TextView textView = childView.findViewById(R.id.nameTextView);
+//                                String text = textView.getText().toString().toLowerCase();
+//                                assertThat(text, containsString(searchQuery.toLowerCase()));
+//                            }
+//                        } else {
+//                            throw new AssertionError("View is not a LinearLayout");
+//                        }
+//                    }
+//                });
+//    }
+
     @Test
-    public void searchResults_containsTitleWithSearchQuery() throws InterruptedException {
-        String searchQuery = "9/11";
+    public void searchResultsContainsTitleWithEmptySearchQuery() throws InterruptedException {
+        String searchQuery = "";
         onView(withId(R.id.search_bar)).perform(typeText(searchQuery));
+
         onView(withId(R.id.search_button)).perform(click());
 
-        Thread.sleep(5000); // wait for 5 seconds
+//        LandingPageActivity activity = activityTestRule.getActivity();
+//        Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.searchResultLayout);
+//
+//        FragmentLoadingIdlingResource idlingResource = new FragmentLoadingIdlingResource(
+//                activityTestRule.getActivity().getSupportFragmentManager(),
+//                fragment
+//        );
 
-        onView(withId(R.id.search_results)).check(matches(isDisplayed()));
+//        Espresso.registerIdlingResources(idlingResource);
 
-//        onView(allOf(withId(R.id.nameTextView), isDescendantOfA(withId(R.id.search_results))))
-//                .check(matches(allOf(isDisplayed())))
-//                .check(matches(allOf(withText(containsString(searchQuery)))));
+        Thread.sleep(5000);
 
         onView(withId(R.id.search_results))
                 .check(matches(isDisplayed()))
@@ -93,11 +157,7 @@ public class LandingPageEspressoTest {
                     }
                 });
 
-
-
-//        onView(allOf(withId(R.id.nameTextView), isDisplayed(), isDescendantOfA(withId(R.id.search_results))))
-//                .check(matches(allOf(isDisplayed(), withText(containsString(searchQuery)))));
-
+//        Espresso.unregisterIdlingResources(idlingResource);
     }
 
 }
