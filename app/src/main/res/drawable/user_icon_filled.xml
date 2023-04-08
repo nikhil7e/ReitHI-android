@@ -7,13 +7,13 @@
                 android:width="10dp"
                 android:height="10dp" />
             <stroke
-                android:width="0.8dp"
+                android:width="0.5dp"
                 android:color="#FFFFFF" />
 
         </shape>
     </item>
 
-    <item android:gravity="center" android:top="-2dp">
+    <item android:gravity="center" android:top="-1.5dp">
         <shape android:shape="oval">
             <size
                 android:width="4dp"

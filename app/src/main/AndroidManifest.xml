@@ -64,7 +64,8 @@
 <!--            </intent-filter>-->
 <!--        </activity>-->
         <activity
-            android:name=".Activities.LandingPageActivity">
+            android:name=".Activities.LandingPageActivity"
+            android:launchMode="singleTask">
         </activity>
         <activity
             android:name=".Activities.CourseActivity">
@@ -82,7 +83,8 @@
             android:name=".Activities.SignupActivity">
         </activity>
         <activity
-            android:name=".Activities.AccountActivity">
+            android:name=".Activities.AccountActivity"
+            android:launchMode="singleTask">
         </activity>
     </application>
 

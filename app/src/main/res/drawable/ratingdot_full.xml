@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <size
         android:width="10dp"
@@ -8,4 +8,27 @@
         android:width="0.9dp"
         android:color="?attr/colorOnSecondary" />
     <solid android:color="?attr/colorPrimaryVariant" />
-</shape>
+</shape>-->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item>
+    <shape android:shape="oval">
+        <size
+            android:width="10dp"
+            android:height="10dp" />
+        <stroke
+            android:width="0.9dp"
+            android:color="?attr/colorOnSecondary" />
+        <solid android:color="?attr/background" />
+    </shape>
+</item>
+
+<item android:gravity="center">
+    <shape android:shape="oval">
+        <solid android:color="@color/reithi_litur_alt" />
+        <size android:width="7dp" android:height="7dp" />
+    </shape>
+</item>
+
+</layer-list>

@@ -65,6 +65,7 @@ public class SearchResultFragment extends Fragment {
     private boolean coldStart;
 
 
+
     //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        /** Inflating the layout for this fragment **/
@@ -85,73 +86,87 @@ public class SearchResultFragment extends Fragment {
         mNextButton = view.findViewById(R.id.nextButton);
 
 
-        Type listType = new TypeToken<Page<Course>>() {
-        }.getType();
+
+        Type listType = new TypeToken<Page<Course>>() {}.getType();
         String results = requireArguments().getString("searchResult");
         mSearchQuery = requireArguments().getString("searchQuery");
         mCoursePage = (Page<Course>) (Object) mParserService.parseObject(results, listType);
 
         mContext = getActivity();
         mCourseService = new CourseService(mContext);
-        LandingPageActivity activity = (LandingPageActivity) getActivity();
+
+        if (mCoursePage.getTotalElements() == 0) {
+            noCourses();
+        }
+
 
         mPreviousButton.setOnClickListener(v -> {
             if (mCoursePage.getNumber() > 0) {
-                fetchCoursesForPage(null, mCoursePage.getNumber());
+                mCurrentPage = mCoursePage.getNumber();
+                fetchCoursesForPage(null, mCurrentPage);
             }
             mNextButton.setVisibility(View.VISIBLE);
         });
         mNextButton.setOnClickListener(v -> {
             if (mCoursePage.getNumber() < mCoursePage.getTotalPages() - 1) {
-                fetchCoursesForPage(null, mCoursePage.getNumber() + 2);
+                mCurrentPage = mCoursePage.getNumber() + 2;
+                fetchCoursesForPage(null, mCurrentPage);
             }
             mPreviousButton.setVisibility(View.VISIBLE);
         });
         Log.d(TAG, results);
-
-        if (mCoursePage.getTotalElements() == 0) {
-            TextView noCourses = new TextView(mContext);
-            noCourses.setText("No Courses Found!");
-            mSearchResults.addView(noCourses);
-            mPreviousButton.setVisibility(View.GONE);
-            mNextButton.setVisibility(View.GONE);
-        } else {
-            addCourseTextAndShapes(mCoursePage);
-        }
+        addCourseTextAndShapes(mCoursePage);
+        LandingPageActivity activity = (LandingPageActivity) getActivity();
         activity.hideShimmer();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!coldStart) {
-            if (mCurrentPage == 0) {
-                fetchCoursesForPage(null, 1);
-            } else {
-                fetchCoursesForPage(null, mCurrentPage - 1);
+        if (!coldStart){
+            if (mCurrentPage==0){
+                mCurrentPage = 1;
+                fetchCoursesForPage(null, mCurrentPage);
+            }
+            else{
+                fetchCoursesForPage(null, mCurrentPage);
 
             }
         }
         coldStart = false;
     }
 
-    public void updateFromFilter(JSONObject filtered) {
-        fetchCoursesForPage(filtered, 1);
+    public void updateFromFilter(JSONObject filtered){
         mCurrentPage = 1;
+        fetchCoursesForPage(filtered, mCurrentPage);
+    }
+
+    private void noCourses(){
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout linearLayout = new LinearLayout(mContext);
+        linearLayout.setLayoutParams(layoutParams);
+        linearLayout.setGravity(Gravity.CENTER);
+        TextView noCourses = new TextView(mContext);
+        noCourses.setText("No Courses Found!");
+        noCourses.setTextSize(20);
+        linearLayout.addView(noCourses);
+        mSearchResults.addView(linearLayout);
     }
 
 
-    private void fetchCoursesForPage(JSONObject filterJson, int page) {
+    private void fetchCoursesForPage(JSONObject filterJson, int page){
         mSearchResults.removeAllViews();
         /*ProgressBar progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleLarge);
         mSearchResults.addView(progressBar);*/
         LandingPageActivity activity = (LandingPageActivity) getActivity();
         activity.showShimmer();
-        if (filterJson == null) {
+        if (filterJson == null){
             Log.d(TAG, "filterJSON was null");
             filterJson = activity.getFilter();
         }
-        mCurrentPage = page + 1;
+        //mCurrentPage = page + 1;
+
         Log.d(TAG, "filterJSON was NOT NOT NOT null");
         mCourseService.semiGenericPOST(
                 new NetworkCallback<String>() {
@@ -162,51 +177,49 @@ public class SearchResultFragment extends Fragment {
 
                     @Override
                     public void onSuccess(String result) {
-                        Type listType = new TypeToken<Page<Course>>() {
-                        }.getType();
+                        Type listType = new TypeToken<Page<Course>>() {}.getType();
                         mCoursePage = (Page<Course>) (Object) mParserService.parseObject(result, listType);
                         LandingPageActivity activity = (LandingPageActivity) getActivity();
                         activity.hideShimmer();
                         addCourseTextAndShapes(mCoursePage);
-                        Log.d("TAG", "went to page " + page);
+                        Log.d("TAG","went to page "+page);
                     }
-                }, filterJson, "/filter/?name=" + mSearchQuery + "&page=" + page
+                },filterJson, "/filter/?name="+mSearchQuery+"&page="+page
         );
     }
 
 
-    private void addCourseTextAndShapes(Page<Course> courseList) {
+    private void addCourseTextAndShapes(Page<Course> courseList){
 
-        if (mCoursePage.isFirst()) {
+        if (mCoursePage.isFirst()){
             mPreviousButton.setVisibility(View.INVISIBLE);
-        } else {
+        }else{
             mPreviousButton.setVisibility(View.VISIBLE);
         }
-        if (mCoursePage.isLast()) {
+        if (mCoursePage.isLast()){
             mNextButton.setVisibility(View.INVISIBLE);
-        } else {
+        }else{
             mNextButton.setVisibility(View.VISIBLE);
         }
 
         Log.d(TAG, "I make it here");
         mSearchResults.removeAllViews();
         if (mCoursePage.getTotalElements() == 0) {
-            TextView noCourses = new TextView(mContext);
-            noCourses.setText("No Courses Found!");
-            mSearchResults.addView(noCourses);
+            noCourses();
         }
         Resources res = getResources();
         String[] schools = res.getStringArray(R.array.faculty_list);
 
         for (Course course : courseList.getContent()) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View searchResultLayout = inflater.inflate(R.layout.course_element_layout, null);
+            View searchResultLayout= inflater.inflate(R.layout.course_element_layout, null);
             TextView courseNum = searchResultLayout.findViewById(R.id.courseNumberTextView);
             courseNum.setText(course.getNumber());
             TextView courseSchool = searchResultLayout.findViewById(R.id.schoolTextView);
             if (Arrays.asList(schools).contains(course.getSchool())) {
                 courseSchool.setText(course.getSchool());
-            } else {
+            }
+            else{
                 courseSchool.setVisibility(View.GONE);
             }
             TextView courseName = searchResultLayout.findViewById(R.id.nameTextView);
@@ -214,18 +227,18 @@ public class SearchResultFragment extends Fragment {
             TextView courseLevel = searchResultLayout.findViewById(R.id.levelTextView);
             courseLevel.setText(course.getLevel());
             TextView courseCredits = searchResultLayout.findViewById(R.id.creditsTextView);
-            courseCredits.setText(course.getCredits() + " credits");
+            courseCredits.setText(course.getCredits()+" credits");
 
             LinearLayout overAllLayout = searchResultLayout.findViewById(R.id.overallRatingsLayout);
             LinearLayout workloadLayout = searchResultLayout.findViewById(R.id.workloadRatingsLayout);
             LinearLayout difficultyLayout = searchResultLayout.findViewById(R.id.difficultyRatingsLayout);
             LinearLayout materialLayout = searchResultLayout.findViewById(R.id.materialRatingsLayout);
             LinearLayout tqLayout = searchResultLayout.findViewById(R.id.tqRatingsLayout);
-            colorDots(overAllLayout, course.getTotalOverall() / course.getTotalReviews());
-            colorDots(workloadLayout, course.getTotalWorkload() / course.getTotalReviews());
-            colorDots(difficultyLayout, course.getTotalDifficulty() / course.getTotalReviews());
-            colorDots(materialLayout, course.getTotalCourseMaterial() / course.getTotalReviews());
-            colorDots(tqLayout, course.getTotalTeachingQuality() / course.getTotalReviews());
+            colorDots(overAllLayout, course.getTotalOverall()/course.getTotalReviews());
+            colorDots(workloadLayout, course.getTotalWorkload()/course.getTotalReviews());
+            colorDots(difficultyLayout, course.getTotalDifficulty()/course.getTotalReviews());
+            colorDots(materialLayout, course.getTotalCourseMaterial()/course.getTotalReviews());
+            colorDots(tqLayout, course.getTotalTeachingQuality()/course.getTotalReviews());
             //creating a onclick listener for the search result
             searchResultLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -245,7 +258,7 @@ public class SearchResultFragment extends Fragment {
         mCurrentPage = 1;
     }
 
-    public void colorDots(LinearLayout container, Double score) {
+    private void colorDots(LinearLayout container, Double score){
         int childCount = container.getChildCount();
         Drawable ratingDotFull = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_full, mContext.getTheme());
         Drawable ratingDotEmpty = ResourcesCompat.getDrawable(getResources(), R.drawable.ratingdot_empty, mContext.getTheme());
@@ -253,9 +266,9 @@ public class SearchResultFragment extends Fragment {
             View childView = container.getChildAt(i);
             if (childView instanceof ImageView) {
                 ImageView imageView = (ImageView) childView;
-                if (score > 0.75) {
+                if(score > 0.75){
                     imageView.setImageDrawable(ratingDotFull);
-                } else if (score > 0.25) {
+                } else if (score >0.25) {
                     ClipDrawable clipDrawable = new ClipDrawable(ratingDotFull, Gravity.LEFT, ClipDrawable.HORIZONTAL);
                     clipDrawable.setLevel(5000);
                     Drawable[] layers = {ratingDotEmpty, clipDrawable};

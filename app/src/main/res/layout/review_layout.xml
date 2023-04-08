@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center"
             android:layout_gravity="">
 
             <TextView
@@ -36,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="username"
                 android:layout_weight="1"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
             <ImageButton
                 android:id="@+id/delete_review_button"
@@ -45,6 +46,256 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/delete_icon"
                 android:background="@null" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/horizontalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/textLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/overallScoreTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="Overall Score"
+                    android:layout_marginBottom="3dp"/>
+
+                <TextView
+                    android:id="@+id/difficultyTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="Difficulty"
+                    android:layout_marginBottom="3dp"/>
+
+                <TextView
+                    android:id="@+id/materialTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="Material"
+                    android:layout_marginBottom="3dp"/>
+
+                <TextView
+                    android:id="@+id/workloadTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="Workload"
+                    android:layout_marginBottom="3dp"/>
+
+                <TextView
+                    android:id="@+id/teachingQualityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="Teaching Quality" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/allRatingsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:layout_marginStart="17dp">
+
+                <LinearLayout
+                    android:id="@+id/overallRatingsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/difficultyRatingsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/materialRatingsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp"
+                    >
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/workloadRatingsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:layout_marginBottom="3dp">
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/tqRatingsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp">
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ratingdot_empty"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
