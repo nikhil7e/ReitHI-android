@@ -83,7 +83,7 @@ public class AccountActivity extends AppCompatActivity {
             Intent intent = new Intent(AccountActivity.this, ReadReviewsActivity.class);
             SharedPreferences sharedPreferences = getSharedPreferences("MySession", MODE_PRIVATE);
             String userString = mParserService.deParseObject(mLoggedInUser);
-            if (userString != ""){
+            if (!userString.equals("")){
                 intent.putExtra("user", userString);
                 intent.putExtra("context", "user");
                 startActivity(intent);

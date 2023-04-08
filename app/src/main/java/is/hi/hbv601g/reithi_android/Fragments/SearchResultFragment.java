@@ -93,13 +93,7 @@ public class SearchResultFragment extends Fragment {
 
         mContext = getActivity();
         mCourseService = new CourseService(mContext);
-
-        if (mCoursePage.getTotalElements() == 0) {
-            TextView noCourses = new TextView(mContext);
-            noCourses.setText("No Courses Found!");
-            mSearchResults.addView(noCourses);
-        }
-
+        LandingPageActivity activity = (LandingPageActivity) getActivity();
 
         mPreviousButton.setOnClickListener(v -> {
             if (mCoursePage.getNumber() > 0) {
@@ -114,8 +108,16 @@ public class SearchResultFragment extends Fragment {
             mPreviousButton.setVisibility(View.VISIBLE);
         });
         Log.d(TAG, results);
-        addCourseTextAndShapes(mCoursePage);
-        LandingPageActivity activity = (LandingPageActivity) getActivity();
+
+        if (mCoursePage.getTotalElements() == 0) {
+            TextView noCourses = new TextView(mContext);
+            noCourses.setText("No Courses Found!");
+            mSearchResults.addView(noCourses);
+            mPreviousButton.setVisibility(View.GONE);
+            mNextButton.setVisibility(View.GONE);
+        } else {
+            addCourseTextAndShapes(mCoursePage);
+        }
         activity.hideShimmer();
     }
 
