@@ -3,38 +3,50 @@ package is.hi.hbv601g.reithi_android;
 import static android.content.Context.MODE_PRIVATE;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.actionWithAssertions;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.hasTextColor;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
+import static androidx.test.espresso.matcher.ViewMatchers.withParentIndex;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-
-
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
-import static is.hi.hbv601g.reithi_android.EspressoUtils.waitId;
+import static org.junit.Assert.assertEquals;
+import static is.hi.hbv601g.reithi_android.EspressoUtils.waitForViewToBeDisplayed;
+import static is.hi.hbv601g.reithi_android.EspressoUtils.waitForViewToBeUpdated;
 
+import android.app.UiModeManager;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.test.espresso.IdlingRegistry;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.BoundedMatcher;
+import androidx.test.internal.util.Checks;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.uiautomator.UiDevice;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
@@ -45,7 +57,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import is.hi.hbv601g.reithi_android.Activities.LandingPageActivity;
-import is.hi.hbv601g.reithi_android.Entities.Course;
 import is.hi.hbv601g.reithi_android.Services.UserService;
 
 public class ViewCourseEspressoTest {
@@ -110,25 +121,7 @@ public class ViewCourseEspressoTest {
 
         onView(withId(R.id.search_button)).perform(click());
 
-        final CountDownLatch latch = new CountDownLatch(1);
-        long endTime = System.currentTimeMillis() + 10000; // Set end time 10 seconds from now
-        while (System.currentTimeMillis() < endTime) {
-            try {
-                onView(withId(R.id.search_results)).check(matches(isDisplayed()));
-                latch.countDown();
-                break; // Exit the loop if view is displayed
-            } catch (NoMatchingViewException e) {
-                // View not displayed yet, continue waiting
-            }
-        }
-        if (!latch.await(0, TimeUnit.MILLISECONDS)) {
-            throw new AssertionError("Timeout waiting for search results to be displayed");
-        }
-
-        onData(withId(R.id.search_results));
-        // onView(isRoot()).perform(waitId(R.id.search_results, 10000));
-
-        // Thread.sleep(5000);
+        waitForViewToBeDisplayed(R.id.search_results);
 
         String[] expectedValues = new String[2]; // Declare array to store expected values
 
@@ -179,104 +172,149 @@ public class ViewCourseEspressoTest {
         onView(withId(R.id.password_verify_input)).perform(typeText("123"));
         onView(withId(R.id.signup_button)).perform(click());
 
-        final CountDownLatch latch = new CountDownLatch(1);
-        long endTime = System.currentTimeMillis() + 10000; // Set end time 10 seconds from now
-        while (System.currentTimeMillis() < endTime) {
-            try {
-                onView(withId(R.id.username_text_view)).check(matches(isDisplayed()));
-                latch.countDown();
-                break; // Exit the loop if view is displayed
-            } catch (NoMatchingViewException e) {
-                // View not displayed yet, continue waiting
-            }
-        }
-        if (!latch.await(0, TimeUnit.MILLISECONDS)) {
-            throw new AssertionError("Timeout waiting for search results to be displayed");
-        }
+        waitForViewToBeDisplayed(R.id.username_text_view);
 
         onView(withId(R.id.homeButton)).perform(click());
 
-        String searchQuery = "Research with children and youths";
+        String searchQuery = "Book";
         onView(withId(R.id.search_bar)).perform(typeText(searchQuery));
 
         onView(withId(R.id.search_button)).perform(click());
 
-        final CountDownLatch latch2 = new CountDownLatch(1);
-        long endTime2 = System.currentTimeMillis() + 10000; // Set end time 10 seconds from now
-        while (System.currentTimeMillis() < endTime2) {
-            try {
-                onView(withId(R.id.search_results)).check(matches(isDisplayed()));
-                latch2.countDown();
-                break; // Exit the loop if view is displayed
-            } catch (NoMatchingViewException e) {
-                // View not displayed yet, continue waiting
-            }
-        }
-        if (!latch2.await(0, TimeUnit.MILLISECONDS)) {
-            throw new AssertionError("Timeout waiting for search results to be displayed");
-        }
+        waitForViewToBeDisplayed(R.id.search_results);
 
-        // TODO: er ekki að velja fyrsta
         ViewInteraction firstChild = onView(
                 allOf(
                         withParent(allOf(
                                 withId(R.id.search_results),
                                 isDisplayed()
                         )),
-                        isDisplayed()
+                        isDisplayed(),
+                        withParentIndex(0)
                 )
         );
 
         firstChild.perform(click());
         onView(withId(R.id.review_button)).perform(click());
 
-        // TODO: afh ekki haegt ad setja comment??
-        // onView(withId(R.id.comment)).perform(typeText("Test comment"));
-        onView(withId(R.id.submit_review_button)).perform(click());
+        double SLIDER_VALUE = 5.0;
 
-        final CountDownLatch latch3 = new CountDownLatch(1);
-        long endTime3 = System.currentTimeMillis() + 10000; // Set end time 10 seconds from now
-        while (System.currentTimeMillis() < endTime3) {
-            try {
-                onView(withId(R.id.overallTextViewLabel)).check(matches(isDisplayed()));
-                latch3.countDown();
-                break; // Exit the loop if view is displayed
-            } catch (NoMatchingViewException e) {
-                // View not displayed yet, continue waiting
-            }
-        }
-        if (!latch3.await(0, TimeUnit.MILLISECONDS)) {
-            throw new AssertionError("Timeout waiting for search results to be displayed");
-        }
+        onView(allOf(withId(R.id.slider), isDescendantOfA(withId(R.id.slider_1)))).perform(actionWithAssertions(setSliderValue(SLIDER_VALUE)));
+        onView(allOf(withId(R.id.slider), isDescendantOfA(withId(R.id.slider_2)))).perform(actionWithAssertions(setSliderValue(SLIDER_VALUE)));
+        onView(allOf(withId(R.id.slider), isDescendantOfA(withId(R.id.slider_3)))).perform(actionWithAssertions(setSliderValue(SLIDER_VALUE)));
+        onView(allOf(withId(R.id.slider), isDescendantOfA(withId(R.id.slider_4)))).perform(actionWithAssertions(setSliderValue(SLIDER_VALUE)));
+        onView(allOf(withId(R.id.slider), isDescendantOfA(withId(R.id.slider_5)))).perform(actionWithAssertions(setSliderValue(SLIDER_VALUE)));
 
-        onView(withId(R.id.overallscoretext)).check(matches(withText("1.0")));
-        onView(withId(R.id.difficultytext)).check(matches(withText("1.0")));
-        onView(withId(R.id.teachingqualitytext)).check(matches(withText("1.0")));
-        onView(withId(R.id.workloadtext)).check(matches(withText("1.0")));
-        onView(withId(R.id.materialtext)).check(matches(withText("1.0")));
+        onView(withId(R.id.comment)).perform(typeText("Test comment"), closeSoftKeyboard());
+        onView(withId(R.id.submit_review_button)).check(matches(isDisplayed())).perform(click());
+
+        waitForViewToBeDisplayed(R.id.overallTextViewLabel);
+
+        onView(withId(R.id.overallscoretext)).check(matches(withText(String.valueOf(SLIDER_VALUE))));
+        onView(withId(R.id.difficultytext)).check(matches(withText(String.valueOf(SLIDER_VALUE))));
+        onView(withId(R.id.teachingqualitytext)).check(matches(withText(String.valueOf(SLIDER_VALUE))));
+        onView(withId(R.id.workloadtext)).check(matches(withText(String.valueOf(SLIDER_VALUE))));
+        onView(withId(R.id.materialtext)).check(matches(withText(String.valueOf(SLIDER_VALUE))));
 
         onView(withId(R.id.read_reviews_button)).perform(click());
 
-        final CountDownLatch latch4 = new CountDownLatch(1);
-        long endTime4 = System.currentTimeMillis() + 10000; // Set end time 10 seconds from now
-        while (System.currentTimeMillis() < endTime4) {
-            try {
-                onView(withId(R.id.reviewCourseName)).check(matches(isDisplayed()));
-                latch4.countDown();
-                break; // Exit the loop if view is displayed
-            } catch (NoMatchingViewException e) {
-                // View not displayed yet, continue waiting
-            }
-        }
-        if (!latch4.await(0, TimeUnit.MILLISECONDS)) {
-            throw new AssertionError("Timeout waiting for search results to be displayed");
-        }
+        // TODO: tekka hvort course name matchi við course name á read reviews
+
+        waitForViewToBeDisplayed(R.id.all_Reviews);
+
+        Matcher<View> parentMatcher = allOf(
+                withParent(allOf(
+                        withId(R.id.all_Reviews),
+                        isDisplayed()
+                )),
+                withId(R.id.review_layout),
+                hasDescendant(allOf(
+                        isDisplayed(),
+                        withId(R.id.review_title),
+                        withText(username)
+                )),
+                isDisplayed(),
+                withParentIndex(0)
+        );
+
+        onView(
+                allOf(
+                        isDescendantOfA(parentMatcher),
+                        withId(R.id.upvote_button)
+                )
+        ).perform(click());
+
+
+        waitForViewToBeUpdated(R.id.upvotes_downvotes_text, "1");
+
+        onView(
+                allOf(
+                        isDisplayed(),
+                        isDescendantOfA(parentMatcher),
+                        withId(R.id.upvotes_downvotes_text),
+                        withText("1")
+                )
+        ).perform(click());
+
+        onView(
+                allOf(
+                        isDescendantOfA(parentMatcher),
+                        withId(R.id.downvote_button)
+                )
+        ).perform(click());
+
+
+        waitForViewToBeUpdated(R.id.upvotes_downvotes_text, "-1");
+
+        onView(
+                allOf(
+                        isDisplayed(),
+                        isDescendantOfA(parentMatcher),
+                        withId(R.id.upvotes_downvotes_text),
+                        withText("-1")
+                )
+        ).perform(click());
 
         onView(withId(R.id.delete_review_button)).perform(click());
         onView(withText("Delete")).perform(click());
-
         onView(withText("Review successfully deleted")).inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
+    }
+
+    private static ViewAction setSliderValue(final double value) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return isAssignableFrom(SeekBar.class);
+            }
+
+            @Override
+            public String getDescription() {
+                return "Set the value on a SeekBar";
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                SeekBar seekBar = (SeekBar) view;
+                seekBar.setProgress((int) value);
+            }
+        };
+    }
+
+    public static Matcher<View> withBgColor(final int color) {
+        return new BoundedMatcher<View, LinearLayout>(LinearLayout.class) {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with background color: ");
+                description.appendValue(color);
+            }
+
+            @Override
+            protected boolean matchesSafely(LinearLayout linearLayout) {
+                return linearLayout.getBackground() instanceof ColorDrawable &&
+                        ((ColorDrawable) linearLayout.getBackground()).getColor() == color;
+            }
+        };
     }
 
 
