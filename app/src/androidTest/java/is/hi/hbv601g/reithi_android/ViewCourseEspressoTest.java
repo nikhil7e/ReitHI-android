@@ -27,6 +27,7 @@ import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -55,6 +56,7 @@ import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import is.hi.hbv601g.reithi_android.Activities.LandingPageActivity;
 import is.hi.hbv601g.reithi_android.Services.UserService;
@@ -176,7 +178,7 @@ public class ViewCourseEspressoTest {
 
         onView(withId(R.id.homeButton)).perform(click());
 
-        String searchQuery = "Book";
+        String searchQuery = "Modern";
         onView(withId(R.id.search_bar)).perform(typeText(searchQuery));
 
         onView(withId(R.id.search_button)).perform(click());
@@ -244,7 +246,6 @@ public class ViewCourseEspressoTest {
                 )
         ).perform(click());
 
-
         waitForViewToBeUpdated(R.id.upvotes_downvotes_text, "1");
 
         onView(
@@ -263,7 +264,6 @@ public class ViewCourseEspressoTest {
                 )
         ).perform(click());
 
-
         waitForViewToBeUpdated(R.id.upvotes_downvotes_text, "-1");
 
         onView(
@@ -274,6 +274,14 @@ public class ViewCourseEspressoTest {
                         withText("-1")
                 )
         ).perform(click());
+
+        onView(withId(R.id.userButton)).perform(click());
+
+        Thread.sleep(3000);
+
+        onView(withId(R.id.reviews_button)).perform(click());
+
+        waitForViewToBeDisplayed(R.id.all_Reviews);
 
         onView(withId(R.id.delete_review_button)).perform(click());
         onView(withText("Delete")).perform(click());
