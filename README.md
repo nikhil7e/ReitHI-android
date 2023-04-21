@@ -6,6 +6,9 @@ ReitHÍ for Android is an app that enables students to make better informed deci
 
 * https://reithi-production.up.railway.app/
 
+The backend source code is hosted in the following repository:
+* https://github.com/nikhil7e/ReitHI
+
 ## File format:
 The file format for the website can roughly be described with the following bullet points:
 * `/java`, contains the all of our Java source code, as well as our NetworkManager that executes HTTP requests to our backend.
